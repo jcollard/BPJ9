@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public bool IsMoving => !(DirectionX == 0 && DirectionY == 0);
     public TextGroup CurrentPowerText;
     public string CurrentPower = "None";
     public InteractableController CurrentInteractable;
@@ -13,16 +14,20 @@ public class PlayerController : MonoBehaviour
     public float DirectionX, DirectionY;
 
     private Dictionary<string, System.Action> _MovementControls;
-    public Dictionary<string, System.Action> MovementControls {
-        get {
+    public Dictionary<string, System.Action> MovementControls
+    {
+        get
+        {
             if (_MovementControls == null) _MovementControls = GetMovementControls();
             return _MovementControls;
         }
     }
 
     private Dictionary<string, System.Action> _ActionControls;
-    public Dictionary<string, System.Action> ActionControls {
-        get {
+    public Dictionary<string, System.Action> ActionControls
+    {
+        get
+        {
             if (_ActionControls == null) _ActionControls = GetActionControls();
             return _ActionControls;
         }
@@ -51,9 +56,12 @@ public class PlayerController : MonoBehaviour
     {
         DirectionX = DirectionY = 0;
         HandleInput();
-        DoMove();
-
         UpdateScreen();
+    }
+
+    void FixedUpdate()
+    {
+        DoMove();
     }
 
     private void UpdateScreen()
@@ -88,13 +96,14 @@ public class PlayerController : MonoBehaviour
 
     private void DoMove()
     {
+        if (DirectionX == 0 && DirectionY == 0) return;
         Vector2 dir = new Vector2(DirectionX, DirectionY);
-        this.transform.Translate(dir * Speed * Time.deltaTime);
+        this.transform.Translate(dir * Speed * Time.fixedDeltaTime);
     }
 
     private void DoInteract()
     {
-        if(this.CurrentInteractable == null) return;
+        if (this.CurrentInteractable == null) return;
         this.CurrentInteractable.Interact(this);
     }
 
