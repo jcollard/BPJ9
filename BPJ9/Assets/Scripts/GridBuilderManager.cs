@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using CaptainCoder.Unity;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 
-#if UNITY_EDITOR
+
 
 [RequireComponent(typeof(GridBuilder))]
 public class GridBuilderManager : MonoBehaviour
