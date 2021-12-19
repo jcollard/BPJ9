@@ -25,9 +25,14 @@ public class IceBlock : InteractableController
         LavaTile tile = other.gameObject.GetComponent<LavaTile>();
         if (tile != null)
         {
-            UnityEngine.Object.Destroy(tile.gameObject);
-            UnityEngine.Object.Destroy(this.gameObject);
+            tile.Harden();
+            this.MeltAndDestroy();
         }
+    }
+
+    public void MeltAndDestroy()
+    {
+        UnityEngine.Object.Destroy(this.gameObject);
     }
 
 }

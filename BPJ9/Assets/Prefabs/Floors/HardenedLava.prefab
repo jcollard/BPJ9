@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5430998045412410397}
   - component: {fileID: 5430998045412410398}
+  - component: {fileID: 1628801594461472615}
+  - component: {fileID: 5684525510781426123}
   m_Layer: 0
   m_Name: HardenedLava
   m_TagString: Untagged
@@ -82,3 +84,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1628801594461472615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5430998045412410396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32ee4abdaca3642fe998e1d9dac4c419, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5684525510781426123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5430998045412410396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3563a21757804678acae0d551fcf492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetLayer: 1

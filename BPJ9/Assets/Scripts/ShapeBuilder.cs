@@ -76,6 +76,8 @@ public class ShapeBuilder : MonoBehaviour
         GameObject tile = UnityEngine.Object.Instantiate(toClone);
         tile.transform.SetParent(Container);
         tile.transform.localPosition = new Vector3(col + Offset.x, row + Offset.y, ZLayer);
+        LayerController lc = tile.GetComponent<LayerController>();
+        if (lc != null) lc.SetLayer();
         tile.name = $"({row},{col})";
         tile.SetActive(true);
     }

@@ -14,10 +14,9 @@ GameObject:
   - component: {fileID: -152363942174941033}
   - component: {fileID: 7688211989145576425}
   - component: {fileID: 7687647967836803551}
-  - component: {fileID: -2868656122756922162}
-  - component: {fileID: -8149443507749153443}
+  - component: {fileID: 4055372191477102751}
   m_Layer: 0
-  m_Name: SnowWall
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 300666114172867650, guid: e144b36e21489f84d9bc609e43f476ed, type: 3}
+  m_Sprite: {fileID: -2217638906192892890, guid: e144b36e21489f84d9bc609e43f476ed, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -173,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6ff8cc2bd644ee193e5bfaa4c60abe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-2868656122756922162
+--- !u!114 &4055372191477102751
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -182,19 +181,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3385658244121281094}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 758c91bc2746a43cb99e866167f59fdb, type: 3}
+  m_Script: {fileID: 11500000, guid: d3563a21757804678acae0d551fcf492, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Power: Ice
---- !u!114 &-8149443507749153443
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3385658244121281094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5774030f5fa684843973ca69e1139e92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  TargetLayer: 3

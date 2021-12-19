@@ -13,9 +13,13 @@ GameObject:
   - component: {fileID: 3385658244121281115}
   - component: {fileID: -152363942174941033}
   - component: {fileID: 7688211989145576425}
-  - component: {fileID: 7687647967836803551}
+  - component: {fileID: 1311941380445371508}
+  - component: {fileID: 2867896853631579860}
+  - component: {fileID: 3522496030723840519}
+  - component: {fileID: 4102897891479492735}
+  - component: {fileID: 3696097264221501728}
   m_Layer: 0
-  m_Name: Wall
+  m_Name: IceBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2217638906192892890, guid: e144b36e21489f84d9bc609e43f476ed, type: 3}
+  m_Sprite: {fileID: -7109281448097604524, guid: e144b36e21489f84d9bc609e43f476ed, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -159,7 +163,50 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.7389523, y: 0.7088314}
   m_EdgeRadius: 0
---- !u!114 &7687647967836803551
+--- !u!114 &1311941380445371508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3385658244121281094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ab3cd9fe43f41189490ea4c471d33f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PuddleTemplate: {fileID: 3645769484939922100, guid: cd421389fce0d4e9d82da30ce8e3a837, type: 3}
+--- !u!114 &2867896853631579860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3385658244121281094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 758c91bc2746a43cb99e866167f59fdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Power: Ice
+--- !u!114 &3522496030723840519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3385658244121281094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 481c33258c44a443cba1d8f2926d28cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PushTime: 0
+  PushDelay: 0.5
+  Velocity: {x: 0, y: 0}
+  SlideSpeed: 7
+  Player: {fileID: 0}
+--- !u!114 &4102897891479492735
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -171,3 +218,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6ff8cc2bd644ee193e5bfaa4c60abe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3696097264221501728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3385658244121281094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3563a21757804678acae0d551fcf492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetLayer: 2
