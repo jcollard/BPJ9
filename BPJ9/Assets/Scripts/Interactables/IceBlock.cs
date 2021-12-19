@@ -9,10 +9,10 @@ public class IceBlock : InteractableController
     {
         if (player.CurrentPower == "Fire")
         {
-            Puddle newPuddle = UnityEngine.Object.Instantiate<Puddle>(PuddleTemplate);
-            newPuddle.transform.SetParent(this.transform.parent);
-            newPuddle.transform.position = this.transform.position;
-            newPuddle.gameObject.SetActive(true);
+            Spawner.SpawnObject(PuddleTemplate.gameObject)
+                   .Position(this.transform.position)
+                   .Parent(this.transform.parent)
+                   .Spawn();
             UnityEngine.Object.Destroy(this.gameObject);
         }
 

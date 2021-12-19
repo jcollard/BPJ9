@@ -7,10 +7,10 @@ public class LavaTile : InteractableController
     public HardenedLava HardenedLavaTemplate;
     public void Harden()
     {
-        HardenedLava hard = UnityEngine.Object.Instantiate<HardenedLava>(HardenedLavaTemplate);
-        hard.transform.SetParent(this.transform.parent);
-        hard.transform.position = this.transform.position;
-        hard.gameObject.SetActive(true);
+        Spawner.SpawnObject(HardenedLavaTemplate.gameObject)
+               .Position(this.transform.position)
+               .Parent(this.transform.parent)
+               .Spawn();
         UnityEngine.Object.Destroy(this.gameObject);
     }
 }

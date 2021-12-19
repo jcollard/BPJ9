@@ -9,10 +9,10 @@ public class Puddle : InteractableController
     {
         if (player.CurrentPower == "Ice")
         {
-            IceBlock newBlock = UnityEngine.Object.Instantiate<IceBlock>(IceBlockTemplate);
-            newBlock.transform.SetParent(this.transform.parent);
-            newBlock.transform.position = this.transform.position;
-            newBlock.gameObject.SetActive(true);
+            Spawner.SpawnObject(IceBlockTemplate.gameObject)
+                   .Position(this.transform.position)
+                   .Parent(this.transform.parent)
+                   .Spawn();
             UnityEngine.Object.Destroy(this.gameObject);
         }
     }

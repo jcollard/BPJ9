@@ -72,14 +72,11 @@ public class ShapeBuilder : MonoBehaviour
 
     private void AddTile(int row, int col, GameObject toClone)
     {
-
-        GameObject tile = UnityEngine.Object.Instantiate(toClone);
-        tile.transform.SetParent(Container);
-        tile.transform.localPosition = new Vector3(col + Offset.x, row + Offset.y, ZLayer);
-        LayerController lc = tile.GetComponent<LayerController>();
-        if (lc != null) lc.SetLayer();
-        tile.name = $"({row},{col})";
-        tile.SetActive(true);
+        Spawner.SpawnObject(toClone)
+               .LocalPosition(new Vector2(col + Offset.x, row + Offset.y))
+               .Parent(Container)
+               .Name($"({row},{col})")
+               .Spawn();
     }
 }
 
