@@ -98,6 +98,8 @@ public class Pushable : MonoBehaviour
             newPosition.y += d.IsDown ? -1 : 0;
             newPosition.y += d.IsUp ? 1 : 0;
             this.transform.position = newPosition;
+            LayerController lc = this.GetComponent<LayerController>();
+            if (lc != null) lc.SetLayer();
             this.Velocity = new Vector2();
             return;
         }
