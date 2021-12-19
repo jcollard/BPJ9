@@ -11,6 +11,7 @@ using UnityEditor.SceneManagement;
 [RequireComponent(typeof(ShapeBuilder))]
 public class ShapeBuilderManager : MonoBehaviour
 {
+    public TextAsset File;
     public ShapeBuilder builder => this.GetComponent<ShapeBuilder>(); 
 }
 
@@ -22,7 +23,11 @@ public class ShapeBuilderManagerEditor : Editor
         EditorGUI.BeginChangeCheck(); 
         ShapeBuilderManager manager = (ShapeBuilderManager)target;
         EditorGUILayout.ObjectField("Shape Builder", manager.builder, typeof(ShapeBuilder), false);
-
+        manager.File = (TextAsset)EditorGUILayout.ObjectField("Load Text Asset", manager.File, typeof(TextAsset), false);
+        if (manager.File != null)
+        {
+            manager.builder.Shape = manager.File.text;
+        }
         EditorGUILayout.LabelField("Shape Editor");
         manager.builder.Shape = EditorGUILayout.TextArea(manager.builder.Shape, UnityEditorUtils.MonoSpacedTextArea);
 
@@ -33,6 +38,7 @@ public class ShapeBuilderManagerEditor : Editor
 
         if (EditorGUI.EndChangeCheck())
         {
+            manager.builder.IsDirty = true;
             // This code will unsave the current scene if there's any change in the editor GUI.
             // Hence user would forcefully need to save the scene before changing scene
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());

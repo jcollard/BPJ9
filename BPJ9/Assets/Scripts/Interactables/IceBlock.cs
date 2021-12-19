@@ -95,7 +95,22 @@ public class IceBlock : InteractableController
         {
             UnityEngine.Object.Destroy(tile.gameObject);
             UnityEngine.Object.Destroy(this.gameObject);
+            return;
+        }
 
+        IceBlock iceblock = other.gameObject.GetComponent<IceBlock>();
+        if (iceblock != null && this.Velocity.magnitude > 0)
+        {
+            CollisionDirection d = new CollisionDirection(iceblock.gameObject, this.gameObject);
+            Vector3 newPosition = iceblock.transform.position;
+            newPosition.x += d.IsLeft ? -1 : 0;
+            newPosition.x += d.IsRight ? 1 : 0;
+            newPosition.y += d.IsDown ? -1 : 0;
+            newPosition.y += d.IsUp ? 1 : 0;
+            this.transform.position = newPosition;
+
+            this.Velocity = new Vector2();
+            return;
         }
     }
 
