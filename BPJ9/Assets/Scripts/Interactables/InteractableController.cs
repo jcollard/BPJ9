@@ -10,24 +10,16 @@ public class InteractableController : MonoBehaviour
 
     }
 
-
-    public virtual void HandlePlayerEnter(PlayerController player, Collision2D collision)
-    {
-
-    }
-
-    public virtual void HandlePlayerStay(PlayerController player, Collision2D collision)
-    {
-
-    }
-
-    public virtual void HandlePlayerExit(PlayerController player, Collision2D collision)
-    {
-
-    }
-
-
     public virtual void OnTriggerEnter2D(Collider2D other)
+    {
+        PlayerCollider player = other.GetComponent<PlayerCollider>();
+        if (player != null)
+        {
+            player.Player.CurrentInteractable = this;
+        }
+    }
+
+    public virtual void OnTriggerStay2D(Collider2D other)
     {
         PlayerCollider player = other.GetComponent<PlayerCollider>();
         if (player != null)
@@ -51,7 +43,6 @@ public class InteractableController : MonoBehaviour
         if (player != null)
         {
             player.Player.CurrentInteractable = this;
-            this.HandlePlayerEnter(player.Player, other);
         }
     }
 
@@ -61,7 +52,6 @@ public class InteractableController : MonoBehaviour
         if (player != null)
         {
             player.Player.CurrentInteractable = this;
-            this.HandlePlayerStay(player.Player, other);
 
         }
     }
@@ -72,7 +62,6 @@ public class InteractableController : MonoBehaviour
         if (player != null)
         {
             player.Player.CurrentInteractable = null;
-            this.HandlePlayerExit(player.Player, other);
 
         }
     }
