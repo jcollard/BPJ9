@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     public bool IsMovingUp => DirectionY > 0;
     public Vector2 Velocity => new Vector2(DirectionX, DirectionY) * Speed;
     public TextGroup CurrentPowerText;
-    public string CurrentPower = "None";
+    public PowerType CurrentPower = PowerType.None;
     public InteractableController CurrentInteractable;
     public Pushable Pushing;
     public float Speed, DirectionX, DirectionY;

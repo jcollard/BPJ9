@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Absorbable : MonoBehaviour
 {
-    public string Power;
+    public PowerType Power;
     public void Absorb(PlayerController player)
     {
         player.CurrentPower = Power;

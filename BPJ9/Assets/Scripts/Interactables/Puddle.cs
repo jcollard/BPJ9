@@ -7,7 +7,7 @@ public class Puddle : InteractableController
     public IceBlock IceBlockTemplate;
     public override void Interact(PlayerController player)
     {
-        if (player.CurrentPower == "Ice")
+        if (player.CurrentPower == PowerType.Ice)
         {
             Spawner.SpawnObject(IceBlockTemplate.gameObject)
                    .Position(this.transform.position)

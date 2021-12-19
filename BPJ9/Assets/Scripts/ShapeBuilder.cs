@@ -34,6 +34,13 @@ public class ShapeBuilder : MonoBehaviour
         return _Templates;
     }
 
+    public void Start()
+    {
+        //TODO: Consider doing this somewhere else. This will rebuild an
+        //      already finished puzzle.
+        this.BuildShape();
+    }
+
     public void BuildShape()
     {
         UnityEngineUtils.Instance.DestroyChildren(Container);
