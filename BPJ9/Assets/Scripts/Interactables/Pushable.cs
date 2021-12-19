@@ -85,20 +85,9 @@ public class Pushable : MonoBehaviour
         this.Player.TryClearPushing(this);
     }
 
-    public void OnTriggerEnter2D(Collider2D other)
+    public virtual void OnTriggerEnter2D(Collider2D other)
     {
-
-        // Ignore the player
-        // if (other.gameObject.GetComponent<PlayerController>() != null) return;
-
-        LavaTile tile = other.gameObject.GetComponent<LavaTile>();
-        if (tile != null)
-        {
-            UnityEngine.Object.Destroy(tile.gameObject);
-            UnityEngine.Object.Destroy(this.gameObject);
-            return;
-        }
-
+        
         WallBlock wallBlock = other.gameObject.GetComponent<WallBlock>();
         if (wallBlock != null && this.Velocity.magnitude > 0)
         {

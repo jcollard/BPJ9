@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class LavaTile : InteractableController
 {
-    
-    public override void Interact(PlayerController player)
+    public GameObject HardenedLavaTemplate;
+    public void Harden()
     {
+
     }
 }
