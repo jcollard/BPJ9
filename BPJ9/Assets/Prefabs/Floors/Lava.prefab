@@ -139,6 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Power: 2
+  AbsorbColor: {r: 1, g: 0.31840813, b: 0, a: 1}
 --- !u!114 &775965860856038843
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -19,6 +19,9 @@ public class PlayerController : MonoBehaviour
     public InteractableController CurrentInteractable;
     public Pushable Pushing;
     public float Speed, DirectionX, DirectionY;
+    public AbsorbEffect AbsorbEffectReference;
+    public bool CanMove => true;
+    public bool IsAbsorbing => AbsorbEffectReference.gameObject.activeInHierarchy;
 
     private Dictionary<string, System.Action> _MovementControls;
     public Dictionary<string, System.Action> MovementControls
@@ -160,6 +163,7 @@ public class PlayerController : MonoBehaviour
 
     private void CalcMove(float x, float y)
     {
+        if (!CanMove) return;
         DirectionX += x;
         DirectionY += y;
     }
@@ -183,6 +187,7 @@ public class PlayerController : MonoBehaviour
         Absorbable a = this.CurrentInteractable.GetComponent<Absorbable>();
         if (a == null) return;
         a.Absorb(this);
+        this.AbsorbEffectReference.gameObject.SetActive(true);
     }
 
 

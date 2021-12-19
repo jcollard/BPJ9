@@ -151,3 +151,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Power: 3
+  AbsorbColor: {r: 0, g: 0.23312998, b: 1, a: 1}
