@@ -10,6 +10,8 @@ public class CollisionDirection
     public bool IsDown => Y > 0 && Mathf.Abs(Y) > Mathf.Abs(X);
     public bool IsUp => Y < 0 && Mathf.Abs(Y) > Mathf.Abs(X);
 
+    public float Magnitude => Mathf.Abs(X) + Mathf.Abs(Y);
+
     public CollisionDirection(GameObject pushing, GameObject checking)
     {
         Vector2 direction = pushing.transform.position - checking.transform.position;

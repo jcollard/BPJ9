@@ -126,6 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PuddleTemplate: {fileID: 3645769484939922100, guid: cd421389fce0d4e9d82da30ce8e3a837, type: 3}
   PushTime: 0
+  PushDelay: 0.5
   Velocity: {x: 0, y: 0}
   SlideSpeed: 6
   Player: {fileID: 0}

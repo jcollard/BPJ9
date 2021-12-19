@@ -41,29 +41,29 @@ public class IceBlock : InteractableController
     private void CheckForPush()
     {
         if (Player == null) return;
-
-        if (Player.IsMoving)
+        this.Player.TrySetPushing(this);
+        if (Player.IsMoving && Player.Pushing == this)
         {
             this.PushTime += Time.deltaTime;
             if (PushTime > PushDelay)
             {
                 CollisionDirection d = new CollisionDirection(Player.gameObject, this.gameObject);
                 // TODO: Figure out where the block will slide rather than using collision which is finicky
-                if (d.IsLeft)
+                if (d.IsLeft && Player.IsMovingLeft)
                 {
                     this.Velocity = new Vector2(-SlideSpeed, 0);
                 }
-                if (d.IsRight)
+                if (d.IsRight && Player.IsMovingRight)
                 {
                     this.Velocity = new Vector2(SlideSpeed, 0);
                 }
 
-                if (d.IsDown)
+                if (d.IsDown && Player.IsMovingDown)
                 {
                     this.Velocity = new Vector2(0, -SlideSpeed);
                 }
 
-                if (d.IsUp)
+                if (d.IsUp && Player.IsMovingUp)
                 {
                     this.Velocity = new Vector2(0, SlideSpeed);
                 }
@@ -79,12 +79,14 @@ public class IceBlock : InteractableController
     {
         this.PushTime = 0;
         this.Player = player;
+        this.Player.TrySetPushing(this);
     }
 
     public override void HandlePlayerExit(PlayerController player, Collision2D collision)
     {
         this.PushTime = 0;
-        this.Player = null;
+        this.Player = player;
+        this.Player.TryClearPushing(this);
     }
 
     public override void OnTriggerEnter2D(Collider2D other)
