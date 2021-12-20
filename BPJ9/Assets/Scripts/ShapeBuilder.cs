@@ -11,23 +11,23 @@ public class ShapeBuilder : MonoBehaviour
     public GameObject[] Base;
     public TileDefinition[] Definitions;
     public bool IsDirty;
-    private Dictionary<char, GameObject> _Templates;
-    private Dictionary<char, GameObject> Templates => GetTemplates();
+    private Dictionary<char, GameObject[]> _Templates;
+    private Dictionary<char, GameObject[]> Templates => GetTemplates();
     public Transform Container;
-    public int ZLayer;
+    public int Seed = 0;
 
-    private Dictionary<char, GameObject> GetTemplates()
+    private Dictionary<char, GameObject[]> GetTemplates()
     {
         if (IsDirty || _Templates == null)
         {
-            _Templates = new Dictionary<char, GameObject>();
+            _Templates = new Dictionary<char, GameObject[]>();
             foreach (TileDefinition def in Definitions)
             {
-                if (_Templates.ContainsKey(def.TextRepresentation))
+                if (_Templates.ContainsKey(def.Character))
                 {
-                    throw new System.Exception($"Duplicate definition for {def.TextRepresentation} found while building map.");
+                    throw new System.Exception($"Duplicate definition for {def.Character} found while building map.");
                 }
-                _Templates[def.TextRepresentation] = def.Template;
+                _Templates[def.Character] = def.Templates;
             }
         }
         IsDirty = false;
@@ -43,6 +43,7 @@ public class ShapeBuilder : MonoBehaviour
 
     public void BuildShape()
     {
+        System.Random RNG = new System.Random(Seed);
         UnityEngineUtils.Instance.DestroyChildren(Container);
         int row = Shape.Split('\n').Length - 1;
         int col = 0;
@@ -70,8 +71,8 @@ public class ShapeBuilder : MonoBehaviour
             {
                 throw new System.Exception($"No definition for {c} found while building grid.");
             }
-
-            GameObject toClone = Templates[c];
+            GameObject[] options = Templates[c];
+            GameObject toClone = options[RNG.Next(0, options.Length)];
             AddTile(row, col, toClone);
             col++;
         }
@@ -91,6 +92,6 @@ public class ShapeBuilder : MonoBehaviour
 [System.Serializable]
 public class TileDefinition
 {
-    public char TextRepresentation;
-    public GameObject Template;
+    public char Character;
+    public GameObject[] Templates;
 }
