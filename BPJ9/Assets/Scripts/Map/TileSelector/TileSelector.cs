@@ -9,6 +9,7 @@ public class TileSelector
     static TileSelector()
     {
         Strategies.Add(TileSelectorStrategy.Default, new DefaultTileSelector());
+        Strategies.Add(TileSelectorStrategy.NoInner, new NoInnerTileSelector());
         Strategies.Add(TileSelectorStrategy.Lava, new LavaTileSelector());
     }
 
@@ -21,5 +22,6 @@ public class TileSelector
 public enum TileSelectorStrategy
 {
     Default,
+    NoInner,
     Lava
 }

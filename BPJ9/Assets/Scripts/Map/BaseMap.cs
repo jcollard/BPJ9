@@ -28,6 +28,13 @@ public class BaseMap : MonoBehaviour
     private HashSet<char> IsFloor;
     private HashSet<char> IsWall;
 
+    public void Start()
+    {
+        // TODO: Consider not calling this on start as it will rebuild when
+        // the scene changes.
+        BuildMap();
+    }
+
     public void BuildMap()
     {
         BuildDefinitions();
