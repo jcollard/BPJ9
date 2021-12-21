@@ -6,7 +6,7 @@ public class Spawner
     private GameObject toSpawn;
     private Vector2 position = new Vector2();
 
-    private bool isLocalPosition = false;
+    private bool IsLocalPosition = false;
     private Transform parent = null;
     private string name = null;
 
@@ -30,6 +30,7 @@ public class Spawner
 
     public Spawner LocalPosition(Vector2 position)
     {
+        this.IsLocalPosition = true;
         this.position = position;
         return this;
     }
@@ -52,7 +53,7 @@ public class Spawner
         GameObject newObj = UnityEngine.Object.Instantiate(this.toSpawn);
         if (this.parent != null) newObj.transform.SetParent(parent);
         if (name != null) newObj.name = name;
-        if (isLocalPosition) newObj.transform.localPosition = this.position;
+        if (IsLocalPosition) newObj.transform.localPosition = this.position;
         else newObj.transform.position = this.position;
         
         LayerController lc = newObj.GetComponent<LayerController>();

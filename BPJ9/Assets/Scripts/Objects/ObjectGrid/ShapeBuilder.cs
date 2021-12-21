@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using CaptainCoder.Unity;
 using UnityEditor;
+using System.Linq;
 
 public class ShapeBuilder : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class ShapeBuilder : MonoBehaviour
     public Vector2 Offset;
     public GameObject[] Base;
     public TileDefinition[] Definitions;
+    public char[] Ignore;
     public bool IsDirty;
     private Dictionary<char, GameObject[]> _Templates;
     private Dictionary<char, GameObject[]> Templates => GetTemplates();
@@ -47,6 +49,8 @@ public class ShapeBuilder : MonoBehaviour
         UnityEngineUtils.Instance.DestroyChildren(Container);
         int row = Shape.Split('\n').Length - 1;
         int col = 0;
+        HashSet<char> ignoreList = new HashSet<char>(Ignore);
+        ignoreList.Add(' ');
         foreach (char c in Shape)
         {
             if (c == '\n')
@@ -56,7 +60,7 @@ public class ShapeBuilder : MonoBehaviour
                 continue;
             }
 
-            if (c == ' ')
+            if (ignoreList.Contains(c))
             {
                 if (Base.Length > 0)
                 {

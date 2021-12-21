@@ -11,7 +11,7 @@ using UnityEditor.SceneManagement;
 [RequireComponent(typeof(GridBuilder))]
 public class GridBuilderManager : MonoBehaviour
 {
-    public GridBuilder builder => this.GetComponent<GridBuilder>(); 
+    public GridBuilder builder => this.GetComponent<GridBuilder>();
 }
 
 [CustomEditor(typeof(GridBuilderManager))]
