@@ -124,7 +124,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b54544aae7ba452a96dd96e966b7b39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IceBlockTemplate: {fileID: 1311941380445371508, guid: 4768bb4a7831741a8afedc647b044279, type: 3}
+  IceBlockTemplates:
+  - {fileID: 1311941380445371508, guid: 82287db7e0fa546c28493d865f7f5f00, type: 3}
+  - {fileID: 1311941380445371508, guid: 328db12f977d841d3bc1fc69508136ec, type: 3}
+  - {fileID: 1311941380445371508, guid: 4768bb4a7831741a8afedc647b044279, type: 3}
 --- !u!114 &41335105324285847
 MonoBehaviour:
   m_ObjectHideFlags: 0
