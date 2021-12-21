@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(InteractableController))]
 public class Absorbable : MonoBehaviour
 {
     public PowerType Power;

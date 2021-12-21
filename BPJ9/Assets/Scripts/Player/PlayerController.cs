@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     public PowerType CurrentPower = PowerType.None;
     public InteractableController CurrentInteractable;
     public Pushable Pushing;
-    public float Speed, DirectionX, DirectionY;
+    public float Speed, DirectionX, DirectionY, LastDirectionX, LastDirectionY;
     public AbsorbEffect AbsorbEffectReference;
     public bool CanMove => true;
     public bool IsAbsorbing => AbsorbEffectReference.gameObject.activeInHierarchy;
@@ -44,6 +44,8 @@ public class PlayerController : MonoBehaviour
     }
 
     private Collider2D Collider;
+
+    public List<GameObject> DirectionalSprites;
 
     public void Start()
     {
@@ -126,6 +128,8 @@ public class PlayerController : MonoBehaviour
 
         HandleInput();
 
+        HandleDirection();
+
         if (Velocity.magnitude == 0)
             this.Pushing = null;
 
@@ -135,6 +139,25 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         DoMove();
+    }
+
+    private void HandleDirection()
+    {
+        // Check to see if we have switched direction
+        if (LastDirectionX == DirectionX && LastDirectionY == DirectionY) return;
+        // Are we moving?
+        if (Velocity.magnitude == 0) return;
+        int ix = 0;
+        // West
+        if (Velocity.x < 0)  ix = 3;
+        // East
+        else if (Velocity.x > 0) ix = 1;
+        // South
+        else if (Velocity.y < 0)  ix = 2;
+        // North
+        else if (Velocity.y < 0)  ix = 0;
+        for (int i = 0; i < 4; i++)
+            DirectionalSprites[i].SetActive(i == ix);
     }
 
     private void UpdateScreen()
