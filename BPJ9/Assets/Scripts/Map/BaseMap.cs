@@ -34,7 +34,7 @@ public class BaseMap : MonoBehaviour
         System.Random RNG = new System.Random(Seed);
         UnityEngineUtils.Instance.DestroyChildren(MapContainer);
         Dictionary<(int, int), char> Grid = BuildGrid(out int rows, out int cols);
-        HashSet<(int, int)> positions = new HashSet<(int, int)>();
+        Dictionary<(int, int), List<char>> positions = new Dictionary<(int, int), List<char>>();
         
         foreach ((int r, int c) pos in Grid.Keys)
         {
@@ -42,20 +42,38 @@ public class BaseMap : MonoBehaviour
             (int, int) TR = (pos.r, pos.c);
             (int, int) BL = (pos.r - 1, pos.c - 1);
             (int, int) BR = (pos.r - 1, pos.c);
-            positions.Add(TL);
-            positions.Add(TR);
-            positions.Add(BL);
-            positions.Add(BR);
+            (int, int)[] hack = {TL, TR, BL, BR};
+            foreach (var ix in hack)
+            {
+                if(!positions.ContainsKey(ix))
+                {
+                    positions[ix] = new List<char>();
+                }
+            }
+            positions[TL].Add(Grid[pos]);
+            positions[TR].Add(Grid[pos]);
+            positions[BL].Add(Grid[pos]);
+            positions[BR].Add(Grid[pos]);
         }
 
 
-        foreach ((int r, int c) pos in positions)
+        foreach ((int r, int c) pos in positions.Keys)
         {
+            // TODO: need to do something smart to select the correct value because
+            // sometimes you'll have two competing chars. Some kinds of "transition"
+            // lookup.
+            List<char> nearbyChars = positions[pos];
+            char ch = nearbyChars[0];
+            char[] wallChars = nearbyChars.Where(ch => IsWall.Contains(ch)).ToArray();
+            if (wallChars.Length > 0)
+            {
+                ch = wallChars[0];
+            }
             int r = pos.r;
             int c = pos.c;
             bool[] corners = GetCorners(r, c, Grid);
             (TilePosition position, bool useWall) = GetTilePosition(corners);
-            MapTileDefinition def = DefinitionLookup['*'];
+            MapTileDefinition def = DefinitionLookup[ch];
             TileSet template = useWall ? def.WallTemplate : def.FloorTemplate;
             GameObject toClone = template.GetTileTemplate(position, RNG);
             Spawner.SpawnObject(toClone)
@@ -196,6 +214,6 @@ public class MapTileDefinition
     public TileSet FloorTemplate;
     public TileSet WallTemplate;
 
+    public TileSelector Strategy;
     // TODO Transition tiles?
-
 }
