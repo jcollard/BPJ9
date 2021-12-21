@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 3696097264221501728}
   - component: {fileID: -3631086810667221074}
   m_Layer: 0
-  m_Name: IceBlock
+  m_Name: IceBlock 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -7109281448097604524, guid: e144b36e21489f84d9bc609e43f476ed, type: 3}
+  m_Sprite: {fileID: -416328483563264698, guid: 2d2786863d3704a279dc3e3656733e9d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
