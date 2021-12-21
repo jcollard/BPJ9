@@ -4,7 +4,6 @@ using CaptainCoder.Unity;
 using UnityEngine;
 using System.Linq;
 
-[RequireComponent(typeof(BaseMapManager))]
 public class BaseMap : MonoBehaviour
 {
     public Transform MapContainer;

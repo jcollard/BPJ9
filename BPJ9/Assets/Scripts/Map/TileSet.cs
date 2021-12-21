@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[RequireComponent(typeof(TileSetManager))]
 public class TileSet : MonoBehaviour
 {
     public List<GameObject> TopLeft = new List<GameObject>();
