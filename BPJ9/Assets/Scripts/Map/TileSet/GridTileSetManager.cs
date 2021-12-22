@@ -14,6 +14,18 @@ public class GridTileSetManager : MonoBehaviour
     public GridTileSet Model => this.GetComponent<GridTileSet>();
     public Transform FloorTilesDemo;
 
+    [SerializeField]
+    private bool _ShowNonGridTiles = true;
+    public bool ShowNonGridTiles
+    {
+        get => _ShowNonGridTiles;
+        set
+        {
+            _ShowNonGridTiles = value;
+            this.ToggleNonGridTiles(this.transform);
+        }
+    }
+
     public void DiscoverTiles()
     {
         UnityEngineUtils.Instance.DestroyChildren(FloorTilesDemo);
@@ -31,6 +43,19 @@ public class GridTileSetManager : MonoBehaviour
             tile.GetComponent<GridTileManager>().DiscoverCriteria();
         }
         return acc;
+    }
+
+    private void ToggleNonGridTiles(Transform toScan)
+    {
+        if (toScan.childCount > 0)
+        {
+            for (int ix = 0; ix < toScan.childCount; ix++)
+                ToggleNonGridTiles(toScan.GetChild(ix));
+        }
+        else if(toScan.GetComponent<GridTile>() == null)
+        {
+            toScan.gameObject.SetActive(this.ShowNonGridTiles);
+        }
     }
 
     public void ToggleFloorTiles()
@@ -80,6 +105,7 @@ public class GridTileSetManagerEditor : Editor
         GridTileSetManager manager = (GridTileSetManager)target;
         EditorGUILayout.ObjectField("Tile Set", manager.Model, typeof(GridTileSet), false);
         manager.FloorTilesDemo = (Transform)EditorGUILayout.ObjectField("Floor Tiles Demo", manager.FloorTilesDemo, typeof(Transform), true);
+        manager.ShowNonGridTiles = EditorGUILayout.Toggle("Show Non Grid Tiles", manager.ShowNonGridTiles);
 
         if (GUILayout.Button("Discover Tiles"))
         {
