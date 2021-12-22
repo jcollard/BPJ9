@@ -14,6 +14,8 @@ public class GridTile : MonoBehaviour
     /// </summary>
     public GameObject[] Templates;
 
+    public bool IsFloor;
+
     [SerializeField]
     [ReadOnly]
     private int _Criteria;
