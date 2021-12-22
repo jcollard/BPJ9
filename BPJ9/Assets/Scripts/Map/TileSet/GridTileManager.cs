@@ -40,22 +40,7 @@ public class GridTileManager : MonoBehaviour
         }
         else
         {
-            HashSet<NeighborSpace> newCriteria = new HashSet<NeighborSpace>();
-            Transform parent = this.Model.transform.parent;
-            for (int ix = 0; ix < parent.childCount; ix++)
-            {
-                Transform siblingTransform = parent.GetChild(ix);
-                GameObject sibling = siblingTransform.gameObject;
-                if (sibling == this.Model.gameObject) continue;
-                Vector2 diff = siblingTransform.position - this.transform.position;
-                if(NeighborSpaceUtil
-                    .SpaceLookup
-                    .TryGetValue(((int)diff.x, (int)diff.y), out NeighborSpace space))
-                {
-                    newCriteria.Add(space);
-                }
-            }
-            this.Criteria = newCriteria.ToArray();
+            this.Criteria = NeighborSpaceUtil.DiscoverCriteria(this.Model.transform).ToArray();
         }
 
         this.SimplifyCriteria();

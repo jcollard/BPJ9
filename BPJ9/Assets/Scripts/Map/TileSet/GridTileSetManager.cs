@@ -52,7 +52,7 @@ public class GridTileSetManager : MonoBehaviour
             for (int ix = 0; ix < toScan.childCount; ix++)
                 ToggleNonGridTiles(toScan.GetChild(ix));
         }
-        else if(toScan.GetComponent<GridTile>() == null)
+        else if (toScan.GetComponent<GridTile>() == null)
         {
             toScan.gameObject.SetActive(this.ShowNonGridTiles);
         }
@@ -93,6 +93,31 @@ public class GridTileSetManager : MonoBehaviour
         Max.y = Mathf.Max(toScan.position.y, Max.y);
         for (int ix = 0; ix < toScan.childCount; ix++)
             DiscoverWidthAndHeight(toScan.GetChild(ix), ref Min, ref Max);
+    }
+
+    public void UpdatePlaceHolderSprites()
+    {
+
+    }
+
+    private void UpdatePlaceHolderSprites(Transform toScan)
+    {
+        for (int ix = 0; ix < toScan.childCount; ix++)
+            UpdatePlaceHolderSprites(toScan.GetChild(ix));
+
+        // Ignore non GridTiles
+        if (toScan.GetComponent<GridTile>() != null) return;
+
+        // Ignore elements without a SpriteRenderer
+        SpriteRenderer renderer = toScan.GetComponent<SpriteRenderer>();
+        if (renderer == null) return;
+
+        Transform parent = renderer.transform.parent;
+        for (int ix = 0; ix < parent.childCount; ix++)
+        {
+            Transform siblingTransform = parent.GetChild(ix);
+        }
+
     }
 }
 

@@ -31,27 +31,7 @@ public class GridTile : MonoBehaviour
     /// </summary>
     public HashSet<NeighborSpace> CriteriaSet
     {
-        get
-        {
-            HashSet<NeighborSpace> spaces = new HashSet<NeighborSpace>();
-            for (int ix = 0; ix < NeighborSpaceUtil.Spaces.Length; ix++)
-            {
-                int bit = (_Criteria >> ix) & 1;
-                if (bit == 1)
-                {
-                    spaces.Add(NeighborSpaceUtil.Spaces[ix]);
-                }
-            }
-            return spaces;
-        }
-
-        set
-        {
-            _Criteria = 0;
-            foreach (NeighborSpace space in value)
-            {
-                _Criteria += (1 << (int)space);
-            }
-        }
+        get => NeighborSpaceUtil.DecodeSet(this._Criteria);
+        set => this._Criteria = NeighborSpaceUtil.EncodeSet(value);
     }
 }
