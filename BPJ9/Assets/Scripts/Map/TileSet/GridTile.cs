@@ -1,0 +1,55 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+/// <summary>
+/// A GridTile is a tile that is placed in the world based on its surrounding 
+/// neighbors. It specifies the variations that can be used as well as the 
+/// criteria necessary to place the element.
+/// </summary>
+public class GridTile : MonoBehaviour
+{
+    /// <summary>
+    /// The variations of this tile that can be used.
+    /// </summary>
+    public GameObject[] Templates;
+
+    [SerializeField]
+    [ReadOnly]
+    private int _Criteria;
+
+    /// <summary>
+    /// The bit encoded criteria for selecting this tile
+    /// </summary>
+    public int Criteria { get; private set; }
+
+    /// <summary>
+    /// The non-encoded NeighborSpace set which must be met to place this
+    /// tile.
+    /// </summary>
+    public HashSet<NeighborSpace> CriteriaSet
+    {
+        get
+        {
+            HashSet<NeighborSpace> spaces = new HashSet<NeighborSpace>();
+            for (int ix = 0; ix < NeighborSpaceUtil.Spaces.Length; ix++)
+            {
+                int bit = (_Criteria >> ix) & 1;
+                if (bit == 1)
+                {
+                    spaces.Add(NeighborSpaceUtil.Spaces[ix]);
+                }
+            }
+            return spaces;
+        }
+
+        set
+        {
+            _Criteria = 0;
+            foreach (NeighborSpace space in value)
+            {
+                _Criteria += (1 << (int)space);
+            }
+        }
+    }
+}
