@@ -6,14 +6,17 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEditor.Experimental.SceneManagement;
+using CaptainCoder.Unity;
 
 [RequireComponent(typeof(GridTileSet))]
 public class GridTileSetManager : MonoBehaviour
 {
     public GridTileSet Model => this.GetComponent<GridTileSet>();
+    public Transform FloorTilesDemo;
 
     public void DiscoverTiles()
     {
+        UnityEngineUtils.Instance.DestroyChildren(FloorTilesDemo);
         List<GridTile> tiles = this.DiscoverTiles(new List<GridTile>(), this.transform);
         Model.Tiles = tiles;
     }
@@ -22,11 +25,49 @@ public class GridTileSetManager : MonoBehaviour
         for (int ix = 0; ix < toScan.childCount; ix++)
             DiscoverTiles(acc, toScan.GetChild(ix));
         GridTile tile = toScan.GetComponent<GridTile>();
-        if (tile != null) {
+        if (tile != null)
+        {
             acc.Add(tile);
             tile.GetComponent<GridTileManager>().DiscoverCriteria();
         }
         return acc;
+    }
+
+    public void ToggleFloorTiles()
+    {
+        if (FloorTilesDemo.childCount > 0)
+        {
+            UnityEngineUtils.Instance.DestroyChildren(FloorTilesDemo);
+        }
+        else
+        {
+            Vector2 Min = new Vector2(float.PositiveInfinity, float.PositiveInfinity);
+            Vector2 Max = new Vector2(float.NegativeInfinity, float.NegativeInfinity);
+            this.DiscoverWidthAndHeight(this.transform, ref Min, ref Max);
+            Min.x -= 1;
+            Min.y -= 1;
+            Max.x += 1;
+            Max.y += 1;
+            for (int x = (int)Min.x; x <= Max.x; x++)
+            {
+                for (int y = (int)Min.y; y <= Max.y; y++)
+                {
+                    GridTile tile = UnityEngine.Object.Instantiate<GridTile>(this.Model.Floors[Random.Range(0, this.Model.Floors.Count)]);
+                    tile.transform.parent = FloorTilesDemo;
+                    tile.transform.position = new Vector3(x, y, FloorTilesDemo.position.z);
+                }
+            }
+        }
+    }
+
+    private void DiscoverWidthAndHeight(Transform toScan, ref Vector2 Min, ref Vector2 Max)
+    {
+        Min.x = Mathf.Min(toScan.position.x, Min.x);
+        Min.y = Mathf.Min(toScan.position.y, Min.y);
+        Max.x = Mathf.Max(toScan.position.x, Max.x);
+        Max.y = Mathf.Max(toScan.position.y, Max.y);
+        for (int ix = 0; ix < toScan.childCount; ix++)
+            DiscoverWidthAndHeight(toScan.GetChild(ix), ref Min, ref Max);
     }
 }
 
@@ -38,10 +79,16 @@ public class GridTileSetManagerEditor : Editor
         EditorGUI.BeginChangeCheck();
         GridTileSetManager manager = (GridTileSetManager)target;
         EditorGUILayout.ObjectField("Tile Set", manager.Model, typeof(GridTileSet), false);
+        manager.FloorTilesDemo = (Transform)EditorGUILayout.ObjectField("Floor Tiles Demo", manager.FloorTilesDemo, typeof(Transform), true);
 
         if (GUILayout.Button("Discover Tiles"))
         {
             manager.DiscoverTiles();
+        }
+
+        if (GUILayout.Button("Toggle Floor Tiles"))
+        {
+            manager.ToggleFloorTiles();
         }
 
         if (EditorGUI.EndChangeCheck())
