@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class GridTileSet : MonoBehaviour
 {
-    public List<GameObject> Tiles;
+    public List<GridTile> Tiles;
     
 }
