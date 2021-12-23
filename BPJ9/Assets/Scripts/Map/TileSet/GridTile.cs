@@ -14,7 +14,22 @@ public class GridTile : MonoBehaviour
     /// </summary>
     public GameObject[] Templates;
 
+    /// <summary>
+    /// True if this tile should be a floor tile
+    /// </summary>
     public bool IsFloor;
+
+    /// <summary>
+    /// Specify another GridTile to use as a Mirror when rendering.
+    /// This makes this specific configuration use one of the templates
+    /// from the Mirror.
+    /// </summary>
+    public GridTile MirrorTile;
+
+    /// <summary>
+    /// Returns true if this tile is mirroring another tile
+    /// </summary>
+    public bool IsMirror => MirrorTile != null;
 
     [SerializeField]
     [ReadOnly]
@@ -23,7 +38,7 @@ public class GridTile : MonoBehaviour
     /// <summary>
     /// The bit encoded criteria for selecting this tile
     /// </summary>
-    public int Criteria { get; private set; }
+    public int Criteria => _Criteria;
 
     /// <summary>
     /// The non-encoded NeighborSpace set which must be met to place this

@@ -22,7 +22,35 @@ public class GridTileSetManager : MonoBehaviour
         set
         {
             _ShowNonGridTiles = value;
-            this.ToggleNonGridTiles(this.transform);
+            System.Func<Transform, Transform> ShowTile = toScan =>
+            {
+                if (toScan.GetComponent<GridTile>() == null)
+                {
+                    toScan.gameObject.SetActive(this._ShowNonGridTiles);
+                }
+                return toScan;
+            };
+            ToggleTiles(this.Model.transform, ShowTile);
+        }
+    }
+
+    private bool _ShowMirrors = true;
+    public bool ShowMirrors
+    {
+        get => _ShowMirrors;
+        set
+        {
+            _ShowMirrors = value;
+            System.Func<Transform, Transform> ShowTile = toScan =>
+            {
+                GridTile tile = toScan.GetComponent<GridTile>();
+                if (tile != null && tile.IsMirror)
+                {
+                    toScan.gameObject.SetActive(this._ShowMirrors);
+                }
+                return toScan;
+            };
+            ToggleTiles(this.Model.transform, ShowTile);
         }
     }
 
@@ -45,18 +73,34 @@ public class GridTileSetManager : MonoBehaviour
         return acc;
     }
 
-    private void ToggleNonGridTiles(Transform toScan)
+    private void ToggleTiles(Transform toScan, System.Func<Transform, Transform> action)
     {
         if (toScan.childCount > 0)
         {
             for (int ix = 0; ix < toScan.childCount; ix++)
-                ToggleNonGridTiles(toScan.GetChild(ix));
+                ToggleTiles(toScan.GetChild(ix), action);
         }
-        else if (toScan.GetComponent<GridTile>() == null)
+        else
         {
-            toScan.gameObject.SetActive(this.ShowNonGridTiles);
+            action(toScan);
         }
     }
+
+    // private void ToggleNonGridTiles(Transform toScan) => ToggleTiles(toScan, (toScan => toScan.GetComponent<GridTile>() == null && this.ShowNonGridTiles));
+
+
+    // private void ToggleNonGridTiles(Transform toScan)
+    // {
+    //     if (toScan.childCount > 0)
+    //     {
+    //         for (int ix = 0; ix < toScan.childCount; ix++)
+    //             ToggleNonGridTiles(toScan.GetChild(ix));
+    //     }
+    //     else if (toScan.GetComponent<GridTile>() == null)
+    //     {
+    //         toScan.gameObject.SetActive(this.ShowNonGridTiles);
+    //     }
+    // }
 
     public void ToggleFloorTiles()
     {
@@ -97,7 +141,7 @@ public class GridTileSetManager : MonoBehaviour
 
     public void UpdatePlaceHolderSprites()
     {
-
+        this.UpdatePlaceHolderSprites(this.Model.transform);
     }
 
     private void UpdatePlaceHolderSprites(Transform toScan)
@@ -112,10 +156,22 @@ public class GridTileSetManager : MonoBehaviour
         SpriteRenderer renderer = toScan.GetComponent<SpriteRenderer>();
         if (renderer == null) return;
 
-        Transform parent = renderer.transform.parent;
-        for (int ix = 0; ix < parent.childCount; ix++)
+        // Otherwise, get the encoding
+        int encoding = NeighborSpaceUtil.DiscoverEncodedCriteria(renderer.transform);
+        try
         {
-            Transform siblingTransform = parent.GetChild(ix);
+            // And try to update the sprite
+            GridTile tile = this.Model.GetGridTile(encoding);
+            renderer.sprite = tile.GetComponent<SpriteRenderer>().sprite;
+        }
+        catch (System.Exception e)
+        {
+            HashSet<NeighborSpace> set = NeighborSpaceUtil.DiscoverCriteria(renderer.transform);
+            string c = "Criteria was:";
+            foreach (NeighborSpace s in set) c += $" {s} ";
+            Debug.Log($"Failed to update Sprite on {renderer.gameObject.name} at {renderer.transform.position}", renderer);
+            Debug.Log(c);
+            throw e;
         }
 
     }
@@ -131,6 +187,8 @@ public class GridTileSetManagerEditor : Editor
         EditorGUILayout.ObjectField("Tile Set", manager.Model, typeof(GridTileSet), false);
         manager.FloorTilesDemo = (Transform)EditorGUILayout.ObjectField("Floor Tiles Demo", manager.FloorTilesDemo, typeof(Transform), true);
         manager.ShowNonGridTiles = EditorGUILayout.Toggle("Show Non Grid Tiles", manager.ShowNonGridTiles);
+        manager.ShowMirrors = EditorGUILayout.Toggle("Show Mirror Tiles", manager.ShowMirrors);
+
 
         if (GUILayout.Button("Discover Tiles"))
         {
@@ -140,6 +198,11 @@ public class GridTileSetManagerEditor : Editor
         if (GUILayout.Button("Toggle Floor Tiles"))
         {
             manager.ToggleFloorTiles();
+        }
+
+        if (GUILayout.Button("Update Place Holder Sprites"))
+        {
+            manager.UpdatePlaceHolderSprites();
         }
 
         if (EditorGUI.EndChangeCheck())

@@ -44,7 +44,17 @@ public class GridTileSet : MonoBehaviour
         }
     }
 
-    private void BuildDictionary()
+    public GridTile GetGridTile(int encoding, System.Random RNG = null)
+    {
+        if (this.TileLookup.TryGetValue(encoding, out List<GridTile> options))
+        {
+            int ix = RNG == null ? Random.Range(0, options.Count) : RNG.Next(0, options.Count);
+            return options[ix];
+        }
+        throw new System.Exception($"No such GridTile with encoding {encoding} in {this.gameObject.name}.");
+    }
+
+    public void BuildDictionary()
     {
         this._TileLookup = new Dictionary<int, List<GridTile>>();
         this._Floors = new List<GridTile>();

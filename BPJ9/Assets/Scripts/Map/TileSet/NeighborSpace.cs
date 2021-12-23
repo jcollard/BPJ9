@@ -40,7 +40,11 @@ public class NeighborSpaceUtil
         SpaceLookup[(-1, -1)] = NeighborSpace.BottomLeft;
         SpaceLookup[(0, -1)] = NeighborSpace.Bottom;
         SpaceLookup[(1, -1)] = NeighborSpace.BottomRight;
+    }
 
+    public static int DiscoverEncodedCriteria(Transform target)
+    {
+        return EncodeSet(DiscoverCriteria(target));
     }
 
     public static HashSet<NeighborSpace> DiscoverCriteria(Transform target)

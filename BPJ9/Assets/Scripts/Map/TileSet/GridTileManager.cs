@@ -59,7 +59,7 @@ public class GridTileManagerEditor : Editor
         manager.IsCenterOverride = EditorGUILayout.Toggle("Is Center Override", manager.IsCenterOverride);
 
         serializedObject.Update();
-        NeighborSpace[] orig = (NeighborSpace[])manager.Criteria.Clone();
+        NeighborSpace[] orig = manager.Criteria == null ? new NeighborSpace[]{} : (NeighborSpace[])manager.Criteria.Clone();
         EditorGUILayout.PropertyField(serializedObject.FindProperty("Criteria"), true);
         serializedObject.ApplyModifiedProperties();
 
