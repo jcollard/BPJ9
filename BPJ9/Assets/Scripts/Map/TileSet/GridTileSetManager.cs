@@ -146,6 +146,10 @@ public class GridTileSetManager : MonoBehaviour
 
     public void DiscoverMirrors()
     {
+        // TODO: Ignore tiles with the exact criteria, they should not be mirrors.
+        //       Note, I don't think this is a big deal and things should work. However,
+        //       there will be multiple tiles for a specific criteria that use the same sprite
+
         // Create a lookup dictionary of all of the sprites to a tile that should be the "Mirror"
         Dictionary<Sprite, GridTile> spriteLookup = new Dictionary<Sprite, GridTile>();
 
