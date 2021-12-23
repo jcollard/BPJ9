@@ -8,6 +8,6 @@ public class FloorTile : MonoBehaviour
     /// <summary>
     /// The variations of this tile that can be used.
     /// </summary>
-    public Sprite[] Templates;
+    public List<SpriteTemplate> Templates;
 
 }

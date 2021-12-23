@@ -79,6 +79,11 @@ public class GridTileSetManager : MonoBehaviour
         BuildConfigDemo();
     }
 
+    public void DeleteConfigDemo()
+    {
+        UnityEngineUtils.Instance.DestroyChildren(DemoConfigContainer);
+    }
+
     public void BuildConfigDemo()
     {
         UnityEngineUtils.Instance.DestroyChildren(DemoConfigContainer);
@@ -144,6 +149,11 @@ public class GridTileSetManagerEditor : Editor
         if (GUILayout.Button("Build Config Demo"))
         {
             manager.BuildConfigDemo();
+        }
+
+        if (GUILayout.Button("Delete Config Demo"))
+        {
+            manager.DeleteConfigDemo();
         }
 
         if (GUILayout.Button("BUILD FROM LIST! DO NOT PRESS!"))
