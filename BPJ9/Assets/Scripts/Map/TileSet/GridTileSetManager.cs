@@ -144,17 +144,102 @@ public class GridTileSetManager : MonoBehaviour
         this.UpdatePlaceHolderSprites(this.Model.transform);
     }
 
+    public void DiscoverMirrors()
+    {
+        // Create a lookup dictionary of all of the sprites to a tile that should be the "Mirror"
+        Dictionary<Sprite, GridTile> spriteLookup = new Dictionary<Sprite, GridTile>();
+
+        int mainTiles = 0;
+        // First pass we mark all of the "main" tiles
+        foreach (GridTile tile in this.Model.Tiles)
+        {
+            Sprite asRenderer = tile.GetComponent<SpriteRenderer>().sprite;
+            // If this is the first time we are seeing this sprite 
+            // on a non-mirror, this GridTile becomes the main GridTile for this sprite
+            if (!spriteLookup.ContainsKey(asRenderer) && !tile.IsMirror)
+            {
+                spriteLookup[asRenderer] = tile;
+                mainTiles++;
+                continue;
+            }
+        }
+
+        int mirrorTiles = 0;
+        // Second pass we make all of the duplicates Mirrors
+        foreach (GridTile tile in this.Model.Tiles)
+        {
+            Sprite asRenderer = tile.GetComponent<SpriteRenderer>().sprite;
+            if (!spriteLookup.ContainsKey(asRenderer))
+            {
+                Debug.Log($"Discovered an unused sprite {asRenderer.name}", tile);
+                throw new System.Exception($"Discovered an unused sprite {asRenderer.name}");
+            }
+
+            GridTile mainTile = spriteLookup[asRenderer];
+            // Main tile doesn't need updated.
+            if (mainTile == tile) continue;
+            // Otherwise, we set the Mirror to the main tile
+            tile.MirrorTile = mainTile;
+            mirrorTiles++;
+        }
+
+        List<Transform> mirrors = this.DiscoverMirrors(this.transform, spriteLookup, new List<Transform>());
+        Debug.Log($"Found {mainTiles} main tiles.");
+        Debug.Log($"Found {mirrorTiles} mirror tiles.");
+        Debug.Log($"Created {mirrors.Count} new mirror tiles.");
+    }
+
+    public List<Transform> DiscoverMirrors(Transform toScan, Dictionary<Sprite, GridTile> spriteLookup, List<Transform> transforms)
+    {
+        for (int ix = 0; ix < toScan.childCount; ix++)
+            DiscoverMirrors(toScan.GetChild(ix), spriteLookup, transforms);
+
+        // We ignore GridTiles as they should already be set up as mirrors
+        if (toScan.GetComponent<GridTile>() != null) return transforms;
+
+        SpriteRenderer asRenderer = toScan.GetComponent<SpriteRenderer>();
+        // If we don't have a SpriteRenderer there is nothing to do.
+        if (asRenderer == null) return transforms;
+
+        Sprite sprite = asRenderer.sprite;
+        // Throw an exception if we discover an unused sprite
+        if (!spriteLookup.ContainsKey(sprite))
+        {
+            Debug.Log($"Discovered sprite that is not attached to a GridTile: {sprite.name}!", asRenderer);
+            throw new System.Exception($"Discovered sprite that is not attached to a GridTile: {sprite.name}!");
+        }
+
+        // Update the tile to be a mirror
+        GridTile mainTile = spriteLookup[sprite];
+        GridTile asTile = asRenderer.gameObject.AddComponent<GridTile>();
+        asRenderer.gameObject.AddComponent<GridTileManager>();
+        asTile.MirrorTile = mainTile;
+        transforms.Add(toScan);
+
+        return transforms;
+    }
+
     private void UpdatePlaceHolderSprites(Transform toScan)
     {
         for (int ix = 0; ix < toScan.childCount; ix++)
             UpdatePlaceHolderSprites(toScan.GetChild(ix));
 
-        // Ignore non GridTiles
-        if (toScan.GetComponent<GridTile>() != null) return;
-
         // Ignore elements without a SpriteRenderer
         SpriteRenderer renderer = toScan.GetComponent<SpriteRenderer>();
         if (renderer == null) return;
+
+
+        GridTile asTile = toScan.GetComponent<GridTile>();
+        if (asTile != null)
+        {
+            //Ignore regular GridTiles
+            if (!asTile.IsMirror) return;
+
+            // Update Mirror Grid Tile sprites to match their mirror
+            renderer.sprite = asTile.MirrorTile.GetComponent<SpriteRenderer>().sprite;
+            // TODO: Copy over box collider.
+            return;
+        }
 
         // Otherwise, get the encoding
         int encoding = NeighborSpaceUtil.DiscoverEncodedCriteria(renderer.transform);
@@ -195,6 +280,12 @@ public class GridTileSetManagerEditor : Editor
             manager.DiscoverTiles();
         }
 
+        if (GUILayout.Button("Discover Mirrors"))
+        {
+            Debug.Log("Discovering Mirrors...");
+            manager.DiscoverMirrors();
+        }
+
         if (GUILayout.Button("Toggle Floor Tiles"))
         {
             manager.ToggleFloorTiles();
@@ -202,7 +293,7 @@ public class GridTileSetManagerEditor : Editor
 
         if (GUILayout.Button("Update Place Holder Sprites"))
         {
-            manager.UpdatePlaceHolderSprites();
+            // manager.UpdatePlaceHolderSprites();
         }
 
         if (EditorGUI.EndChangeCheck())

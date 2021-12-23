@@ -60,6 +60,10 @@ public class GridTileSet : MonoBehaviour
         this._Floors = new List<GridTile>();
         foreach (GridTile t in Tiles)
         {
+            if (t.IsMirror && t.MirrorTile.IsMirror) {
+                Debug.Log($"GridTile Mirror must not be a Mirror.", t);
+                throw new System.Exception("GridTileMirror must not be a Mirror.");
+            }
             if (!this._TileLookup.ContainsKey(t.Criteria)) this._TileLookup[t.Criteria] = new List<GridTile>();
             this._TileLookup[t.Criteria].Add(t);
             if (t.IsFloor) this._Floors.Add(t);

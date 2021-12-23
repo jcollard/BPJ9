@@ -393,6 +393,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4575266283253983836}
   - component: {fileID: 902408898560425206}
+  - component: {fileID: 8760573321968828937}
+  - component: {fileID: 6328776860333683588}
   m_Layer: 0
   m_Name: PlaceHolder (BottomRight)
   m_TagString: Untagged
@@ -465,6 +467,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8760573321968828937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374609402564294629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 78194087107812269}
+  _Criteria: 10
+--- !u!114 &6328776860333683588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374609402564294629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 0100000003000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &377780815660338663
 GameObject:
   m_ObjectHideFlags: 0
@@ -475,6 +508,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5819935840465471337}
   - component: {fileID: 3955666300926439876}
+  - component: {fileID: 221138381243150782}
+  - component: {fileID: 5040554760479127909}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -547,6 +582,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &221138381243150782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 377780815660338663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 2192420207262775938}
+  _Criteria: 208
+--- !u!114 &5040554760479127909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 377780815660338663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 070000000400000006000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &401191075783452256
 GameObject:
   m_ObjectHideFlags: 0
@@ -557,6 +623,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3238981602624141872}
   - component: {fileID: 6735407314041620141}
+  - component: {fileID: 7292873466040361130}
+  - component: {fileID: 5648593303454568942}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -629,6 +697,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7292873466040361130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401191075783452256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 7588506417077841003}
+  _Criteria: 150
+--- !u!114 &5648593303454568942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401191075783452256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 04000000020000000100000007000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &702622179753982753
 GameObject:
   m_ObjectHideFlags: 0
@@ -824,14 +923,23 @@ MonoBehaviour:
   - {fileID: 7064951260765413096}
   - {fileID: 3051863485587150742}
   - {fileID: 7387502667567890728}
+  - {fileID: 7418469799967543257}
+  - {fileID: 3652751760420165207}
+  - {fileID: 1014757207468371894}
+  - {fileID: 1413541698731254709}
+  - {fileID: 8760573321968828937}
   - {fileID: 7512860786897438554}
   - {fileID: 17373380807454389}
+  - {fileID: 714562414525484676}
+  - {fileID: 1560616722153641916}
   - {fileID: 7089529838822055908}
   - {fileID: 4000435301125955451}
   - {fileID: 2719388689060794718}
   - {fileID: 8696327541090370680}
   - {fileID: 8430385029367574524}
   - {fileID: 354070353984741426}
+  - {fileID: 7544832681631540868}
+  - {fileID: 2451582459900281920}
   - {fileID: 5945387797411502382}
   - {fileID: 8374610851584151922}
   - {fileID: 3902285609443419681}
@@ -846,13 +954,49 @@ MonoBehaviour:
   - {fileID: 1436475828969323880}
   - {fileID: 536423581337360861}
   - {fileID: 1861921193156422141}
+  - {fileID: 5601522903965244372}
+  - {fileID: 8163367250702135301}
+  - {fileID: 2265921462173222947}
+  - {fileID: 221138381243150782}
+  - {fileID: 5764006910319164414}
+  - {fileID: 6132911177309375726}
   - {fileID: 5564400556270205990}
+  - {fileID: 584438591920767260}
+  - {fileID: 3082087730626092371}
+  - {fileID: 9124923207045743501}
+  - {fileID: 630577816682142672}
+  - {fileID: 7292873466040361130}
+  - {fileID: 6564803283103028852}
+  - {fileID: 8044585143270260518}
   - {fileID: 1173196089367703645}
+  - {fileID: 849988324968314544}
+  - {fileID: 1180079510085147141}
+  - {fileID: 213355499845568603}
+  - {fileID: 2617700681770835239}
+  - {fileID: 9207823862828609407}
+  - {fileID: 9050869602847577448}
+  - {fileID: 1821512836834189587}
   - {fileID: 8003131650168522897}
+  - {fileID: 6669227873169826193}
+  - {fileID: 8979422892740002016}
+  - {fileID: 7431617668343002273}
+  - {fileID: 6760153622207510528}
+  - {fileID: 7489065166489934418}
+  - {fileID: 5653760783486566956}
+  - {fileID: 2309914122454929832}
   - {fileID: 1929332865342015733}
   - {fileID: 4770325117472265464}
   - {fileID: 8865495882051429125}
   - {fileID: 7009866802526379664}
+  - {fileID: 898118600318524140}
+  - {fileID: 4087978003073525972}
+  - {fileID: 9025702539580699543}
+  - {fileID: 1894180200393093838}
+  - {fileID: 2484923257388067402}
+  - {fileID: 3846415922520551611}
+  - {fileID: 3885536388504106860}
+  - {fileID: 6914382602120757650}
+  - {fileID: 8653155175471161416}
   _Floors:
   - {fileID: 3575987089822236}
   - {fileID: 5152946765127319062}
@@ -882,6 +1026,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3321769652570189903}
   - component: {fileID: 7681597574588982724}
+  - component: {fileID: 8163367250702135301}
+  - component: {fileID: 4620125733287870232}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -954,6 +1100,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8163367250702135301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830005603207563316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 6761723731047677039}
+  _Criteria: 248
+--- !u!114 &4620125733287870232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830005603207563316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 0600000007000000040000000300000005000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &1022895311443989625
 GameObject:
   m_ObjectHideFlags: 0
@@ -1966,6 +2143,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2547366215358076144}
   - component: {fileID: 6988949109479623154}
+  - component: {fileID: 1894180200393093838}
+  - component: {fileID: 8255867040455334806}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -2038,6 +2217,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1894180200393093838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994550276556186473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 7588506417077841003}
+  _Criteria: 151
+--- !u!114 &8255867040455334806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994550276556186473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 0400000001000000020000000700000000000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &2077228949221367020
 GameObject:
   m_ObjectHideFlags: 0
@@ -2048,6 +2258,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7940728264502405550}
   - component: {fileID: 7288310605206060949}
+  - component: {fileID: 5601522903965244372}
+  - component: {fileID: 7093144022746977431}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -2120,6 +2332,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5601522903965244372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077228949221367020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 1855225336147689759}
+  _Criteria: 43
+--- !u!114 &7093144022746977431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077228949221367020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 03000000050000000000000001000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &2314330244657553870
 GameObject:
   m_ObjectHideFlags: 0
@@ -2590,6 +2833,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5173738389968291972}
   - component: {fileID: 6964568591407449744}
+  - component: {fileID: 2265921462173222947}
+  - component: {fileID: 3362465987146358962}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -2662,6 +2907,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2265921462173222947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2811721755685936315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 1528347744355735617}
+  _Criteria: 104
+--- !u!114 &3362465987146358962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2811721755685936315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 050000000600000003000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &2873698969418506831
 GameObject:
   m_ObjectHideFlags: 0
@@ -2902,6 +3178,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6179620358475160300}
   - component: {fileID: 8984904459520860112}
+  - component: {fileID: 6914382602120757650}
+  - component: {fileID: 6832618935113298645}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -2974,6 +3252,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6914382602120757650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2952584965353469291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 3902285609443419681}
+  _Criteria: 148
+--- !u!114 &6832618935113298645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2952584965353469291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 040000000200000007000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &2965467969713073606
 GameObject:
   m_ObjectHideFlags: 0
@@ -3444,6 +3753,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2725235747049649245}
   - component: {fileID: 7902610909169982314}
+  - component: {fileID: 714562414525484676}
+  - component: {fileID: 1344908365029697610}
   m_Layer: 0
   m_Name: PlaceHolder (Bottom) (1)
   m_TagString: Untagged
@@ -3516,6 +3827,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &714562414525484676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3371912267504260442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 8718626892752628761}
+  _Criteria: 29
+--- !u!114 &1344908365029697610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3371912267504260442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 03000000040000000200000000000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &3446778901910988678
 GameObject:
   m_ObjectHideFlags: 0
@@ -3526,6 +3868,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4962344037956816499}
   - component: {fileID: 7438070236102313230}
+  - component: {fileID: 4087978003073525972}
+  - component: {fileID: 2604929033825912061}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -3598,6 +3942,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4087978003073525972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3446778901910988678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 1528347744355735617}
+  _Criteria: 233
+--- !u!114 &2604929033825912061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3446778901910988678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 0600000003000000050000000700000000000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &3474912826646087870
 GameObject:
   m_ObjectHideFlags: 0
@@ -3608,6 +3983,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1165530236232220786}
   - component: {fileID: 7146265525135008706}
+  - component: {fileID: 7431617668343002273}
+  - component: {fileID: 8344321450441818986}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -3680,6 +4057,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7431617668343002273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3474912826646087870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 7588506417077841003}
+  _Criteria: 22
+--- !u!114 &8344321450441818986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3474912826646087870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 020000000400000001000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &3475212759398470698
 GameObject:
   m_ObjectHideFlags: 0
@@ -3690,6 +4098,8 @@ GameObject:
   m_Component:
   - component: {fileID: 344939712588279917}
   - component: {fileID: 3358111484851163623}
+  - component: {fileID: 7418469799967543257}
+  - component: {fileID: 4982815926122324466}
   m_Layer: 0
   m_Name: PlaceHolder (Center)
   m_TagString: Untagged
@@ -3762,6 +4172,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7418469799967543257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3475212759398470698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 4716399582521479711}
+  _Criteria: 90
+--- !u!114 &4982815926122324466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3475212759398470698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 06000000010000000400000003000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &3518603104685166746
 GameObject:
   m_ObjectHideFlags: 0
@@ -3810,6 +4251,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7062141883573525393}
   - component: {fileID: 1473789452793328071}
+  - component: {fileID: 898118600318524140}
+  - component: {fileID: 3222124576207476232}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -3882,6 +4325,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &898118600318524140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3584522817678663245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 2192420207262775938}
+  _Criteria: 244
+--- !u!114 &3222124576207476232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3584522817678663245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 0600000004000000070000000500000002000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &3717224177662922283
 GameObject:
   m_ObjectHideFlags: 0
@@ -4237,6 +4711,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7594053747290406506}
   - component: {fileID: 3875674045826475980}
+  - component: {fileID: 1014757207468371894}
+  - component: {fileID: 7496014157826594111}
   m_Layer: 0
   m_Name: PlaceHolder (TopRight)
   m_TagString: Untagged
@@ -4309,6 +4785,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1014757207468371894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3949082151482688157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 535522698966121246}
+  _Criteria: 72
+--- !u!114 &7496014157826594111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3949082151482688157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 0600000003000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &3997830945932533949
 GameObject:
   m_ObjectHideFlags: 0
@@ -4357,6 +4864,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5995986914878592669}
   - component: {fileID: 7214763447989600140}
+  - component: {fileID: 8653155175471161416}
+  - component: {fileID: 7557416135238766012}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -4429,6 +4938,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8653155175471161416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4038865602932025032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 4000018521258216473}
+  _Criteria: 224
+--- !u!114 &7557416135238766012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4038865602932025032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 060000000500000007000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &4110256213249328325
 GameObject:
   m_ObjectHideFlags: 0
@@ -4784,6 +5324,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6993470036852376573}
   - component: {fileID: 3878005126827720023}
+  - component: {fileID: 5764006910319164414}
+  - component: {fileID: 3241982352958511406}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -4856,6 +5398,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5764006910319164414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4427230487360122542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 547782826221436168}
+  _Criteria: 214
+--- !u!114 &3241982352958511406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4427230487360122542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 0400000007000000020000000100000006000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &4449273449646730454
 GameObject:
   m_ObjectHideFlags: 0
@@ -4866,6 +5439,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2709827304146684533}
   - component: {fileID: 2328636332400230696}
+  - component: {fileID: 7489065166489934418}
+  - component: {fileID: 4327166854209730036}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -4938,6 +5513,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7489065166489934418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4449273449646730454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 4871956458228838285}
+  _Criteria: 31
+--- !u!114 &4327166854209730036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4449273449646730454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 0100000004000000030000000000000002000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &4519298107015192099
 GameObject:
   m_ObjectHideFlags: 0
@@ -4948,6 +5554,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7129058804753812464}
   - component: {fileID: 2928159881059100564}
+  - component: {fileID: 3082087730626092371}
+  - component: {fileID: 5794956753989837317}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -5020,6 +5628,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3082087730626092371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4519298107015192099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 6761723731047677039}
+  _Criteria: 248
+--- !u!114 &5794956753989837317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4519298107015192099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 0600000004000000030000000500000007000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &4544563594207540886
 GameObject:
   m_ObjectHideFlags: 0
@@ -5030,6 +5669,8 @@ GameObject:
   m_Component:
   - component: {fileID: 9040698072058991293}
   - component: {fileID: 91296792927736395}
+  - component: {fileID: 5653760783486566956}
+  - component: {fileID: 2117408501881659869}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -5102,6 +5743,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5653760783486566956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4544563594207540886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 547782826221436168}
+  _Criteria: 214
+--- !u!114 &2117408501881659869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4544563594207540886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 0400000002000000060000000100000007000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &4624821053998204371
 GameObject:
   m_ObjectHideFlags: 0
@@ -5342,6 +6014,8 @@ GameObject:
   m_Component:
   - component: {fileID: 509662706572274296}
   - component: {fileID: 5086196253606607904}
+  - component: {fileID: 849988324968314544}
+  - component: {fileID: 6988258908873782160}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -5414,6 +6088,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &849988324968314544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4832407287444526540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 1855225336147689759}
+  _Criteria: 11
+--- !u!114 &6988258908873782160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4832407287444526540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 000000000100000003000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &4860095975865700940
 GameObject:
   m_ObjectHideFlags: 0
@@ -5424,6 +6129,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3154460599826244578}
   - component: {fileID: 72726562980399026}
+  - component: {fileID: 2309914122454929832}
+  - component: {fileID: 7142914761013738513}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -5496,6 +6203,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2309914122454929832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4860095975865700940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 1528347744355735617}
+  _Criteria: 105
+--- !u!114 &7142914761013738513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4860095975865700940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 03000000060000000000000005000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &4869303840452412738
 GameObject:
   m_ObjectHideFlags: 0
@@ -5506,6 +6244,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5028475490901855017}
   - component: {fileID: 9101646042109884100}
+  - component: {fileID: 8979422892740002016}
+  - component: {fileID: 8355190190660480579}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -5578,6 +6318,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8979422892740002016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4869303840452412738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 1528347744355735617}
+  _Criteria: 232
+--- !u!114 &8355190190660480579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4869303840452412738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 06000000030000000500000007000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &4880758865484796095
 GameObject:
   m_ObjectHideFlags: 0
@@ -5588,6 +6359,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8603394894513980103}
   - component: {fileID: 8777295215902100048}
+  - component: {fileID: 1413541698731254709}
+  - component: {fileID: 6758712714215266188}
   m_Layer: 0
   m_Name: PlaceHolder (BottomLeft)
   m_TagString: Untagged
@@ -5660,6 +6433,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1413541698731254709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4880758865484796095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 8951071443185324863}
+  _Criteria: 18
+--- !u!114 &6758712714215266188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4880758865484796095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 0400000001000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &5203933111755864439
 GameObject:
   m_ObjectHideFlags: 0
@@ -5968,6 +6772,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8239395253576731609}
   - component: {fileID: 9151981755844343928}
+  - component: {fileID: 213355499845568603}
+  - component: {fileID: 3170086344544650245}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -6040,6 +6846,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &213355499845568603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5381802090273495784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 2192420207262775938}
+  _Criteria: 212
+--- !u!114 &3170086344544650245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5381802090273495784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 04000000060000000200000007000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &5398454831446892535
 GameObject:
   m_ObjectHideFlags: 0
@@ -6050,6 +6887,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1995155517442645242}
   - component: {fileID: 4898877716722707836}
+  - component: {fileID: 9124923207045743501}
+  - component: {fileID: 1754305217276891848}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -6122,6 +6961,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &9124923207045743501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5398454831446892535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 1528347744355735617}
+  _Criteria: 104
+--- !u!114 &1754305217276891848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5398454831446892535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 050000000300000006000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &5418853022235390915
 GameObject:
   m_ObjectHideFlags: 0
@@ -6362,6 +7232,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2642977451810760856}
   - component: {fileID: 7486412029603827301}
+  - component: {fileID: 2484923257388067402}
+  - component: {fileID: 1555913761076474077}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -6434,6 +7306,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2484923257388067402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5565849789128565235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 1855225336147689759}
+  _Criteria: 47
+--- !u!114 &1555913761076474077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5565849789128565235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 0300000001000000000000000500000002000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &5607163592728346629
 GameObject:
   m_ObjectHideFlags: 0
@@ -6559,6 +7462,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6336179265582109136}
   - component: {fileID: 2876790376811828241}
+  - component: {fileID: 3846415922520551611}
+  - component: {fileID: 2935074586028862235}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -6631,6 +7536,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3846415922520551611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5632855423085091955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 5945387797411502382}
+  _Criteria: 7
+--- !u!114 &2935074586028862235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5632855423085091955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 010000000000000002000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &5767313475721305047
 GameObject:
   m_ObjectHideFlags: 0
@@ -6756,6 +7692,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2822140883902306769}
   - component: {fileID: 7312229958509719203}
+  - component: {fileID: 6760153622207510528}
+  - component: {fileID: 1875283317041627780}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -6828,6 +7766,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6760153622207510528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5794394391638243196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 2192420207262775938}
+  _Criteria: 208
+--- !u!114 &1875283317041627780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5794394391638243196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 070000000400000006000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &5983637847301149461
 GameObject:
   m_ObjectHideFlags: 0
@@ -7102,6 +8071,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7927668994973615981}
   - component: {fileID: 655615335295672209}
+  - component: {fileID: 1180079510085147141}
+  - component: {fileID: 6869658544378375045}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -7174,6 +8145,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1180079510085147141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6346399196140411391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 1528347744355735617}
+  _Criteria: 104
+--- !u!114 &6869658544378375045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6346399196140411391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 050000000600000003000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &6367453409851654761
 GameObject:
   m_ObjectHideFlags: 0
@@ -7299,6 +8301,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6376069592062139404}
   - component: {fileID: 2328507176630529757}
+  - component: {fileID: 2617700681770835239}
+  - component: {fileID: 8781098109257633702}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -7371,6 +8375,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2617700681770835239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6389580672723629259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 7588506417077841003}
+  _Criteria: 22
+--- !u!114 &8781098109257633702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6389580672723629259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 020000000100000004000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &6414079955937229833
 GameObject:
   m_ObjectHideFlags: 0
@@ -7611,6 +8646,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7840392150133801975}
   - component: {fileID: 6511254268727868084}
+  - component: {fileID: 6564803283103028852}
+  - component: {fileID: 987105027411494579}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -7683,6 +8720,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6564803283103028852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6506043492631282865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 7588506417077841003}
+  _Criteria: 23
+--- !u!114 &987105027411494579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6506043492631282865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 01000000040000000000000002000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &6595985927569277422
 GameObject:
   m_ObjectHideFlags: 0
@@ -7923,6 +8991,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2886025877892697059}
   - component: {fileID: 2713079370416088952}
+  - component: {fileID: 6132911177309375726}
+  - component: {fileID: 2350314437386643347}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -7995,6 +9065,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6132911177309375726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7183472600455114169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 7588506417077841003}
+  _Criteria: 22
+--- !u!114 &2350314437386643347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7183472600455114169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 020000000400000001000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &7210316142738442773
 GameObject:
   m_ObjectHideFlags: 0
@@ -8005,6 +9106,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4062838731511382071}
   - component: {fileID: 1015666852418428010}
+  - component: {fileID: 9207823862828609407}
+  - component: {fileID: 4490841002972683914}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -8077,6 +9180,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &9207823862828609407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7210316142738442773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 1115345785933760551}
+  _Criteria: 107
+--- !u!114 &4490841002972683914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7210316142738442773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 0300000006000000010000000000000005000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &7212081556601779681
 GameObject:
   m_ObjectHideFlags: 0
@@ -8087,6 +9221,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6729635657632627059}
   - component: {fileID: 8039156643249465457}
+  - component: {fileID: 9050869602847577448}
+  - component: {fileID: 7567467216046083762}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -8159,6 +9295,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &9050869602847577448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7212081556601779681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 2192420207262775938}
+  _Criteria: 240
+--- !u!114 &7567467216046083762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7212081556601779681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 06000000040000000500000007000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &7340787890478951983
 GameObject:
   m_ObjectHideFlags: 0
@@ -8169,6 +9336,8 @@ GameObject:
   m_Component:
   - component: {fileID: 101860628598813532}
   - component: {fileID: 2360090532213909044}
+  - component: {fileID: 3885536388504106860}
+  - component: {fileID: 3871512670747921372}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -8241,6 +9410,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3885536388504106860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7340787890478951983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 8374610851584151922}
+  _Criteria: 41
+--- !u!114 &3871512670747921372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7340787890478951983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 030000000000000005000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &7525576451766309692
 GameObject:
   m_ObjectHideFlags: 0
@@ -8251,6 +9451,8 @@ GameObject:
   m_Component:
   - component: {fileID: 587792650502983549}
   - component: {fileID: 5761928225601608512}
+  - component: {fileID: 584438591920767260}
+  - component: {fileID: 5138958278751765397}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -8323,6 +9525,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &584438591920767260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7525576451766309692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 1855225336147689759}
+  _Criteria: 11
+--- !u!114 &5138958278751765397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7525576451766309692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 000000000300000001000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &7831999954354274502
 GameObject:
   m_ObjectHideFlags: 0
@@ -8333,6 +9566,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1714856877081864271}
   - component: {fileID: 2094366997864985444}
+  - component: {fileID: 3652751760420165207}
+  - component: {fileID: 1005471034803828585}
   m_Layer: 0
   m_Name: PlaceHolder (TopLeft)
   m_TagString: Untagged
@@ -8405,6 +9640,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3652751760420165207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7831999954354274502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 1620495068237476379}
+  _Criteria: 80
+--- !u!114 &1005471034803828585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7831999954354274502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 0600000004000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &7832165221884060973
 GameObject:
   m_ObjectHideFlags: 0
@@ -8415,6 +9681,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4340228430548090741}
   - component: {fileID: 8182708690175748386}
+  - component: {fileID: 8044585143270260518}
+  - component: {fileID: 5484284397580200052}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -8487,6 +9755,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8044585143270260518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7832165221884060973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 1115345785933760551}
+  _Criteria: 107
+--- !u!114 &5484284397580200052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7832165221884060973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 0300000006000000000000000100000005000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &7909928460100043976
 GameObject:
   m_ObjectHideFlags: 0
@@ -8497,6 +9796,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4513528959908045449}
   - component: {fileID: 2518652733643915139}
+  - component: {fileID: 630577816682142672}
+  - component: {fileID: 3659860403529620006}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -8569,6 +9870,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &630577816682142672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7909928460100043976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 2192420207262775938}
+  _Criteria: 208
+--- !u!114 &3659860403529620006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7909928460100043976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 070000000400000006000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &8021758356592200199
 GameObject:
   m_ObjectHideFlags: 0
@@ -8579,6 +9911,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2622918467948153710}
   - component: {fileID: 6047493751607187662}
+  - component: {fileID: 1821512836834189587}
+  - component: {fileID: 8668869444437242289}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -8651,6 +9985,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1821512836834189587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8021758356592200199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 4871956458228838285}
+  _Criteria: 31
+--- !u!114 &8668869444437242289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8021758356592200199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 0100000004000000000000000300000002000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &8043168494603665865
 GameObject:
   m_ObjectHideFlags: 0
@@ -8942,6 +10307,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2608321300932396693}
   - component: {fileID: 460022835790890934}
+  - component: {fileID: 6669227873169826193}
+  - component: {fileID: 7654738011874756005}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -9014,6 +10381,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6669227873169826193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8099053547376817880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 1855225336147689759}
+  _Criteria: 11
+--- !u!114 &7654738011874756005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8099053547376817880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 000000000300000001000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &8182450701286646146
 GameObject:
   m_ObjectHideFlags: 0
@@ -9024,6 +10422,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1066688639573206767}
   - component: {fileID: 1845235640418103433}
+  - component: {fileID: 2451582459900281920}
+  - component: {fileID: 2182573985019951571}
   m_Layer: 0
   m_Name: PlaceHolder (Bottom) (6)
   m_TagString: Untagged
@@ -9096,6 +10496,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2451582459900281920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8182450701286646146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 8718626892752628761}
+  _Criteria: 184
+--- !u!114 &2182573985019951571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8182450701286646146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 04000000030000000700000005000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &8320835722645948539
 GameObject:
   m_ObjectHideFlags: 0
@@ -9409,6 +10840,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6572109610157480385}
   - component: {fileID: 8230448499056334820}
+  - component: {fileID: 9025702539580699543}
+  - component: {fileID: 2896766844484282255}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -9481,6 +10914,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &9025702539580699543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8522741251717984366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 2442440437369161441}
+  _Criteria: 255
+--- !u!114 &2896766844484282255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8522741251717984366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 0600000003000000040000000100000000000000020000000500000007000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &8529561524260526147
 GameObject:
   m_ObjectHideFlags: 0
@@ -9752,6 +11216,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4587850837176180924}
   - component: {fileID: 432102611153564776}
+  - component: {fileID: 7544832681631540868}
+  - component: {fileID: 3018969399407550364}
   m_Layer: 0
   m_Name: PlaceHolder (Bottom) (5)
   m_TagString: Untagged
@@ -9824,6 +11290,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7544832681631540868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8827892822191282788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 8718626892752628761}
+  _Criteria: 184
+--- !u!114 &3018969399407550364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8827892822191282788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 03000000040000000700000005000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &8846516528766228226
 GameObject:
   m_ObjectHideFlags: 0
@@ -9949,6 +11446,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1480635531523055923}
   - component: {fileID: 6807371524541171108}
+  - component: {fileID: 1560616722153641916}
+  - component: {fileID: 2914088131163529035}
   m_Layer: 0
   m_Name: PlaceHolder (Bottom) (2)
   m_TagString: Untagged
@@ -10021,6 +11520,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1560616722153641916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9092278662969108518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e063632b6724d88b021df0aff6543e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Templates: []
+  IsFloor: 0
+  MirrorTile: {fileID: 8718626892752628761}
+  _Criteria: 29
+--- !u!114 &2914088131163529035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9092278662969108518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b027f774e6b4d899beb876cfdc6ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Criteria: 04000000030000000200000000000000
+  IsFloorOverride: 0
+  IsCenterOverride: 0
 --- !u!1 &9097917130986649270
 GameObject:
   m_ObjectHideFlags: 0
