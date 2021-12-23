@@ -19,18 +19,11 @@ public class GridTileSetManager : MonoBehaviour
 
     public void BuildAllWalls()
     {
-        UnityEngineUtils.Instance.DestroyChildren(DemoConfigContainer);
-        int Width = 4;
-        int Height = 4;
         for (int row = 0; row < 16; row++)
         {
             for (int col = 0; col < 16; col++)
             {
                 int encoding = (row * 16) + col;
-                GameObject tileContainer = new GameObject($"{encoding}");
-                tileContainer.transform.parent = DemoConfigContainer;
-                tileContainer.transform.localPosition = new Vector2(col * Width, -row * Height);
-                
                 if (!this.Model.TileLookup.ContainsKey(encoding))
                 {
                     WallTile tile = UnityEngine.Object.Instantiate<WallTile>(this.Model.DefaultWall);
@@ -44,6 +37,47 @@ public class GridTileSetManager : MonoBehaviour
             }
         }
         this.Model.Tiles = this.Model.TileLookup.Values.ToList();
+    }
+
+    public void BuildConfigDemo()
+    {
+        UnityEngineUtils.Instance.DestroyChildren(DemoConfigContainer);
+        int Width = 4;
+        int Height = 4;
+        for (int row = 0; row < 16; row++)
+        {
+            for (int col = 0; col < 16; col++)
+            {
+                int encoding = (row * 16) + col;
+                Transform configDemo = new GameObject($"Config ({encoding})").transform;
+                configDemo.localPosition = new Vector2(col * Width, row * Height);
+                configDemo.parent = DemoConfigContainer;
+
+                WallTile tile = UnityEngine.Object.Instantiate<WallTile>(this.Model.TileLookup[encoding]);
+                tile.name = $"WallTile ({encoding})";                
+                tile.transform.parent = configDemo;
+                tile.transform.localPosition = new Vector2();
+
+                List<WallTilePlaceHolder> placeHolders = new List<WallTilePlaceHolder>();
+                foreach (NeighborSpace neighbor in NeighborSpaceUtil.DecodeSet(encoding))
+                {
+                    GameObject obj = new GameObject("PlaceHolder");
+                    obj.transform.parent = configDemo;
+                    (int offX, int offY) = NeighborSpaceUtil.ReverseSpaceLookup[neighbor];
+                    obj.transform.localPosition = new Vector2(offX, offY);
+
+                    WallTilePlaceHolder placeHolder = obj.AddComponent<WallTilePlaceHolder>();
+                    placeHolder.TileSet = this.Model;
+                    placeHolders.Add(placeHolder);
+                }
+
+                foreach (WallTilePlaceHolder placeHolder in placeHolders)
+                {
+                    placeHolder.UpdateWallTile();
+                }
+
+            }
+        }
     }
 
 }
@@ -64,6 +98,11 @@ public class GridTileSetManagerEditor : Editor
         if (GUILayout.Button("Build All Walls"))
         {
             manager.BuildAllWalls();
+        }
+
+        if (GUILayout.Button("Build Config Demo"))
+        {
+            manager.BuildConfigDemo();
         }
 
         if (EditorGUI.EndChangeCheck())

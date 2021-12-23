@@ -28,6 +28,7 @@ public class NeighborSpaceUtil
     };
 
     public static readonly Dictionary<(int, int), NeighborSpace> SpaceLookup;
+    public static readonly Dictionary<NeighborSpace, (int, int)> ReverseSpaceLookup;
 
     static NeighborSpaceUtil()
     {
@@ -40,6 +41,14 @@ public class NeighborSpaceUtil
         SpaceLookup[(-1, -1)] = NeighborSpace.BottomLeft;
         SpaceLookup[(0, -1)] = NeighborSpace.Bottom;
         SpaceLookup[(1, -1)] = NeighborSpace.BottomRight;
+
+        ReverseSpaceLookup = new Dictionary<NeighborSpace, (int, int)>();
+        foreach ((int, int) key in SpaceLookup.Keys)
+        {
+            NeighborSpace space = SpaceLookup[key];
+            ReverseSpaceLookup[space] = key;
+
+        }
     }
 
     public static int DiscoverEncodedCriteria(Transform target)
