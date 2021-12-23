@@ -62,6 +62,8 @@ public class GridTileSetManager : MonoBehaviour
     }
     private List<GridTile> DiscoverTiles(List<GridTile> acc, Transform toScan)
     {
+        // Skip SpriteLoader
+        if (toScan.GetComponent<SpriteLoader>() != null) return acc;
         for (int ix = 0; ix < toScan.childCount; ix++)
             DiscoverTiles(acc, toScan.GetChild(ix));
         GridTile tile = toScan.GetComponent<GridTile>();
@@ -75,6 +77,8 @@ public class GridTileSetManager : MonoBehaviour
 
     private void ToggleTiles(Transform toScan, System.Func<Transform, Transform> action)
     {
+        // Skip SpriteLoader
+        if (toScan.GetComponent<SpriteLoader>() != null) return;
         if (toScan.childCount > 0)
         {
             for (int ix = 0; ix < toScan.childCount; ix++)
@@ -85,22 +89,6 @@ public class GridTileSetManager : MonoBehaviour
             action(toScan);
         }
     }
-
-    // private void ToggleNonGridTiles(Transform toScan) => ToggleTiles(toScan, (toScan => toScan.GetComponent<GridTile>() == null && this.ShowNonGridTiles));
-
-
-    // private void ToggleNonGridTiles(Transform toScan)
-    // {
-    //     if (toScan.childCount > 0)
-    //     {
-    //         for (int ix = 0; ix < toScan.childCount; ix++)
-    //             ToggleNonGridTiles(toScan.GetChild(ix));
-    //     }
-    //     else if (toScan.GetComponent<GridTile>() == null)
-    //     {
-    //         toScan.gameObject.SetActive(this.ShowNonGridTiles);
-    //     }
-    // }
 
     public void ToggleFloorTiles()
     {
@@ -131,6 +119,9 @@ public class GridTileSetManager : MonoBehaviour
 
     private void DiscoverWidthAndHeight(Transform toScan, ref Vector2 Min, ref Vector2 Max)
     {
+        // Skip SpriteLoader
+        if (toScan.GetComponent<SpriteLoader>() != null) return;
+
         Min.x = Mathf.Min(toScan.position.x, Min.x);
         Min.y = Mathf.Min(toScan.position.y, Min.y);
         Max.x = Mathf.Max(toScan.position.x, Max.x);
@@ -195,6 +186,9 @@ public class GridTileSetManager : MonoBehaviour
 
     public List<Transform> DiscoverMirrors(Transform toScan, Dictionary<Sprite, GridTile> spriteLookup, List<Transform> transforms)
     {
+        // Skip SpriteLoader
+        if (toScan.GetComponent<SpriteLoader>() != null) return transforms;
+
         for (int ix = 0; ix < toScan.childCount; ix++)
             DiscoverMirrors(toScan.GetChild(ix), spriteLookup, transforms);
 
@@ -225,6 +219,8 @@ public class GridTileSetManager : MonoBehaviour
 
     private void UpdatePlaceHolderSprites(Transform toScan)
     {
+        // Skip SpriteLoader
+        if (toScan.GetComponent<SpriteLoader>() != null) return;
         for (int ix = 0; ix < toScan.childCount; ix++)
             UpdatePlaceHolderSprites(toScan.GetChild(ix));
 
