@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class GridTileSet : MonoBehaviour
 {
@@ -52,6 +53,20 @@ public class GridTileSet : MonoBehaviour
             return options[ix];
         }
         throw new System.Exception($"No such GridTile with encoding {encoding} in {this.gameObject.name}.");
+    }
+
+    public bool TryGetGridTile(int encoding, out GridTile result, System.Random RNG = null)
+    {
+        if (this.TileLookup.TryGetValue(encoding, out List<GridTile> options))
+        {
+            int ix = RNG == null ? Random.Range(0, options.Count) : RNG.Next(0, options.Count);
+            result = options[ix];
+            return true;
+        }
+        List<GridTile> tiles = this.TileLookup[0].Where(t => !t.IsFloor).ToList();
+        // Get the first wall with no neighbors
+        result = tiles[0];
+        return false;
     }
 
     public void BuildDictionary()
