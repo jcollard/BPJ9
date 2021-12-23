@@ -16,7 +16,8 @@ public class WallTileManager : MonoBehaviour
     public GridTileSet TileSet;
     public SpriteLoader SpriteLoader => TileSet == null ? null : TileSet.Sprites;
     public static int SelectedSpriteSet;
-    public static Vector2 RowCol;
+    public static int Row;
+    public static int Col;
 
     public void SimplifyCriteria()
     {
@@ -58,17 +59,51 @@ public class WallTileManagerEditor : Editor
             EditorGUILayout.LabelField("Template Adder");
             string[] options = manager.SpriteLoader.Sets.Select(set => set.Name).ToArray();
             WallTileManager.SelectedSpriteSet = EditorGUILayout.Popup(WallTileManager.SelectedSpriteSet, options);
-            WallTileManager.RowCol = EditorGUILayout.Vector2Field("(row, col): ", WallTileManager.RowCol);
             SpriteSet set = manager.SpriteLoader.Sets[WallTileManager.SelectedSpriteSet];
-            WallTileManager.RowCol.x = Mathf.Clamp(WallTileManager.RowCol.x, 0, set.Width);
-            WallTileManager.RowCol.y = Mathf.Clamp(WallTileManager.RowCol.y, 0, set.Height);
+
+            EditorGUILayout.BeginHorizontal();
+            WallTileManager.Row = Mathf.Clamp(WallTileManager.Row, 0, set.Width);
+            WallTileManager.Col = Mathf.Clamp(WallTileManager.Col, 0, set.Height);
+            EditorGUILayout.LabelField($"Row: {WallTileManager.Row}");
+            EditorGUILayout.LabelField($"Col {WallTileManager.Col}:");
+            EditorGUILayout.EndHorizontal();
+
+
+            for (int r = 0; r < set.Height; r++)
+            {
+                EditorGUILayout.BeginHorizontal();
+                for (int c = 0; c < set.Width; c++)
+                {
+                    if (set.sprites[r * set.Width + c] == null)
+                    {
+                        GUILayout.Button("   ");
+                    }
+                    else
+                    {
+                        if (GUILayout.Button($"{r},{c}")) {
+                            WallTileManager.Row = r;
+                            WallTileManager.Col = c;
+                            int ix = (WallTileManager.Row * set.Width) + WallTileManager.Col;
+                            manager.GetComponent<SpriteRenderer>().sprite = manager.SpriteLoader.GetSpriteTemplate(set, ix).GetSprite();
+                        }
+                    }
+                }
+                EditorGUILayout.EndHorizontal();
+            }
 
             if (GUILayout.Button("Add Template"))
             {
-                int row = (int)WallTileManager.RowCol.x;
-                int col = (int)WallTileManager.RowCol.y;
-                int ix = (int)((row * set.Width) + col);
+                int ix = (WallTileManager.Row * set.Width) + WallTileManager.Col;
                 manager.Model.Templates.Add(manager.SpriteLoader.GetSpriteTemplate(set, ix));
+            }
+
+            if (GUILayout.Button("Replace Template and Push"))
+            {
+                int ix = (WallTileManager.Row * set.Width) + WallTileManager.Col;
+                manager.Model.Templates = new List<SpriteTemplate>();
+                manager.Model.Templates.Add(manager.SpriteLoader.GetSpriteTemplate(set, ix));
+                manager.GetComponent<SpriteRenderer>().sprite = manager.Model.Templates[0].GetSprite();
+                manager.PushChanges();
             }
 
             if (GUILayout.Button("Center on TemplateSet"))
