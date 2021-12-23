@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using CaptainCoder.Unity;
@@ -53,6 +54,33 @@ public class SpriteLoader : MonoBehaviour
         }
     }
 
+    public Transform GetSetContainer(SpriteSet set)
+    {
+        for(int ix = 0; ix < this.transform.childCount; ix++)
+        {
+            Transform child = this.transform.GetChild(ix);
+            if (child.name == set.Name)
+            {
+                return child;
+            }
+        }
+        throw UnityEngineUtils.Instance.FailFast($"Set not found: {set}", this.gameObject);
+
+    }
+
+    public Sprite GetSprite(string SetKey, int ix)
+    {
+        foreach (SpriteSet set in Sets)
+        {
+            if (set.Name == SetKey) return set.sprites[ix];
+        }
+        throw UnityEngineUtils.Instance.FailFast($"SetKey not found: {SetKey}", this.gameObject);
+    }
+
+    public SpriteTemplate GetSpriteTemplate(SpriteSet set, int ix)
+    {
+        return new SpriteTemplate(this, set.Name, ix);
+    }
 }
 
 [System.Serializable]
@@ -62,6 +90,28 @@ public class SpriteSet
     public int Width;
     public int Height;
     public Sprite[] sprites;
-    public bool NoBoundingBox;
     public bool IsValid => sprites.Length == Width * Height;
+}
+
+
+[System.Serializable]
+public class SpriteTemplate
+{
+    [ReadOnly]
+    public SpriteLoader Loader;
+
+    public string SetKey;
+    public int ix;
+
+    public SpriteTemplate(SpriteLoader Loader, string SetKey, int ix)
+    {
+        this.Loader = Loader;
+        this.SetKey = SetKey;
+        this.ix = ix;
+    }
+
+    public Sprite GetSprite()
+    {
+        return Loader.GetSprite(SetKey, ix);
+    }
 }

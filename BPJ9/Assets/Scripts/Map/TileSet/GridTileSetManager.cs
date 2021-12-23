@@ -8,6 +8,7 @@ using UnityEditor.SceneManagement;
 using UnityEditor.Experimental.SceneManagement;
 using CaptainCoder.Unity;
 using System.Linq;
+using System;
 
 [RequireComponent(typeof(GridTileSet))]
 public class GridTileSetManager : MonoBehaviour
@@ -26,17 +27,56 @@ public class GridTileSetManager : MonoBehaviour
                 int encoding = (row * 16) + col;
                 if (!this.Model.TileLookup.ContainsKey(encoding))
                 {
-                    WallTile tile = UnityEngine.Object.Instantiate<WallTile>(this.Model.DefaultWall);
-                    tile.name = $"Wall ({encoding})";
-                    HashSet<NeighborSpace> neighbors = NeighborSpaceUtil.DecodeSet(encoding);
-                    tile.CriteriaSet = neighbors;
-                    tile.transform.parent = WallTilesContainer;
-                    tile.transform.localPosition = new Vector2(col, row);
-                    this.Model.TileLookup[encoding] = tile;
+                    this.Model.TileLookup[encoding] = UnityEngine.Object.Instantiate<WallTile>(this.Model.DefaultWall);
+                }
+                WallTile tile = this.Model.TileLookup[encoding];
+                tile.name = $"Wall ({encoding})";
+                HashSet<NeighborSpace> neighbors = NeighborSpaceUtil.DecodeSet(encoding);
+                tile.CriteriaSet = neighbors;
+                this.Model.TileLookup[encoding] = tile;
+                tile.transform.parent = WallTilesContainer;
+                tile.transform.localPosition = new Vector2(col, row);
+
+                WallTileManager manager = tile.GetComponent<WallTileManager>();
+                if (manager != null)
+                {
+                    manager.TileSet = this.Model;
+                }
+                if (tile.Templates.Count > 0)
+                {
+                    tile.GetComponent<SpriteRenderer>().sprite = tile.Templates[0].GetSprite();
                 }
             }
         }
+        for (int ix = 0; ix < WallTilesContainer.childCount; ix++)
+        {
+            Transform child = WallTilesContainer.GetChild(ix);
+            WallTile asWallTile = child.GetComponent<WallTile>();
+            // Destroy non WallTiles
+            if (asWallTile == null) UnityEngine.Object.DestroyImmediate(child.gameObject);
+
+            // Remove WallTiles that are not in the dictionary
+            if (this.Model.TileLookup[asWallTile.Criteria].gameObject != asWallTile.gameObject)
+            {
+                Debug.Log("Destroying Child");
+                UnityEngine.Object.DestroyImmediate(asWallTile.gameObject);
+            }
+        }
+        Debug.Log($"Children Count: {WallTilesContainer.childCount}");
         this.Model.Tiles = this.Model.TileLookup.Values.ToList();
+    }
+
+    public void UpdateWallTile(WallTile model)
+    {
+        if (model == null) throw new Exception("Cannot update with a null WallTile.");
+
+        // Create and Push the new version
+        WallTile toPush = UnityEngine.Object.Instantiate<WallTile>(model);
+        this.Model.TileLookup[model.Criteria] = toPush;
+
+        //Rebuild walls and config demo
+        BuildAllWalls();
+        BuildConfigDemo();
     }
 
     public void BuildConfigDemo()
@@ -50,11 +90,12 @@ public class GridTileSetManager : MonoBehaviour
             {
                 int encoding = (row * 16) + col;
                 Transform configDemo = new GameObject($"Config ({encoding})").transform;
-                configDemo.localPosition = new Vector2(col * Width, row * Height);
                 configDemo.parent = DemoConfigContainer;
 
+                configDemo.localPosition = new Vector2(col * Width, row * Height);
+
                 WallTile tile = UnityEngine.Object.Instantiate<WallTile>(this.Model.TileLookup[encoding]);
-                tile.name = $"WallTile ({encoding})";                
+                tile.name = $"WallTile ({encoding})";
                 tile.transform.parent = configDemo;
                 tile.transform.localPosition = new Vector2();
 
@@ -103,6 +144,11 @@ public class GridTileSetManagerEditor : Editor
         if (GUILayout.Button("Build Config Demo"))
         {
             manager.BuildConfigDemo();
+        }
+
+        if (GUILayout.Button("BUILD FROM LIST! DO NOT PRESS!"))
+        {
+            manager.Model.BuildDictionary();
         }
 
         if (EditorGUI.EndChangeCheck())

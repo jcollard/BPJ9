@@ -11,7 +11,7 @@ namespace CaptainCoder.Unity
     {
         public static readonly UnityEditorUtils Instance = new UnityEditorUtils();
 
-        private UnityEditorUtils() {}
+        private UnityEditorUtils() { }
 
         private static readonly Dictionary<Color, GUIStyle> ColorLabels = new Dictionary<Color, GUIStyle>();
         private static GUIStyle _MonoSpacedTextArea;
@@ -57,6 +57,20 @@ namespace CaptainCoder.Unity
                 return _MonoSpacedTextArea;
             }
         }
+
+        public void CenterSceneCameraOn(GameObject target, float zoom = -1)
+        {
+            // EditorGUIUtility.PingObject(target);
+            var currentlActive = Selection.activeGameObject;
+            Selection.activeGameObject = target;
+            SceneView.lastActiveSceneView.FrameSelected();
+            if (zoom > 0)
+            {
+                SceneView.lastActiveSceneView.size = zoom;
+            }
+            Selection.activeGameObject = currentlActive;
+        }
     }
+
 }
 #endif

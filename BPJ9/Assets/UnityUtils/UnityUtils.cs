@@ -29,10 +29,10 @@ namespace CaptainCoder.Unity
             }
         }
 
-        public void FailFast(string message, UnityEngine.Object obj)
+        public Exception FailFast(string message, UnityEngine.Object obj)
         {
             Debug.Log(message, obj);
-            throw new Exception(message);
+            return new Exception(message);
         }
     }
 }

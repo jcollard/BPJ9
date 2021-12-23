@@ -13,7 +13,7 @@ public class WallTile : MonoBehaviour
     /// <summary>
     /// The variations of this tile that can be used.
     /// </summary>
-    public Sprite[] Templates;
+    public List<SpriteTemplate> Templates;
 
     [SerializeField]
     [ReadOnly]
@@ -34,3 +34,4 @@ public class WallTile : MonoBehaviour
         set => this._Criteria = NeighborSpaceUtil.EncodeSet(value);
     }
 }
+
