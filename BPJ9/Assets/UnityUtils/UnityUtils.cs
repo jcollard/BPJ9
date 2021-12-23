@@ -29,5 +29,10 @@ namespace CaptainCoder.Unity
             }
         }
 
+        public void FailFast(string message, UnityEngine.Object obj)
+        {
+            Debug.Log(message, obj);
+            throw new Exception(message);
+        }
     }
 }

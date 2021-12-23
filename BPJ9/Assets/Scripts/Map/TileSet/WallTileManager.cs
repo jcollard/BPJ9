@@ -7,14 +7,12 @@ using UnityEditor.SceneManagement;
 using UnityEditor.Experimental.SceneManagement;
 using System.Linq;
 
-[RequireComponent(typeof(GridTile))]
-public class GridTileManager : MonoBehaviour
+[RequireComponent(typeof(WallTile))]
+public class WallTileManager : MonoBehaviour
 {
-    public GridTile Model => this.GetComponent<GridTile>();
+    public WallTile Model => this.GetComponent<WallTile>();
     public NeighborSpace[] Criteria;
-
-    public bool IsFloorOverride;
-    public bool IsCenterOverride;
+    public GridTileSet TileSet;
 
     public void SimplifyCriteria()
     {
@@ -22,41 +20,16 @@ public class GridTileManager : MonoBehaviour
         HashSet<NeighborSpace> CriteriaSet = new HashSet<NeighborSpace>(this.Criteria);
         Model.CriteriaSet = CriteriaSet;
     }
-
-    public void DiscoverCriteria()
-    {
-        if (this.IsFloorOverride && this.IsCenterOverride) throw new System.Exception("Cannot be both floor and center wall.");
-
-        this.Model.IsFloor = false;
-
-        if (this.IsFloorOverride)
-        {
-            this.Criteria = new NeighborSpace[] { };
-            this.Model.IsFloor = true;
-        }
-        else if (this.IsCenterOverride)
-        {
-            this.Criteria = NeighborSpaceUtil.Spaces;
-        }
-        else
-        {
-            this.Criteria = NeighborSpaceUtil.DiscoverCriteria(this.Model.transform).ToArray();
-        }
-
-        this.SimplifyCriteria();
-    }
 }
 
-[CustomEditor(typeof(GridTileManager))]
-public class GridTileManagerEditor : Editor
+[CustomEditor(typeof(WallTileManager))]
+public class WallTileManagerEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         EditorGUI.BeginChangeCheck();
-        GridTileManager manager = (GridTileManager)target;
+        WallTileManager manager = (WallTileManager)target;
         EditorGUILayout.ObjectField("Tile", manager.Model, typeof(TileSet), false);
-        manager.IsFloorOverride = EditorGUILayout.Toggle("Is Floor Override", manager.IsFloorOverride);
-        manager.IsCenterOverride = EditorGUILayout.Toggle("Is Center Override", manager.IsCenterOverride);
 
         serializedObject.Update();
         NeighborSpace[] orig = manager.Criteria == null ? new NeighborSpace[]{} : (NeighborSpace[])manager.Criteria.Clone();
@@ -66,11 +39,6 @@ public class GridTileManagerEditor : Editor
         if (!Enumerable.SequenceEqual(orig, manager.Criteria))
         {
             manager.SimplifyCriteria();
-        }
-
-        if (GUILayout.Button("Discover Criteria"))
-        {
-            manager.DiscoverCriteria();
         }
 
         if (EditorGUI.EndChangeCheck())

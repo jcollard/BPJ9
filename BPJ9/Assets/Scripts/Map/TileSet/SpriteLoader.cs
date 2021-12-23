@@ -62,5 +62,6 @@ public class SpriteSet
     public int Width;
     public int Height;
     public Sprite[] sprites;
+    public bool NoBoundingBox;
     public bool IsValid => sprites.Length == Width * Height;
 }

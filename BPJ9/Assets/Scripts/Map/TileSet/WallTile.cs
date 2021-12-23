@@ -7,29 +7,13 @@ using UnityEngine;
 /// neighbors. It specifies the variations that can be used as well as the 
 /// criteria necessary to place the element.
 /// </summary>
-public class GridTile : MonoBehaviour
+[RequireComponent(typeof(SpriteRenderer))]
+public class WallTile : MonoBehaviour
 {
     /// <summary>
     /// The variations of this tile that can be used.
     /// </summary>
-    public GameObject[] Templates;
-
-    /// <summary>
-    /// True if this tile should be a floor tile
-    /// </summary>
-    public bool IsFloor;
-
-    /// <summary>
-    /// Specify another GridTile to use as a Mirror when rendering.
-    /// This makes this specific configuration use one of the templates
-    /// from the Mirror.
-    /// </summary>
-    public GridTile MirrorTile;
-
-    /// <summary>
-    /// Returns true if this tile is mirroring another tile
-    /// </summary>
-    public bool IsMirror => MirrorTile != null;
+    public Sprite[] Templates;
 
     [SerializeField]
     [ReadOnly]
