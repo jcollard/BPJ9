@@ -57,6 +57,8 @@ public class BaseMap : MonoBehaviour
         foreach ((int row, int col) pos in Grid.Keys)
         {
             char ch = Grid[pos];
+            // TODO: Add black tile??
+            if (ch == ' ') continue;
             if (this.IsWall.Contains(ch))
             {
                 GameObject placeHolder = new GameObject($"Wall[{ch}] @ ({pos.row}, {pos.col})");
@@ -70,11 +72,16 @@ public class BaseMap : MonoBehaviour
             {
                 List<FloorTile> options = this.DefinitionLookup[ch].Floors;
                 int ix = RNG.Next(0, options.Count);
-                Spawner.SpawnObject(options[ix].gameObject)
+                FloorTile toCopy = options[ix];
+                ix = RNG.Next(0, toCopy.Templates.Count);
+                Sprite s = toCopy.Templates[ix].GetSprite();
+                GameObject newFloor = 
+                Spawner.SpawnObject(toCopy.gameObject)
                        .Name($"Floor[{ch}] @ ({pos.row}, {pos.col})")
                        .Parent(FloorContainer)
                        .LocalPosition(new Vector2(pos.col, pos.row))
                        .Spawn();
+                newFloor.GetComponent<SpriteRenderer>().sprite = s;
             }
         }
 
