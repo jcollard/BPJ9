@@ -6,7 +6,8 @@ using System.Linq;
 
 public class BaseMap : MonoBehaviour
 {
-    public Transform MapContainer;
+    public Transform FloorContainer;
+    public Transform WallContainer;
     public MapTileDefinition[] Definitions;
     public bool IsDirty = true;
     public int Seed = 42;
@@ -23,9 +24,18 @@ public class BaseMap : MonoBehaviour
         }
     }
 
-    private Dictionary<char, MapTileDefinition> _DefinitionLookup;
-    private Dictionary<char, MapTileDefinition> DefinitionLookup => BuildDefinitions();
-    private HashSet<char> IsFloor;
+    private Dictionary<char, GridTileSet> _DefinitionLookup;
+    private Dictionary<char, GridTileSet> DefinitionLookup 
+    {
+        get 
+        {
+            if(_DefinitionLookup == null)
+            {
+                _DefinitionLookup = BuildDefinitions();
+            }
+            return _DefinitionLookup;
+        }
+    }
     private HashSet<char> IsWall;
 
     public void Start()
@@ -37,83 +47,63 @@ public class BaseMap : MonoBehaviour
 
     public void BuildMap()
     {
-        BuildDefinitions();
         System.Random RNG = new System.Random(Seed);
-        UnityEngineUtils.Instance.DestroyChildren(MapContainer);
+        UnityEngineUtils.Instance.DestroyChildren(WallContainer);
+        UnityEngineUtils.Instance.DestroyChildren(FloorContainer);
+        BuildDefinitions();
         Dictionary<(int, int), char> Grid = BuildGrid(out int rows, out int cols);
-        Dictionary<(int, int), List<char>> positions = new Dictionary<(int, int), List<char>>();
-
-        foreach ((int r, int c) pos in Grid.Keys)
+        
+        List<WallTilePlaceHolder> walls = new List<WallTilePlaceHolder>();
+        foreach ((int row, int col) pos in Grid.Keys)
         {
-            (int, int) TL = (pos.r, pos.c - 1);
-            (int, int) TR = (pos.r, pos.c);
-            (int, int) BL = (pos.r - 1, pos.c - 1);
-            (int, int) BR = (pos.r - 1, pos.c);
-            (int, int)[] hack = { TL, TR, BL, BR };
-            foreach (var ix in hack)
+            char ch = Grid[pos];
+            if (this.IsWall.Contains(ch))
             {
-                if (!positions.ContainsKey(ix))
-                {
-                    positions[ix] = new List<char>();
-                }
+                GameObject placeHolder = new GameObject($"Wall[{ch}] @ ({pos.row}, {pos.col})");
+                placeHolder.transform.parent = WallContainer;
+                placeHolder.transform.localPosition = new Vector2(pos.col, pos.row);
+                WallTilePlaceHolder asHolder = placeHolder.AddComponent<WallTilePlaceHolder>();
+                asHolder.TileSet = this.DefinitionLookup[ch];
+                walls.Add(asHolder);
             }
-            positions[TL].Add(Grid[pos]);
-            positions[TR].Add(Grid[pos]);
-            positions[BL].Add(Grid[pos]);
-            positions[BR].Add(Grid[pos]);
+            else
+            {
+                List<FloorTile> options = this.DefinitionLookup[ch].Floors;
+                int ix = RNG.Next(0, options.Count);
+                Spawner.SpawnObject(options[ix].gameObject)
+                       .Name($"Floor[{ch}] @ ({pos.row}, {pos.col})")
+                       .Parent(FloorContainer)
+                       .LocalPosition(new Vector2(pos.col, pos.row))
+                       .Spawn();
+            }
         }
 
-
-        foreach ((int r, int c) pos in positions.Keys)
+        foreach (WallTilePlaceHolder wall in walls)
         {
-            // TODO: need to do something smart to select the correct value because
-            // sometimes you'll have two competing chars. Some kinds of "transition"
-            // lookup.
-            List<char> nearbyChars = positions[pos];
-            char ch = nearbyChars[0];
-            char[] wallChars = nearbyChars.Where(ch => IsWall.Contains(ch)).ToArray();
-            if (wallChars.Length > 0)
-            {
-                ch = wallChars[0];
-            }
-            int r = pos.r;
-            int c = pos.c;
-            int type = GetCorners(r, c, Grid);
-            MapTileDefinition def = DefinitionLookup[ch];
-            (TilePosition position, bool useWall) = def.Strategy.GetTilePosition(type);
-            TileSet template = useWall ? def.WallTemplate : def.FloorTemplate;
-            GameObject toClone = template.GetTileTemplate(position, RNG);
-            Spawner.SpawnObject(toClone)
-                   .Parent(MapContainer)
-                   .LocalPosition(new Vector2(c, r))
-                   .Name($"Map: ({r}, {c})")
-                   .Spawn();
+            wall.ReplaceWithWallTile();
         }
 
     }
 
-    private int GetCorners(int row, int col, Dictionary<(int, int), char> Grid)
+    public Dictionary<char, GridTileSet> BuildDefinitions()
     {
-        int type = 0;
-        // Top Left
-        var ix = (row + 1, col);
-        type += CheckWall(ix, Grid) ? 0b0001 : 0b0000;
-        // Top Right
-        ix = (row + 1, col + 1);
-        type += CheckWall(ix, Grid) ? 0b0010 : 0b0000;
-        // Bottom Left
-        ix = (row, col);
-        type += CheckWall(ix, Grid) ? 0b0100 : 0b0000;
-        // Bottom Right
-        ix = (row, col + 1);
-        type += CheckWall(ix, Grid) ? 0b1000 : 0b0000;
-        return type;
-    }
+        this._DefinitionLookup = new Dictionary<char, GridTileSet>();
+        this.IsWall = new HashSet<char>();
+        foreach(MapTileDefinition def in Definitions)
+        {
+            this.IsWall.Add(def.WallCharacter);
+            if(this._DefinitionLookup.ContainsKey(def.FloorCharacter)) 
+                UnityEngineUtils.Instance.FailFast($"Duplicate tile character definition found: {def.FloorCharacter}.", this.gameObject);
+            
+            this._DefinitionLookup[def.FloorCharacter] = def.TileSet;
 
-    private bool CheckWall((int, int) ix, Dictionary<(int, int), char> Grid)
-    {
-        if (!Grid.ContainsKey(ix)) return true;
-        return this.IsWall.Contains(Grid[ix]);
+            if(this._DefinitionLookup.ContainsKey(def.WallCharacter)) 
+                UnityEngineUtils.Instance.FailFast($"Duplicate tile character definition found: {def.WallCharacter}.", this.gameObject);
+            
+            this._DefinitionLookup[def.WallCharacter] = def.TileSet;
+            
+        }
+        return this._DefinitionLookup;
     }
 
     private Dictionary<(int, int), char> BuildGrid(out int rows, out int cols)
@@ -139,30 +129,6 @@ public class BaseMap : MonoBehaviour
         }
         return Grid;
     }
-
-    private Dictionary<char, MapTileDefinition> BuildDefinitions()
-    {
-        if (_DefinitionLookup == null || IsDirty)
-        {
-            _DefinitionLookup = new Dictionary<char, MapTileDefinition>();
-            IsFloor = new HashSet<char>();
-            IsWall = new HashSet<char>();
-            foreach (MapTileDefinition def in Definitions)
-            {
-                if (_DefinitionLookup.ContainsKey(def.FloorCharacter))
-                    throw new System.Exception($"Duplicate definition found for character {def.FloorCharacter}.");
-                if (_DefinitionLookup.ContainsKey(def.WallCharacter))
-                    throw new System.Exception($"Duplicate definition found for character {def.WallCharacter}.");
-                _DefinitionLookup[def.FloorCharacter] = def;
-                _DefinitionLookup[def.WallCharacter] = def;
-                IsFloor.Add(def.FloorCharacter);
-                IsWall.Add(def.WallCharacter);
-            }
-            IsDirty = false;
-        }
-        return _DefinitionLookup;
-    }
-
 }
 
 [System.Serializable]
@@ -171,9 +137,5 @@ public class MapTileDefinition
     public char FloorCharacter;
     public char WallCharacter;
 
-    public TileSet FloorTemplate;
-    public TileSet WallTemplate;
-
-    public TileSelector Strategy;
-    // TODO Transition tiles?
+    public GridTileSet TileSet;
 }

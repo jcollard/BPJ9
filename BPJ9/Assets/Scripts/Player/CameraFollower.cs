@@ -65,15 +65,28 @@ public class CameraFollower : MonoBehaviour
     {
         Vector2 Min = new Vector2(float.PositiveInfinity, float.PositiveInfinity);
         Vector2 Max = new Vector2(float.NegativeInfinity, float.NegativeInfinity);
+        DiscoverBounds(MapContainer, ref Min, ref Max);
+        return (Min, Max);
+    }
+
+    private void DiscoverBounds(Transform MapContainer, ref Vector2 Min, ref Vector2 Max)
+    {
         for (int ix = 0; ix < MapContainer.childCount; ix++)
         {
-            Vector2 childPosition = MapContainer.GetChild(ix).position;
-            Min.x = Mathf.Min(Min.x, childPosition.x);
-            Min.y = Mathf.Min(Min.y, childPosition.y);
-            Max.x = Mathf.Max(Max.x, childPosition.x);
-            Max.y = Mathf.Max(Max.y, childPosition.y);
+            Transform child = MapContainer.GetChild(ix);
+            if (child.childCount > 0)
+            {
+                DiscoverBounds(child, ref Min, ref Max);
+            }
+            else
+            {
+                Vector2 childPosition = child.position;
+                Min.x = Mathf.Min(Min.x, childPosition.x);
+                Min.y = Mathf.Min(Min.y, childPosition.y);
+                Max.x = Mathf.Max(Max.x, childPosition.x);
+                Max.y = Mathf.Max(Max.y, childPosition.y);
+            }
         }
-        return (Min, Max);
     }
 
 
