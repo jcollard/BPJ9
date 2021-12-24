@@ -14,7 +14,7 @@ public class WallTilePlaceHolder : MonoBehaviour
         tile.transform.localPosition = new Vector2();
     }
 
-    public void ReplaceWithWallTile()
+    public GameObject ReplaceWithWallTile()
     {
         int criteria = NeighborSpaceUtil.DiscoverEncodedCriteria(this.transform);
         WallTile tile = UnityEngine.Object.Instantiate<WallTile>(TileSet.TileLookup[criteria]);
@@ -27,6 +27,7 @@ public class WallTilePlaceHolder : MonoBehaviour
         f = (x) => {UnityEngine.Object.DestroyImmediate(this.gameObject); return true;};
         #endif
         f.Invoke(this.gameObject);
+        return tile.gameObject;
     }
 
 }

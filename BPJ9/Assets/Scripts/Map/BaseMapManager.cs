@@ -8,6 +8,8 @@ using UnityEditor.SceneManagement;
 [RequireComponent(typeof(BaseMap))]
 public class BaseMapManager : MonoBehaviour
 {
+    public (int min, int max) Rows;
+    public (int min, int max) Cols;
     public BaseMap Map => this.GetComponent<BaseMap>();
     public TextAsset MapFile;
 }
@@ -29,9 +31,47 @@ public class BaseMapManagerEditor : Editor
             manager.Map.MapData = manager.MapFile.text;
         }
 
-        if(GUILayout.Button("Build Map"))
+        EditorGUILayout.Separator();
+        EditorGUILayout.BeginHorizontal();
+        manager.Rows.min = EditorGUILayout.IntField("Min Row", manager.Rows.min);
+        manager.Cols.min = EditorGUILayout.IntField("Min Col", manager.Cols.min);
+        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.BeginHorizontal();
+        manager.Rows.max = EditorGUILayout.IntField("Max Row", manager.Rows.max);
+        manager.Cols.max = EditorGUILayout.IntField("Max Col", manager.Cols.max);
+        EditorGUILayout.EndHorizontal();
+        
+        
+        if(GUILayout.Button("Build Chunk"))
         {
-            manager.Map.BuildMap();
+            manager.Map.DestroyMap();
+            manager.Map.Init();
+            GridBounds bounds = new GridBounds(manager.Rows.max, manager.Cols.max, manager.Rows.min, manager.Cols.min);
+            manager.Map.Chunker.BuildChunk(bounds);
+        }
+
+        EditorGUILayout.Separator();
+
+        if(GUILayout.Button("Build Current Chunk"))
+        {
+            manager.Map.DestroyMap();
+            manager.Map.Init();
+            GridBounds bounds = new GridBounds(manager.Rows.max, manager.Cols.max, manager.Rows.min, manager.Cols.min);
+            manager.Map.Chunker.BuildChunk();
+        }
+
+        EditorGUILayout.Separator();
+
+        if(GUILayout.Button("Build Entire Map"))
+        {
+            manager.Map.DestroyMap();
+            manager.Map.Init();
+            manager.Map.Chunker.BuildChunk(manager.Map.Chunker.MapBounds);
+        }
+
+        if (GUILayout.Button("Destroy Map"))
+        {
+            manager.Map.DestroyMap();
         }
         
         if (EditorGUI.EndChangeCheck())
