@@ -1,81 +1,75 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class MapChunker
 {
-    private Transform _Target;
-    public Transform Target
+    public CameraFollower Camera;
+    private int Width, Height;
+    public GridBounds MapBounds;
+    private GridBounds _CurrentBounds;
+    private GridBounds CurrentBounds
     {
-        get => _Target;
+        get => _CurrentBounds;
         set
         {
-            _Target = value;
-            (int, int) center = ((int)_Target.position.y, (int)_Target.position.x);
-            CurrentBounds = new GridBounds(center, Width, Height);
+            _CurrentBounds = value;
+            RebuildBounds = new GridBounds(_CurrentBounds.Center, 0, 0);
         }
     }
-    public readonly int Width, Height;
-    public GridBounds MapBounds;
+    private GridBounds RebuildBounds;
     public readonly Transform WallContainer;
     public readonly Transform FloorContainer;
 
-    private GridBounds _CurrentBounds;
-    public GridBounds CurrentBounds
-    {
-        get => _CurrentBounds;
-        private set
-        {
-            _CurrentBounds = value;
-            RebuildBounds = new GridBounds(_CurrentBounds.Center, Width / 2, Height / 2);
-        }
-    }
-    public GridBounds RebuildBounds;
+    
     private Dictionary<(int, int), GameObject> Loaded;
     private Dictionary<(int, int), char> MapData;
     private readonly Dictionary<char, GridTileSet> TileSets;
     private readonly HashSet<char> IsWall;
     private bool FirstLoad = true;
 
-    internal MapChunker(Transform target,
+    internal MapChunker(CameraFollower camera,
                       Transform wallContainer,
                       Transform floorContainer,
                       Dictionary<char, GridTileSet> tileSets,
                       HashSet<char> isWall,
-                      string mapData,
-                      int width,
-                      int height)
+                      string mapData)
     {
-        this.Target = target;
+        this.Camera = camera;
+        this.Camera.Chunker = this;
+        this.SetSize(this.Camera.OrthographicBounds());
         this.WallContainer = wallContainer;
         this.FloorContainer = floorContainer;
         this.TileSets = tileSets;
         this.IsWall = isWall;
-        this.Width = width;
-        this.Height = height;
         this.LoadMap(mapData);
     }
 
-    public void CheckAndBuildChunk()
+    public void SetSize(Bounds bounds)
     {
-        (int, int) pos = ((int)Target.position.y, (int)Target.position.x);
+        (this.Width, this.Height) = ((int)(bounds.extents.x) + 2, (int)(bounds.extents.y) + 1);
+    }
+
+    public bool CheckAndBuildChunk()
+    {
+        // (int, int) pos = ((int)Target.position.y, (int)Target.position.x);
+        (int, int) pos = ((int)Camera.transform.position.y, (int)Camera.transform.position.x);
         // If we are within the RebuildBounds we do nothing
-        if (RebuildBounds.Contains(pos)) return;
+        if (RebuildBounds.Contains(pos)) return false;
         // Otherwise, we build a chunk
         BuildChunk();
+        return true;
     }
 
     public void BuildChunk(GridBounds _nextBounds = null)
     {
-        long start = System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond;
-        (int, int) center = ((int)Target.position.y, (int)Target.position.x);
+        TimerUtil chunkTimer = TimerUtil.StartTimer("BuildChunk");
+        (int, int) center = ((int)Camera.transform.position.y, (int)Camera.transform.position.x);
         GridBounds NextBounds = new GridBounds(center, Width, Height);
         if (_nextBounds != null) NextBounds = _nextBounds;
 
         //TODO: Need to have a better RNG solutions
         System.Random RNG = new System.Random();
-        //TODO: This doesn't actually work for walls on the edge of the chunk
-        List<(int, int, WallTilePlaceHolder)> walls = new List<(int, int, WallTilePlaceHolder)>();
-
         IEnumerable<(int,int)> toCheck;
         if (this.FirstLoad)
         {
@@ -84,8 +78,14 @@ public class MapChunker
         }
         else
         {
-            toCheck = CurrentBounds.Difference(NextBounds);
+            TimerUtil ToListTimer = TimerUtil.StartTimer("To List");
+            var asList = CurrentBounds.Difference(NextBounds).ToList();
+            toCheck = asList;
+            Debug.Log($"Diffs: {asList.Count}");
+            Debug.Log(ToListTimer.ReportElapsed());
         }
+
+        
 
         // Loop through elements that do not overlap with new bounds
         foreach ((int row, int col) pos in toCheck)
@@ -102,18 +102,12 @@ public class MapChunker
             // TODO: Add black tile??
             if (ch == ' ') continue;
 
-            if (this.IsWall.Contains(ch)) walls.Add((pos.row, pos.col, this.CreateWall(ch, pos)));
-            else Loaded[pos] = CreateFloor(ch, pos).gameObject;
+            GameObject obj = this.IsWall.Contains(ch) ? this.CreateWall(ch, pos) : this.CreateFloor(ch, pos);
+            Loaded[pos] = obj;
         }
 
-        foreach ((int row, int col, WallTilePlaceHolder wall) w in walls)
-        {
-            GameObject obj = w.wall.ReplaceWithWallTile();
-            Loaded[(w.row, w.col)] = obj;
-        }
         this.CurrentBounds = NextBounds;
-        long end = System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond;
-        Debug.Log($"Chunk built in {end - start} milliseconds.");
+        Debug.Log(chunkTimer.ReportElapsed());
     }
 
     private void Unload((int, int) pos)
@@ -123,17 +117,30 @@ public class MapChunker
         UnityEngine.Object.Destroy(toUnload);
     }
 
-    private WallTilePlaceHolder CreateWall(char ch, (int row, int col) pos)
+    private GameObject CreateWall(char ch, (int row, int col) pos)
     {
-        GameObject placeHolder = new GameObject($"Wall[{ch}] @ ({pos.row}, {pos.col})");
-        placeHolder.transform.parent = WallContainer;
-        placeHolder.transform.localPosition = new Vector2(pos.col, pos.row);
-        WallTilePlaceHolder asHolder = placeHolder.AddComponent<WallTilePlaceHolder>();
-        asHolder.TileSet = this.TileSets[ch];
-        return asHolder;
+        //TODO: Calculate criteria then spawn wall
+        NeighborSpaceUtil.Spaces.Select(n => NeighborSpaceUtil.ReverseSpaceLookup[n]);
+        int criteria = 0;
+        foreach (NeighborSpace n in NeighborSpaceUtil.Spaces)
+        {
+            (int col, int row)  off = NeighborSpaceUtil.ReverseSpaceLookup[n];
+            (int, int) nPos = (pos.row + off.row, pos.col + off.col);
+            // If no neighbor, continue;
+            if (!MapData.TryGetValue(nPos, out char nCh) || !this.IsWall.Contains(nCh)) continue;
+            criteria += NeighborSpaceUtil.ToCriteriaBit(n);
+        }
+        GridTileSet tileSet = TileSets[ch];
+        WallTile toClone = tileSet.TileLookup[criteria];
+        return 
+        Spawner.SpawnObject(toClone.gameObject)
+               .Parent(WallContainer)
+               .LocalPosition(new Vector2(pos.col, pos.row))
+               .Name($"Wall[{ch}] @ ({pos.row}, {pos.col})")
+               .Spawn();
     }
 
-    private FloorTile CreateFloor(char ch, (int row, int col) pos)
+    private GameObject CreateFloor(char ch, (int row, int col) pos)
     {
         List<FloorTile> options = this.TileSets[ch].Floors;
         //TODO: Need Better RNG
@@ -150,7 +157,7 @@ public class MapChunker
                .LocalPosition(new Vector2(pos.col, pos.row))
                .Spawn();
         newFloor.GetComponent<SpriteRenderer>().sprite = s;
-        return newFloor.GetComponent<FloorTile>();
+        return newFloor;
     }
 
     public void LoadMap(string mapData)
@@ -189,23 +196,21 @@ public class MapChunker
 public class MapChunkerBuilder
 {
 
-    public static MapChunkerBuilder Instantiate(Transform target)
+    public static MapChunkerBuilder Instantiate(CameraFollower camera)
     {
-        return new MapChunkerBuilder().Target(target);
+        return new MapChunkerBuilder().Camera(camera);
     }
 
-    private Transform _Target, _WallContainer, _FloorContainer;
+    private Transform _WallContainer, _FloorContainer;
+    private CameraFollower _Camera;
     private Dictionary<char, GridTileSet> _TileSets = new Dictionary<char, GridTileSet>();
     private HashSet<char> _IsWall = new HashSet<char>();
     private string _MapData;
-    private int _Width, _Height;
 
-    public MapChunkerBuilder Target(Transform target) => SetField(ref _Target, target);
+    public MapChunkerBuilder Camera(CameraFollower camera) => SetField(ref _Camera, camera);
     public MapChunkerBuilder WallContainer(Transform wallContainer) => SetField(ref _WallContainer, wallContainer);
     public MapChunkerBuilder FloorContainer(Transform floorContainer) => SetField(ref _FloorContainer, floorContainer);
     public MapChunkerBuilder MapData(string mapData) => SetField(ref _MapData, mapData);
-    public MapChunkerBuilder Width(int width) => SetField(ref _Width, width);
-    public MapChunkerBuilder Height(int height) => SetField(ref _Height, height);
     public MapChunkerBuilder AddTileSet(char ch, GridTileSet tileSet)
     {
         if (this._TileSets.ContainsKey(ch)) throw new System.Exception($"Duplicate tile set characater found: {ch}/");
@@ -228,14 +233,12 @@ public class MapChunkerBuilder
 
     public MapChunker Build()
     {
-        return new MapChunker(this._Target,
+        return new MapChunker(this._Camera,
                               this._WallContainer,
                               this._FloorContainer,
                               this._TileSets,
                               this._IsWall,
-                              this._MapData,
-                              this._Width,
-                              this._Height);
+                              this._MapData);
     }
 
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class CameraFollower : MonoBehaviour
 {
     public Transform Target;
+    public MapChunker Chunker;
 
     [SerializeField]
     private Transform _MapContainer;
@@ -34,16 +35,25 @@ public class CameraFollower : MonoBehaviour
     void Update()
     {
         Bounds bounds = OrthographicBounds();
+        if (this.Chunker != null)
+        {
+            this.Chunker.SetSize(bounds);
+            if (this.Chunker.CheckAndBuildChunk())
+            {
+                this.SetBounds(this.DiscoverBounds(_MapContainer));
+            }
+        }
         Vector3 newPosition = Target.position;
         // TODO: When a new chunk is built rediscover bounds
-        // float MaxY = Max.y - bounds.extents.y;
-        // float MinY = Min.y + bounds.extents.y;
-        // float MaxX = Max.x - bounds.extents.x;
-        // float MinX = Min.x + bounds.extents.x;
-        // newPosition.y = Mathf.Clamp(newPosition.y, MinY, MaxY);
-        // newPosition.x = Mathf.Clamp(newPosition.x, MinX, MaxX);
+        float MaxY = Max.y - bounds.extents.y;
+        float MinY = Min.y + bounds.extents.y;
+        float MaxX = Max.x - bounds.extents.x;
+        float MinX = Min.x + bounds.extents.x;
+        newPosition.y = Mathf.Clamp(newPosition.y, MinY, MaxY);
+        newPosition.x = Mathf.Clamp(newPosition.x, MinX, MaxX);
         newPosition.z = this.transform.position.z;
         this.transform.position = newPosition;
+
     }
 
     private void SetBounds((Vector2 Min, Vector2 Max) bounds)
@@ -52,7 +62,7 @@ public class CameraFollower : MonoBehaviour
         this.Max = bounds.Max;
     }
 
-    private Bounds OrthographicBounds()
+    public Bounds OrthographicBounds()
     {
         float screenAspect = (float)Screen.width / (float)Screen.height;
         float cameraHeight = this.Camera.orthographicSize * 2;

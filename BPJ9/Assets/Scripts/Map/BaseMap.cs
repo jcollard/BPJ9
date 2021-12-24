@@ -9,6 +9,7 @@ public class BaseMap : MonoBehaviour
     public Transform FloorContainer, WallContainer, Player;
     public MapTileDefinition[] Definitions;
     public MapChunker Chunker;
+    public CameraFollower MainCamera;
     public string MapData;
 
     public void Start()
@@ -19,19 +20,13 @@ public class BaseMap : MonoBehaviour
         Chunker.BuildChunk();
     }
 
-    public void Update()
-    {
-        Chunker.CheckAndBuildChunk();
-    }
-
     public void Init()
     {
-        MapChunkerBuilder builder = MapChunkerBuilder.Instantiate(this.Player)
+        
+        MapChunkerBuilder builder = MapChunkerBuilder.Instantiate(this.MainCamera)
                                                      .WallContainer(this.WallContainer)
                                                      .FloorContainer(this.FloorContainer)
-                                                     .MapData(this.MapData)
-                                                     .Width(5)
-                                                     .Height(5);
+                                                     .MapData(this.MapData);
         foreach (MapTileDefinition def in Definitions)
             builder.AddTileSet(def.FloorCharacter, def.TileSet)
                    .AddTileSet(def.WallCharacter, def.TileSet)

@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -97,4 +98,6 @@ public class NeighborSpaceUtil
         }
         return spaces;
     }
+
+    public static int ToCriteriaBit(NeighborSpace space) => 1 << (int)space;
 }
