@@ -97,7 +97,6 @@ public class SpriteSet
 [System.Serializable]
 public class SpriteTemplate
 {
-    [ReadOnly]
     public SpriteLoader Loader;
 
     public string SetKey;

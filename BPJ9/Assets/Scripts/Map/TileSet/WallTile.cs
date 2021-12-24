@@ -16,7 +16,6 @@ public class WallTile : MonoBehaviour
     public List<SpriteTemplate> Templates;
 
     [SerializeField]
-    [ReadOnly]
     private int _Criteria;
 
     /// <summary>

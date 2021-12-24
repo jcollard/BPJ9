@@ -8,7 +8,7 @@ public class GridTileSet : MonoBehaviour
 {
     public SpriteLoader Sprites;
 
-    [SerializeField, ReadOnly]
+    [SerializeField]
     private List<WallTile> _Tiles;
     public List<WallTile> Tiles 
     {
