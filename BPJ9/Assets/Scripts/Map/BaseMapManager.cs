@@ -47,7 +47,7 @@ public class BaseMapManagerEditor : Editor
             manager.Map.DestroyMap();
             manager.Map.Init();
             GridBounds bounds = new GridBounds(manager.Rows.max, manager.Cols.max, manager.Rows.min, manager.Cols.min);
-            manager.Map.Chunker.BuildChunk(bounds);
+            manager.Map.Chunker.BuildNextChunk(bounds);
         }
 
         EditorGUILayout.Separator();
@@ -57,7 +57,7 @@ public class BaseMapManagerEditor : Editor
             manager.Map.DestroyMap();
             manager.Map.Init();
             GridBounds bounds = new GridBounds(manager.Rows.max, manager.Cols.max, manager.Rows.min, manager.Cols.min);
-            manager.Map.Chunker.BuildChunk();
+            manager.Map.Chunker.BuildNextChunk();
         }
 
         EditorGUILayout.Separator();
@@ -66,7 +66,7 @@ public class BaseMapManagerEditor : Editor
         {
             manager.Map.DestroyMap();
             manager.Map.Init();
-            manager.Map.Chunker.BuildChunk(manager.Map.Chunker.MapBounds);
+            manager.Map.Chunker.BuildNextChunk(manager.Map.Chunker.MapBounds);
         }
 
         if (GUILayout.Button("Destroy Map"))

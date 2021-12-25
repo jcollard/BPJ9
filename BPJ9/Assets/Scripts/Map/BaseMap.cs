@@ -17,7 +17,7 @@ public class BaseMap : MonoBehaviour
         // TODO: Consider not calling this on start as it will rebuild when
         // the scene changes.
         Init();
-        Chunker.BuildChunk();
+        Chunker.BuildNextChunk();
     }
 
     public void Init()

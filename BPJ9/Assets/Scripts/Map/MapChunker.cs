@@ -47,7 +47,7 @@ public class MapChunker
 
     public void SetSize(Bounds bounds)
     {
-        (this.Width, this.Height) = ((int)(bounds.extents.x) + 2, (int)(bounds.extents.y) + 1);
+        (this.Width, this.Height) = ((int)(bounds.extents.x) + 2, (int)(bounds.extents.y) + 2);
     }
 
     public bool CheckAndBuildChunk()
@@ -57,13 +57,12 @@ public class MapChunker
         // If we are within the RebuildBounds we do nothing
         if (RebuildBounds.Contains(pos)) return false;
         // Otherwise, we build a chunk
-        BuildChunk();
+        BuildNextChunk();
         return true;
     }
 
-    public void BuildChunk(GridBounds _nextBounds = null)
+    public void BuildNextChunk(GridBounds _nextBounds = null)
     {
-        TimerUtil chunkTimer = TimerUtil.StartTimer("BuildChunk");
         (int, int) center = ((int)Camera.transform.position.y, (int)Camera.transform.position.x);
         GridBounds NextBounds = new GridBounds(center, Width, Height);
         if (_nextBounds != null) NextBounds = _nextBounds;
@@ -78,22 +77,16 @@ public class MapChunker
         }
         else
         {
-            TimerUtil ToListTimer = TimerUtil.StartTimer("To List");
-            var asList = CurrentBounds.Difference(NextBounds).ToList();
-            toCheck = asList;
-            Debug.Log($"Diffs: {asList.Count}");
-            Debug.Log(ToListTimer.ReportElapsed());
+            toCheck = CurrentBounds.Difference(NextBounds).ToList();
         }
-
-        
 
         // Loop through elements that do not overlap with new bounds
         foreach ((int row, int col) pos in toCheck)
         {
-            // If tile is loaded, we should unload it
-            if (Loaded.ContainsKey(pos))
+            // If the tile is not in the new bounds, we unload it.
+            if (!NextBounds.Contains(pos))
             {
-                this.Unload(pos);
+                this.TryUnload(pos);
                 continue;
             }
 
@@ -107,14 +100,16 @@ public class MapChunker
         }
 
         this.CurrentBounds = NextBounds;
-        Debug.Log(chunkTimer.ReportElapsed());
     }
 
-    private void Unload((int, int) pos)
+    private bool TryUnload((int, int) pos)
     {
-        GameObject toUnload = this.Loaded[pos];
-        this.Loaded.Remove(pos);
-        UnityEngine.Object.Destroy(toUnload);
+        if(this.Loaded.TryGetValue(pos, out GameObject toUnload)){
+            this.Loaded.Remove(pos);
+            UnityEngine.Object.Destroy(toUnload);
+            return true;
+        }
+        return false;
     }
 
     private GameObject CreateWall(char ch, (int row, int col) pos)
