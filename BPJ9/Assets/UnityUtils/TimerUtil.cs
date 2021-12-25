@@ -16,7 +16,9 @@ public class TimerUtil
     {
         if (DisableTimers) return;
         Timers[label].Start();
-    }
+    } 
+
+    public static void ResetTimers() => Timers.Clear();
 
     public static void StartTrial(params string[] labels)
     {

@@ -24,6 +24,15 @@ public class GridBounds : IEnumerable<(int, int)>
         this.Center = Center;
     }
 
+    public GridBounds(GridBounds center, int expandSize)
+    {
+        this.Center = center.Center;
+        this.Left = center.Left - expandSize;
+        this.Right = center.Right + expandSize;
+        this.Bottom = center.Bottom - expandSize;
+        this.Top = center.Top + expandSize;
+    }
+
     public IEnumerable<(int, int)> Difference(GridBounds other)
     {
         // TODO: This can be improved to calculate the 4 rectangles
@@ -54,5 +63,10 @@ public class GridBounds : IEnumerable<(int, int)>
     }
 
     IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+
+    public override string ToString()
+    {
+        return $"GridBounds (T:{Top},L:{Left})->(B:{Bottom},R:{Right})";
+    }
 
 }

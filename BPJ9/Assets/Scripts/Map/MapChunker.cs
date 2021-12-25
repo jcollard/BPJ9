@@ -5,7 +5,7 @@ using System.Linq;
 public class MapChunker
 {
     public CameraFollower Camera;
-    private int Width, Height;
+    private int MinWidth, MinHeight, PreLoadSize = 5;
     public GridBounds MapBounds;
     private GridBounds _CurrentBounds;
     private GridBounds CurrentBounds
@@ -14,14 +14,28 @@ public class MapChunker
         set
         {
             _CurrentBounds = value;
-            RebuildBounds = new GridBounds(_CurrentBounds.Center, 0, 0);
+            RebuildBounds = new GridBounds(_CurrentBounds.Center, 3, 3);
+            if (this.PreLoadBounds != null) this.LastPreLoadBounds = this.PreLoadBounds;
+            this.PreLoadBounds = new GridBounds(_CurrentBounds, PreLoadSize);
+            this.PreloadLocations = PreLoadBounds.Difference(CurrentBounds);
+            this.PreLoadComplete = false;
+            if (this.LastPreLoadBounds != null)
+            {
+                TimerUtil.StartTrial("Build UnloadSet");
+                TimerUtil.StartTimer("Build UnloadSet");
+                foreach ((int, int) pos in PreLoadBounds.Difference(LastPreLoadBounds))
+                    this.UnloadLocations.Add(pos);
+                TimerUtil.StopTimer("Build UnloadSet");
+            }
         }
     }
+    private GridBounds PreLoadBounds, LastPreLoadBounds;
+    private IEnumerable<(int, int)> PreloadLocations;
+    private HashSet<(int, int)> UnloadLocations = new HashSet<(int, int)>();
+    private bool PreLoadComplete = false;
     private GridBounds RebuildBounds;
     public readonly Transform WallContainer;
     public readonly Transform FloorContainer;
-
-
     private Dictionary<(int, int), GameObject> Loaded;
     private Dictionary<(int, int), char> MapData;
     private readonly Dictionary<char, GridTileSet> TileSets;
@@ -38,6 +52,8 @@ public class MapChunker
         this.Camera = camera;
         this.Camera.Chunker = this;
         this.SetSize(this.Camera.OrthographicBounds());
+        (int, int) center = ((int)Camera.transform.position.y, (int)Camera.transform.position.x);
+        this.CurrentBounds = new GridBounds(center, this.MinWidth, this.MinHeight);
         this.WallContainer = wallContainer;
         this.FloorContainer = floorContainer;
         this.TileSets = tileSets;
@@ -47,26 +63,77 @@ public class MapChunker
 
     public void SetSize(Bounds bounds)
     {
-        (this.Width, this.Height) = ((int)(bounds.extents.x) + 2, (int)(bounds.extents.y) + 2);
+        (this.MinWidth, this.MinHeight) = ((int)(bounds.extents.x) + 5, (int)(bounds.extents.y) + 5);
     }
 
     public bool CheckAndBuildChunk()
     {
         // (int, int) pos = ((int)Target.position.y, (int)Target.position.x);
         (int, int) pos = ((int)Camera.transform.position.y, (int)Camera.transform.position.x);
-        // If we are within the RebuildBounds we do nothing
-        if (RebuildBounds.Contains(pos)) return false;
-        // Otherwise, we build a chunk
-        BuildNextChunk();
-        return true;
+        // If we are outside the rebuild bounds, we build the next chunk.
+        if (!RebuildBounds.Contains(pos)) return BuildNextChunk();
+        // If we are in the bounds, try preloading
+        if (this.PreloadTick()) return true;
+        // If we are done preloading unload unused objects.
+        return UnloadTick();
     }
 
-    public void BuildNextChunk(GridBounds _nextBounds = null)
+    private bool PreloadTick()
     {
-        TimerUtil.StartTrial("TryUnload", "BuildNextChunk","CreateWall","CreateFloor");
+        if (this.PreLoadComplete) return false;
+        TimerUtil.StartTrial("PreloadTick");
+        TimerUtil.StartTimer("PreloadTick");
+        foreach ((int, int) pos in this.PreloadLocations)
+        {
+            if (this.MapData.TryGetValue(pos, out char ch) && !this.Loaded.ContainsKey(pos))
+            {
+                this.LoadTile(ch, pos);
+                TimerUtil.StopTimer("PreloadTick");
+                return true;
+            }
+        }
+        this.PreLoadComplete = true;
+        TimerUtil.StopTimer("PreloadTick");
+        return false;
+    }
+
+    private bool UnloadTick()
+    {
+        if (this.UnloadLocations.Count == 0) return false;
+
+        TimerUtil.StartTrial("UnloadTick");
+        TimerUtil.StartTimer("UnloadTick");
+        List<(int, int)> toRemoved = new List<(int, int)>();
+        int work = 0;
+        foreach ((int, int) pos in this.UnloadLocations)
+        {
+            // Mark this element to be removed from the unloaded list
+            toRemoved.Add(pos);
+            // Check if we should skip it
+            if (this.PreLoadBounds.Contains(pos)) continue;
+            if (!this.TryUnload(pos)) continue;
+            // Unload 10 at a time
+            if (work++ >= 10) break;
+        }
+
+        // If we saw any positions, remove them from the set.
+        if (toRemoved.Count > 0)
+        {
+            foreach ((int, int) p in toRemoved) this.UnloadLocations.Remove(p);
+            TimerUtil.StopTimer("UnloadTick");
+            return true;
+        }
+
+        TimerUtil.StopTimer("UnloadTick");
+        return false;
+    }
+
+    public bool BuildNextChunk(GridBounds _nextBounds = null)
+    {
+        TimerUtil.StartTrial("LoadTile", "BuildNextChunk");
         TimerUtil.StartTimer("BuildNextChunk");
         (int, int) center = ((int)Camera.transform.position.y, (int)Camera.transform.position.x);
-        GridBounds NextBounds = new GridBounds(center, Width, Height);
+        GridBounds NextBounds = new GridBounds(center, MinWidth, MinHeight);
         if (_nextBounds != null) NextBounds = _nextBounds;
 
         //TODO: Need to have a better RNG solutions
@@ -85,26 +152,27 @@ public class MapChunker
         // Loop through elements that do not overlap with new bounds
         foreach ((int row, int col) pos in toCheck)
         {
-            // If the tile is not in the new bounds, we unload it.
-            if (!NextBounds.Contains(pos))
-            {
-                TimerUtil.StartTimer("TryUnload");
-                this.TryUnload(pos);
-                TimerUtil.StopTimer("TryUnload");
-                continue;
-            }
 
-            // Otherwise, we load it.
+            // Check if it is part of the map, if it is not we don't need to load it
             if (!MapData.TryGetValue(pos, out char ch)) continue;
-            // TODO: Add black tile??
+            // If it is a blank space, we skip it
             if (ch == ' ') continue;
-
-            GameObject obj = this.IsWall.Contains(ch) ? this.CreateWall(ch, pos) : this.CreateFloor(ch, pos);
-            Loaded[pos] = obj;
+            // Check if it is already loaded, it it is we don't need to load it
+            if (Loaded.ContainsKey(pos)) continue;
+            TimerUtil.StartTimer("LoadTile");
+            this.LoadTile(ch, pos);
+            TimerUtil.StopTimer("LoadTile");
         }
 
         this.CurrentBounds = NextBounds;
         TimerUtil.StopTimer("BuildNextChunk");
+        return true;
+    }
+
+    private void LoadTile(char ch, (int, int) pos)
+    {
+        GameObject obj = this.IsWall.Contains(ch) ? this.CreateWall(ch, pos) : this.CreateFloor(ch, pos);
+        Loaded[pos] = obj;
     }
 
     private bool TryUnload((int, int) pos)
@@ -120,7 +188,6 @@ public class MapChunker
 
     private GameObject CreateWall(char ch, (int row, int col) pos)
     {
-        TimerUtil.StartTimer("CreateWall");
         //TODO: Calculate criteria then spawn wall
         NeighborSpaceUtil.Spaces.Select(n => NeighborSpaceUtil.ReverseSpaceLookup[n]);
         int criteria = 0;
@@ -140,13 +207,11 @@ public class MapChunker
                .LocalPosition(new Vector2(pos.col, pos.row))
                .Name($"Wall[{ch}] @ ({pos.row}, {pos.col})")
                .Spawn();
-        TimerUtil.StopTimer("CreateWall");
         return newObj;
     }
 
     private GameObject CreateFloor(char ch, (int row, int col) pos)
     {
-        TimerUtil.StartTimer("CreateFloor");
         List<FloorTile> options = this.TileSets[ch].Floors;
         //TODO: Need Better RNG
         // int ix = RNG.Next(0, options.Count);
@@ -162,7 +227,6 @@ public class MapChunker
                .LocalPosition(new Vector2(pos.col, pos.row))
                .Spawn();
         newFloor.GetComponent<SpriteRenderer>().sprite = s;
-        TimerUtil.StopTimer("CreateFloor");
         return newFloor;
     }
 

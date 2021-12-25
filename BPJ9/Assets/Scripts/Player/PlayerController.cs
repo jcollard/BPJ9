@@ -118,6 +118,7 @@ public class PlayerController : MonoBehaviour
         ActionControls["Interact"] = () => this.DoInteract();
         ActionControls["Absorb"] = () => this.DoAbsorb();
         ActionControls["Diagnostics"] = () => Debug.Log(TimerUtil.ReportAllTimers());
+        ActionControls["ResetTimers"] = () => TimerUtil.ResetTimers();
         return ActionControls;
     }
 
