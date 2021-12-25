@@ -117,6 +117,7 @@ public class PlayerController : MonoBehaviour
         Dictionary<string, System.Action> ActionControls = new Dictionary<string, System.Action>();
         ActionControls["Interact"] = () => this.DoInteract();
         ActionControls["Absorb"] = () => this.DoAbsorb();
+        ActionControls["Diagnostics"] = () => Debug.Log(TimerUtil.ReportAllTimers());
         return ActionControls;
     }
 

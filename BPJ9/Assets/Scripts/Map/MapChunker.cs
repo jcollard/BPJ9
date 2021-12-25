@@ -21,7 +21,7 @@ public class MapChunker
     public readonly Transform WallContainer;
     public readonly Transform FloorContainer;
 
-    
+
     private Dictionary<(int, int), GameObject> Loaded;
     private Dictionary<(int, int), char> MapData;
     private readonly Dictionary<char, GridTileSet> TileSets;
@@ -63,13 +63,15 @@ public class MapChunker
 
     public void BuildNextChunk(GridBounds _nextBounds = null)
     {
+        TimerUtil.StartTrial("TryUnload", "BuildNextChunk","CreateWall","CreateFloor");
+        TimerUtil.StartTimer("BuildNextChunk");
         (int, int) center = ((int)Camera.transform.position.y, (int)Camera.transform.position.x);
         GridBounds NextBounds = new GridBounds(center, Width, Height);
         if (_nextBounds != null) NextBounds = _nextBounds;
 
         //TODO: Need to have a better RNG solutions
         System.Random RNG = new System.Random();
-        IEnumerable<(int,int)> toCheck;
+        IEnumerable<(int, int)> toCheck;
         if (this.FirstLoad)
         {
             toCheck = NextBounds;
@@ -86,7 +88,9 @@ public class MapChunker
             // If the tile is not in the new bounds, we unload it.
             if (!NextBounds.Contains(pos))
             {
+                TimerUtil.StartTimer("TryUnload");
                 this.TryUnload(pos);
+                TimerUtil.StopTimer("TryUnload");
                 continue;
             }
 
@@ -100,11 +104,13 @@ public class MapChunker
         }
 
         this.CurrentBounds = NextBounds;
+        TimerUtil.StopTimer("BuildNextChunk");
     }
 
     private bool TryUnload((int, int) pos)
     {
-        if(this.Loaded.TryGetValue(pos, out GameObject toUnload)){
+        if (this.Loaded.TryGetValue(pos, out GameObject toUnload))
+        {
             this.Loaded.Remove(pos);
             UnityEngine.Object.Destroy(toUnload);
             return true;
@@ -114,12 +120,13 @@ public class MapChunker
 
     private GameObject CreateWall(char ch, (int row, int col) pos)
     {
+        TimerUtil.StartTimer("CreateWall");
         //TODO: Calculate criteria then spawn wall
         NeighborSpaceUtil.Spaces.Select(n => NeighborSpaceUtil.ReverseSpaceLookup[n]);
         int criteria = 0;
         foreach (NeighborSpace n in NeighborSpaceUtil.Spaces)
         {
-            (int col, int row)  off = NeighborSpaceUtil.ReverseSpaceLookup[n];
+            (int col, int row) off = NeighborSpaceUtil.ReverseSpaceLookup[n];
             (int, int) nPos = (pos.row + off.row, pos.col + off.col);
             // If no neighbor, continue;
             if (!MapData.TryGetValue(nPos, out char nCh) || !this.IsWall.Contains(nCh)) continue;
@@ -127,16 +134,19 @@ public class MapChunker
         }
         GridTileSet tileSet = TileSets[ch];
         WallTile toClone = tileSet.TileLookup[criteria];
-        return 
+        GameObject newObj =
         Spawner.SpawnObject(toClone.gameObject)
                .Parent(WallContainer)
                .LocalPosition(new Vector2(pos.col, pos.row))
                .Name($"Wall[{ch}] @ ({pos.row}, {pos.col})")
                .Spawn();
+        TimerUtil.StopTimer("CreateWall");
+        return newObj;
     }
 
     private GameObject CreateFloor(char ch, (int row, int col) pos)
     {
+        TimerUtil.StartTimer("CreateFloor");
         List<FloorTile> options = this.TileSets[ch].Floors;
         //TODO: Need Better RNG
         // int ix = RNG.Next(0, options.Count);
@@ -152,6 +162,7 @@ public class MapChunker
                .LocalPosition(new Vector2(pos.col, pos.row))
                .Spawn();
         newFloor.GetComponent<SpriteRenderer>().sprite = s;
+        TimerUtil.StopTimer("CreateFloor");
         return newFloor;
     }
 
