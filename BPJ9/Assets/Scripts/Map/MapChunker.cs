@@ -5,7 +5,7 @@ using System.Linq;
 public class MapChunker
 {
     public CameraFollower Camera;
-    private int MinWidth, MinHeight, PreLoadSize = 5;
+    private int MinWidth, MinHeight, PreLoadSize = 3;
     public GridBounds MapBounds;
     private GridBounds _CurrentBounds;
     private GridBounds CurrentBounds
@@ -14,10 +14,10 @@ public class MapChunker
         set
         {
             _CurrentBounds = value;
-            RebuildBounds = new GridBounds(_CurrentBounds.Center, 3, 3);
+            RebuildBounds = new GridBounds(_CurrentBounds.Center, 0, 0);
             if (this.PreLoadBounds != null) this.LastPreLoadBounds = this.PreLoadBounds;
             this.PreLoadBounds = new GridBounds(_CurrentBounds, PreLoadSize);
-            this.PreloadLocations = PreLoadBounds.Difference(CurrentBounds);
+            this.PreloadLocations = PreLoadBounds.DifferenceFromCenter(_CurrentBounds, _CurrentBounds.Center);
             this.PreLoadComplete = false;
             if (this.LastPreLoadBounds != null)
             {
@@ -63,7 +63,7 @@ public class MapChunker
 
     public void SetSize(Bounds bounds)
     {
-        (this.MinWidth, this.MinHeight) = ((int)(bounds.extents.x) + 5, (int)(bounds.extents.y) + 5);
+        (this.MinWidth, this.MinHeight) = ((int)(bounds.extents.x) + 3, (int)(bounds.extents.y) + 2);
     }
 
     public bool CheckAndBuildChunk()
@@ -130,14 +130,19 @@ public class MapChunker
 
     public bool BuildNextChunk(GridBounds _nextBounds = null)
     {
-        TimerUtil.StartTrial("LoadTile", "BuildNextChunk");
-        TimerUtil.StartTimer("BuildNextChunk");
         (int, int) center = ((int)Camera.transform.position.y, (int)Camera.transform.position.x);
         GridBounds NextBounds = new GridBounds(center, MinWidth, MinHeight);
         if (_nextBounds != null) NextBounds = _nextBounds;
 
-        //TODO: Need to have a better RNG solutions
-        System.Random RNG = new System.Random();
+        // If the preload is completed, we don't need to do any work.
+        if (this.PreLoadComplete)
+        {
+            this.CurrentBounds = NextBounds;
+            return false;
+        }
+        TimerUtil.StartTrial("LoadTile", "BuildNextChunk");
+        TimerUtil.StartTimer("BuildNextChunk");
+        
         IEnumerable<(int, int)> toCheck;
         if (this.FirstLoad)
         {

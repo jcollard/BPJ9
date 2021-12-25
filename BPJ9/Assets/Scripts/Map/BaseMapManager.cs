@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using System.Linq;
 
 [RequireComponent(typeof(BaseMap))]
 public class BaseMapManager : MonoBehaviour
@@ -41,6 +42,21 @@ public class BaseMapManagerEditor : Editor
         manager.Cols.max = EditorGUILayout.IntField("Max Col", manager.Cols.max);
         EditorGUILayout.EndHorizontal();
         
+        if (GUILayout.Button("Test Diff From Center"))
+        {
+            GridBounds gb = new GridBounds((2, 2), 0, 0);
+            GridBounds surrounding = new GridBounds(gb, 4);
+            Debug.Log($"Inner: {gb}");
+            Debug.Log($"Outer: {surrounding}"); 
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            (int, int)[] ps = gb.DifferenceFromCenter(surrounding, gb.Center).ToArray();
+            Debug.Log($"Diff: {ps.Length}");
+            foreach((int, int) pos in ps)
+            {
+                sb.Append($"{pos} ");
+            }
+            Debug.Log(sb.ToString());
+        }
         
         if(GUILayout.Button("Build Chunk"))
         {
