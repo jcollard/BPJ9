@@ -6,6 +6,7 @@ public class MapChunker
 {
     public CameraFollower Camera;
     private int MinWidth, MinHeight, PreLoadSize = 3;
+    private int PreLoadMaxWork = 2, MaxUnloadWork = 30;
     public GridBounds MapBounds;
     private GridBounds _CurrentBounds;
     private GridBounds CurrentBounds
@@ -15,28 +16,19 @@ public class MapChunker
         {
             _CurrentBounds = value;
             RebuildBounds = new GridBounds(_CurrentBounds.Center, 0, 0);
-            if (this.PreLoadBounds != null) this.LastPreLoadBounds = this.PreLoadBounds;
-            this.PreLoadBounds = new GridBounds(_CurrentBounds, PreLoadSize);
-            this.PreloadLocations = PreLoadBounds.DifferenceFromCenter(_CurrentBounds, _CurrentBounds.Center);
-            this.PreLoadComplete = false;
-            if (this.LastPreLoadBounds != null)
-            {
-                TimerUtil.StartTrial("Build UnloadSet");
-                TimerUtil.StartTimer("Build UnloadSet");
-                foreach ((int, int) pos in PreLoadBounds.Difference(LastPreLoadBounds))
-                    this.UnloadLocations.Add(pos);
-                TimerUtil.StopTimer("Build UnloadSet");
-            }
+            CalcPreBuild();
         }
     }
-    private GridBounds PreLoadBounds, LastPreLoadBounds;
+    private GridBounds PreloadBounds, LastPreLoadBounds;
     private IEnumerable<(int, int)> PreloadLocations;
     private HashSet<(int, int)> UnloadLocations = new HashSet<(int, int)>();
+    private Queue<(int, int)> UnloadLocationOrder = new Queue<(int, int)>();
     private bool PreLoadComplete = false;
     private GridBounds RebuildBounds;
     public readonly Transform WallContainer;
     public readonly Transform FloorContainer;
     private Dictionary<(int, int), GameObject> Loaded;
+    private int MaxGameObjects = 2000;
     private Dictionary<(int, int), char> MapData;
     private readonly Dictionary<char, GridTileSet> TileSets;
     private readonly HashSet<char> IsWall;
@@ -59,11 +51,32 @@ public class MapChunker
         this.TileSets = tileSets;
         this.IsWall = isWall;
         this.LoadMap(mapData);
+        this.BuildNextChunk(this.PreloadBounds);
     }
 
     public void SetSize(Bounds bounds)
     {
-        (this.MinWidth, this.MinHeight) = ((int)(bounds.extents.x) + 3, (int)(bounds.extents.y) + 2);
+        (this.MinWidth, this.MinHeight) = ((int)(bounds.extents.x) + 2, (int)(bounds.extents.y) + 2);
+    }
+
+    public void CalcPreBuild()
+    {
+        this.LastPreLoadBounds = this.PreloadBounds == null ? null : this.PreloadBounds;
+        this.PreloadBounds = new GridBounds(_CurrentBounds, PreLoadSize);
+        this.PreloadLocations = PreloadBounds.Difference(_CurrentBounds);
+        this.PreLoadComplete = false;
+        if (this.LastPreLoadBounds != null)
+        {
+            TimerUtil.StartTrial("Build UnloadSet");
+            TimerUtil.StartTimer("Build UnloadSet");
+            foreach ((int, int) pos in PreloadBounds.Difference(LastPreLoadBounds))
+            {
+                if(this.UnloadLocations.Contains(pos)) continue;
+                this.UnloadLocations.Add(pos);
+                this.UnloadLocationOrder.Enqueue(pos);
+            }
+            TimerUtil.StopTimer("Build UnloadSet");
+        }
     }
 
     public bool CheckAndBuildChunk()
@@ -83,13 +96,17 @@ public class MapChunker
         if (this.PreLoadComplete) return false;
         TimerUtil.StartTrial("PreloadTick");
         TimerUtil.StartTimer("PreloadTick");
+        int work = 0;
         foreach ((int, int) pos in this.PreloadLocations)
         {
             if (this.MapData.TryGetValue(pos, out char ch) && !this.Loaded.ContainsKey(pos))
             {
-                this.LoadTile(ch, pos);
-                TimerUtil.StopTimer("PreloadTick");
-                return true;
+                if (!this.LoadTile(ch, pos)) continue;
+                if (work++ >= PreLoadMaxWork)
+                {
+                    TimerUtil.StopTimer("PreloadTick");
+                    return true;
+                }
             }
         }
         this.PreLoadComplete = true;
@@ -99,33 +116,25 @@ public class MapChunker
 
     private bool UnloadTick()
     {
-        if (this.UnloadLocations.Count == 0) return false;
-
+        if (UnloadLocations.Count < MaxGameObjects) return false;
         TimerUtil.StartTrial("UnloadTick");
         TimerUtil.StartTimer("UnloadTick");
         List<(int, int)> toRemoved = new List<(int, int)>();
         int work = 0;
-        foreach ((int, int) pos in this.UnloadLocations)
+        while (this.UnloadLocationOrder.Count > 0)
         {
-            // Mark this element to be removed from the unloaded list
-            toRemoved.Add(pos);
-            // Check if we should skip it
-            if (this.PreLoadBounds.Contains(pos)) continue;
+            (int, int) pos = this.UnloadLocationOrder.Dequeue();
+            this.UnloadLocations.Remove(pos);
+            // Don't count work on elements that needed to stay / were not unloaded
+            if (this.PreloadBounds.Contains(pos)) continue;
             if (!this.TryUnload(pos)) continue;
             // Unload 10 at a time
-            if (work++ >= 10) break;
-        }
+            if (work++ >= MaxUnloadWork) break;
 
-        // If we saw any positions, remove them from the set.
-        if (toRemoved.Count > 0)
-        {
-            foreach ((int, int) p in toRemoved) this.UnloadLocations.Remove(p);
-            TimerUtil.StopTimer("UnloadTick");
-            return true;
         }
-
+        
         TimerUtil.StopTimer("UnloadTick");
-        return false;
+        return work > 0;
     }
 
     public bool BuildNextChunk(GridBounds _nextBounds = null)
@@ -142,7 +151,7 @@ public class MapChunker
         }
         TimerUtil.StartTrial("LoadTile", "BuildNextChunk");
         TimerUtil.StartTimer("BuildNextChunk");
-        
+
         IEnumerable<(int, int)> toCheck;
         if (this.FirstLoad)
         {
@@ -174,10 +183,12 @@ public class MapChunker
         return true;
     }
 
-    private void LoadTile(char ch, (int, int) pos)
+    private bool LoadTile(char ch, (int, int) pos)
     {
+        if (ch == ' ') return false;
         GameObject obj = this.IsWall.Contains(ch) ? this.CreateWall(ch, pos) : this.CreateFloor(ch, pos);
         Loaded[pos] = obj;
+        return true;
     }
 
     private bool TryUnload((int, int) pos)

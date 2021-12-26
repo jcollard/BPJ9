@@ -28,7 +28,6 @@ public class CameraFollower : MonoBehaviour
 
     void Start()
     {
-        this.SetBounds(this.DiscoverBounds(_MapContainer));
     }
 
     // Update is called once per frame
@@ -38,7 +37,7 @@ public class CameraFollower : MonoBehaviour
         if (this.Chunker != null)
         {
             this.Chunker.SetSize(bounds);
-            if (this.Chunker.CheckAndBuildChunk())
+            if (this.Chunker.CheckAndBuildChunk() || !PlayerInCamera(bounds))
             {
                 this.SetBounds(this.DiscoverBounds(_MapContainer));
             }
@@ -54,6 +53,11 @@ public class CameraFollower : MonoBehaviour
         newPosition.z = this.transform.position.z;
         this.transform.position = newPosition;
 
+    }
+
+    private bool PlayerInCamera(Bounds bounds)
+    {
+        return bounds.Contains(Target.position);
     }
 
     private void SetBounds((Vector2 Min, Vector2 Max) bounds)

@@ -9,6 +9,8 @@ public class TimerUtil
     private static Dictionary<string, TimerUtil> Timers = new Dictionary<string, TimerUtil>();
     private long StartMillis;
     private long TotalMillis;
+    private long WorstMillis;
+    private long BestMillis;
     private string Label;
     private int TimesStarted = 0;
 
@@ -48,13 +50,14 @@ public class TimerUtil
         }
         StringBuilder builder = new StringBuilder();
 
-        string format = "{0,25} | {1,10} | {2,10} | {3,10}\n";
-        builder.Append(string.Format(format, "Name", "Trials", "Total", "Average"));
+        string format = "{0,25} | {1,10} | {2,10} | {3,10} | {4, 10}\n";
+        builder.Append(string.Format(format, "Name", "Trials", "Total", "Worst", "Average"));
         var results = Timers.Select(timer =>
             string.Format(format,
                           timer.Key,
                           timer.Value.TimesStarted,
                           timer.Value.TotalMillis,
+                          timer.Value.WorstMillis,
                           $"{(float)(timer.Value.TotalMillis) / timer.Value.TimesStarted:000.0}")).ToArray();
         foreach (string result in results)
             builder.Append(result);
@@ -75,6 +78,8 @@ public class TimerUtil
     {
         long stopTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
         long elapsed = stopTime - this.StartMillis;
+        this.BestMillis = Math.Min(elapsed, this.BestMillis);
+        this.WorstMillis = Math.Max(elapsed, this.WorstMillis);
         this.TotalMillis += elapsed;
         return this.TotalMillis;
     }
