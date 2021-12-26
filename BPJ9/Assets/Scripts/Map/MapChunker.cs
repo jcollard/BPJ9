@@ -5,8 +5,8 @@ using System.Linq;
 public class MapChunker
 {
     public CameraFollower Camera;
-    private int MinWidth, MinHeight, PreLoadSize = 3;
-    private int PreLoadMaxWork = 2, MaxUnloadWork = 30;
+    private int MinWidth, MinHeight, PreLoadSize = 2;
+    private int PreLoadMaxWork = 3, MaxUnloadWork = 30;
     public GridBounds MapBounds;
     private GridBounds _CurrentBounds;
     private GridBounds CurrentBounds
@@ -51,7 +51,7 @@ public class MapChunker
         this.TileSets = tileSets;
         this.IsWall = isWall;
         this.LoadMap(mapData);
-        this.BuildNextChunk(this.PreloadBounds);
+        this.BuildNextChunk();
     }
 
     public void SetSize(Bounds bounds)
@@ -71,7 +71,7 @@ public class MapChunker
             TimerUtil.StartTimer("Build UnloadSet");
             foreach ((int, int) pos in PreloadBounds.Difference(LastPreLoadBounds))
             {
-                if(this.UnloadLocations.Contains(pos)) continue;
+                if (this.UnloadLocations.Contains(pos)) continue;
                 this.UnloadLocations.Add(pos);
                 this.UnloadLocationOrder.Enqueue(pos);
             }
@@ -121,18 +121,21 @@ public class MapChunker
         TimerUtil.StartTimer("UnloadTick");
         List<(int, int)> toRemoved = new List<(int, int)>();
         int work = 0;
-        while (this.UnloadLocationOrder.Count > 0)
+        while (work++ < MaxUnloadWork && this.UnloadLocationOrder.Count > 0)
         {
             (int, int) pos = this.UnloadLocationOrder.Dequeue();
-            this.UnloadLocations.Remove(pos);
+
             // Don't count work on elements that needed to stay / were not unloaded
-            if (this.PreloadBounds.Contains(pos)) continue;
-            if (!this.TryUnload(pos)) continue;
-            // Unload 10 at a time
-            if (work++ >= MaxUnloadWork) break;
+            if (this.PreloadBounds.Contains(pos) || !this.TryUnload(pos))
+            {
+                this.UnloadLocationOrder.Enqueue(pos);
+                continue;
+            }
+
+            this.UnloadLocations.Remove(pos);
 
         }
-        
+
         TimerUtil.StopTimer("UnloadTick");
         return work > 0;
     }
@@ -217,12 +220,16 @@ public class MapChunker
         }
         GridTileSet tileSet = TileSets[ch];
         WallTile toClone = tileSet.TileLookup[criteria];
+        int ix = Random.Range(0, toClone.Templates.Count);
+        Sprite s = toClone.Templates[ix].GetSprite();
         GameObject newObj =
         Spawner.SpawnObject(toClone.gameObject)
                .Parent(WallContainer)
                .LocalPosition(new Vector2(pos.col, pos.row))
                .Name($"Wall[{ch}] @ ({pos.row}, {pos.col})")
                .Spawn();
+
+        newObj.GetComponent<SpriteRenderer>().sprite = s;
         return newObj;
     }
 

@@ -20,7 +20,8 @@ public class PlayerController : MonoBehaviour
     public Pushable Pushing;
     public float Speed, DirectionX, DirectionY, LastDirectionX, LastDirectionY;
     public AbsorbEffect AbsorbEffectReference;
-    public bool CanMove => true;
+    private bool IsAnimating = false;
+    public bool CanMove => !IsAnimating;
     public bool IsAbsorbing => AbsorbEffectReference.gameObject.activeInHierarchy;
 
     private Dictionary<string, System.Action> _MovementControls;
@@ -149,17 +150,16 @@ public class PlayerController : MonoBehaviour
         if (LastDirectionX == DirectionX && LastDirectionY == DirectionY) return;
         // Are we moving?
         if (Velocity.magnitude == 0) return;
-        int ix = 0;
+        Facing f = Facing.South;
         // West
-        if (Velocity.x < 0)  ix = 3;
+        if (Velocity.x < 0) f = Facing.West;
         // East
-        else if (Velocity.x > 0) ix = 1;
+        else if (Velocity.x > 0) f = Facing.East;
         // South
-        else if (Velocity.y < 0)  ix = 2;
+        else if (Velocity.y < 0) f = Facing.South;
         // North
-        else if (Velocity.y < 0)  ix = 0;
-        for (int i = 0; i < 4; i++)
-            DirectionalSprites[i].SetActive(i == ix);
+        else if (Velocity.y > 0) f = Facing.North;
+        this.SetDirectionalSprite(f);
     }
 
     private void UpdateScreen()
@@ -215,5 +215,33 @@ public class PlayerController : MonoBehaviour
         this.AbsorbEffectReference.gameObject.SetActive(true);
     }
 
+    private void SetDirectionalSprite(Facing facing)
+    {
+        int ix = (int)facing;
+        for (int i = 0; i < 4; i++)
+            DirectionalSprites[i].SetActive(i == ix);
+    }
 
+    public void StartCollection()
+    {
+
+        this.IsAnimating = true;
+        this.SetDirectionalSprite(Facing.South);
+
+    }
+
+    public void EndCollection()
+    {
+        this.IsAnimating = false;
+    }
+
+
+}
+
+public enum Facing
+{
+    North,
+    East,
+    South,
+    West
 }
