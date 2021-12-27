@@ -8,6 +8,8 @@ public class WeaponController : MonoBehaviour
 
     private float StartAt = -1;
     private float Duration = .25f;
+    private float _Damage = 1f;
+    public float Damage => _Damage;
     public Vector2 StartPosition;
     public Vector2 EndPosition;
     private bool IsLoaded = false;
