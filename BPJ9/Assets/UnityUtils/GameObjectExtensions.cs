@@ -12,5 +12,13 @@ namespace CaptainCoder.Unity.GameObjectExtensions
             input.transform.position = v3;
         }
 
+        public static void SetLocalPosition2D(this GameObject input, Vector2 newPosition)
+        {
+
+            Vector3 v3 = newPosition;
+            v3.z = input.transform.localPosition.z;
+            input.transform.localPosition = v3;
+        }
+
     }
 }

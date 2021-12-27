@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour
     public bool CanMove => !IsAnimating && KnockbackStartAt <= 0;
     public bool IsAbsorbing => AbsorbEffectReference.gameObject.activeInHierarchy;
 
+    private bool CanAttack = true;
+
     private Dictionary<string, System.Action> _MovementControls;
     public Dictionary<string, System.Action> MovementControls
     {
@@ -77,6 +79,10 @@ public class PlayerController : MonoBehaviour
     // Container containing all of the sprites for drawing the player
     // Currently used for damage boost
     public GameObject SpriteContainer;
+
+    public List<WeaponController> DirectionalWeapons;
+    public WeaponController WeaponController;
+    public Facing CurrentFacing = Facing.North;
 
     public void Start()
     {
@@ -147,6 +153,7 @@ public class PlayerController : MonoBehaviour
     {
         Dictionary<string, System.Action> ActionControls = new Dictionary<string, System.Action>();
         ActionControls["Interact"] = () => this.DoInteract();
+        ActionControls["Attack"] = () => this.DoAttack();
         ActionControls["Absorb"] = () => this.DoAbsorb();
         ActionControls["Diagnostics"] = () => Debug.Log(TimerUtil.ReportAllTimers());
         ActionControls["ResetTimers"] = () => TimerUtil.ResetTimers();
@@ -259,6 +266,15 @@ public class PlayerController : MonoBehaviour
         this.CurrentInteractable.Interact(this);
     }
 
+    private void DoAttack()
+    {
+        if (!CanAttack) return;
+        WeaponController.StartAnimation();
+        // Can't attack again while animating
+        this.CanAttack = false;
+        WeaponController.OnEndAnimation = p => this.CanAttack = true;
+    }
+
     private void DoAbsorb()
     {
         if (this.CurrentInteractable == null) return;
@@ -270,9 +286,14 @@ public class PlayerController : MonoBehaviour
 
     private void SetDirectionalSprite(Facing facing)
     {
+        if (facing == CurrentFacing) return;
         int ix = (int)facing;
         for (int i = 0; i < 4; i++)
             DirectionalSprites[i].SetActive(i == ix);
+        
+        WeaponController.EndAnimation();
+        WeaponController = DirectionalWeapons[ix];
+        this.CurrentFacing = facing;
     }
 
     public void StartCollection()
