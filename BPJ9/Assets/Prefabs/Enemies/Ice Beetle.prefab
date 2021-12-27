@@ -452,6 +452,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5762927263497309144}
   - component: {fileID: 6589815655360136545}
+  - component: {fileID: 1388973559}
+  - component: {fileID: 1388973560}
+  - component: {fileID: 1388973561}
+  - component: {fileID: 4116186033406409104}
   m_Layer: 0
   m_Name: Ice Beetle
   m_TagString: Untagged
@@ -484,7 +488,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.012452126, y: 0.008301407}
@@ -500,3 +504,65 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8422729, y: 0.78416294}
   m_EdgeRadius: 0
+--- !u!114 &1388973559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8433882026066504768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ede1cc60f63d409fb9d8fa87ba23bf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WayPoints: []
+  TargetWayPoint: {x: 0, y: 0}
+  PreviousWayPoint: {x: 0, y: 0}
+  Speed: 1.25
+  PathOnStart: 1
+  Loop: 0
+  Finished: 0
+--- !u!114 &1388973560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8433882026066504768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3563a21757804678acae0d551fcf492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetLayer: 5
+--- !u!114 &1388973561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8433882026066504768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 905acbe57b59d457ab761585a78e0bc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  North: {fileID: 2266412959900408159}
+  East: {fileID: 6814362176545960202}
+  South: {fileID: 1067104462844618961}
+  West: {fileID: 3822144958318120711}
+--- !u!114 &4116186033406409104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8433882026066504768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5da6c6cdc691e4ca0815c1810c6f17d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 1
+  Knockback: 3

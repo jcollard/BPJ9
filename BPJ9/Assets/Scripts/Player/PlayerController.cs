@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using CaptainCoder.Unity;
 using UnityEngine;
 using System.Linq;
+using CaptainCoder.Unity.GameObjectExtensions;
 
 [RequireComponent(typeof(Collider2D))]
 public class PlayerController : MonoBehaviour
@@ -11,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public bool IsMoving => !(DirectionX == 0 && DirectionY == 0);
     public bool IsMovingLeft => DirectionX < 0;
     public bool IsMovingRight => DirectionX > 0;
+
     public bool IsMovingDown => DirectionY < 0;
     public bool IsMovingUp => DirectionY > 0;
 
@@ -32,7 +34,12 @@ public class PlayerController : MonoBehaviour
         set => SetAndNotify(ref _HP, Mathf.Min(_MaxHP, value));
     }
 
-    
+    public float KnockBackStartAt = -1;
+    public float KnockBackDuration = 0.5f;
+    public Vector2 KnockBackStartPosition, KnockBackEndPosition;
+    public float DamageBoostStartAt = -1;
+    public float DamageBoostDuration = 2;
+    public float DamageBoostFlickerSpeed = 3f;
     
     public Vector2 Velocity => new Vector2(DirectionX, DirectionY) * Speed;
     public PowerType CurrentPower = PowerType.None;
@@ -41,7 +48,7 @@ public class PlayerController : MonoBehaviour
     public float Speed, DirectionX, DirectionY, LastDirectionX, LastDirectionY;
     public AbsorbEffect AbsorbEffectReference;
     private bool IsAnimating = false;
-    public bool CanMove => !IsAnimating;
+    public bool CanMove => !IsAnimating && KnockBackStartAt < 0;
     public bool IsAbsorbing => AbsorbEffectReference.gameObject.activeInHierarchy;
 
     private Dictionary<string, System.Action> _MovementControls;
@@ -67,6 +74,10 @@ public class PlayerController : MonoBehaviour
     private Collider2D Collider;
 
     public List<GameObject> DirectionalSprites;
+
+    // Container containing all of the sprites for drawing the player
+    // Currently used for damage boost
+    public GameObject SpriteContainer;
 
     public void Start()
     {
@@ -149,6 +160,9 @@ public class PlayerController : MonoBehaviour
     {
         DirectionX = DirectionY = 0;
 
+        HandleKnockBack();
+        HandleDamageBoost();
+
         HandleInput();
 
         HandleDirection();
@@ -162,6 +176,30 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         DoMove();
+    }
+
+    private void HandleKnockBack()
+    {
+        if (KnockBackStartAt < 0) return;
+        float percent = (Time.time - KnockBackStartAt) / KnockBackDuration;
+        this.gameObject.SetPosition2D(Vector2.Lerp(KnockBackStartPosition, KnockBackEndPosition, percent));
+        if (percent >= 1)
+        {
+            KnockBackStartAt = -1;
+        }
+    }
+
+    private void HandleDamageBoost()
+    {
+        if (DamageBoostStartAt < 0) return;
+        if (Time.time > (DamageBoostStartAt + DamageBoostDuration))
+        {
+            SpriteContainer.SetActive(true);
+            DamageBoostStartAt = -1;
+            return;
+        }
+        bool active = Mathf.Sin(Time.time * DamageBoostFlickerSpeed) >= 0;
+        SpriteContainer.SetActive(active);
     }
 
     private void HandleDirection()
@@ -261,6 +299,17 @@ public class PlayerController : MonoBehaviour
         OverlayController.Instance.UpdatePlayerInfo(this);
     }
 
+    public void TakeHit(GameObject cause, float damage, float knockbackVelocity)
+    {
+        this.HP -= damage;
+        if (knockbackVelocity <= 0) knockbackVelocity = 2;
+        Vector2 direction = (this.transform.position - cause.transform.position).normalized * knockbackVelocity;
+        KnockBackEndPosition = this.transform.position;
+        KnockBackEndPosition += direction;
+        KnockBackStartPosition = this.gameObject.transform.position;
+        DamageBoostStartAt = KnockBackStartAt = Time.time;
+        SoundController.PlaySFX("Hurt");
+    }
 
 }
 
