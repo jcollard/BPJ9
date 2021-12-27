@@ -200,6 +200,10 @@ PrefabInstance:
       propertyPath: WayPoints.Array.data[7]
       value: 
       objectReference: {fileID: 3985876}
+    - target: {fileID: 1388973560, guid: ceb7828050c734608a5b136df26d20fd, type: 3}
+      propertyPath: TargetLayer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4116186033406409104, guid: ceb7828050c734608a5b136df26d20fd, type: 3}
       propertyPath: Knockback
       value: 3
@@ -1039,7 +1043,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &214180483
 Transform:
   m_ObjectHideFlags: 0
