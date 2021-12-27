@@ -13,8 +13,28 @@ public class PlayerController : MonoBehaviour
     public bool IsMovingRight => DirectionX > 0;
     public bool IsMovingDown => DirectionY < 0;
     public bool IsMovingUp => DirectionY > 0;
+
+    [SerializeField]
+    private float _HP = 6;
+
+    [SerializeField]
+    private int _MaxHP = 6;
+
+    public int MaxHP
+    {
+        get => _MaxHP;
+        set => SetAndNotify(ref _MaxHP, value);
+    }
+
+    public float HP 
+    {
+        get => _HP;
+        set => SetAndNotify(ref _HP, Mathf.Min(_MaxHP, value));
+    }
+
+    
+    
     public Vector2 Velocity => new Vector2(DirectionX, DirectionY) * Speed;
-    public TextGroup CurrentPowerText;
     public PowerType CurrentPower = PowerType.None;
     public InteractableController CurrentInteractable;
     public Pushable Pushing;
@@ -164,7 +184,7 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateScreen()
     {
-        CurrentPowerText.SetText($"Current Power: {CurrentPower}");
+        
     }
 
     private void HandleInput()
@@ -233,6 +253,12 @@ public class PlayerController : MonoBehaviour
     public void EndCollection()
     {
         this.IsAnimating = false;
+    }
+
+    private void SetAndNotify<T>(ref T toUpdate, T value)
+    {
+        toUpdate = value;
+        OverlayController.Instance.UpdatePlayerInfo(this);
     }
 
 
