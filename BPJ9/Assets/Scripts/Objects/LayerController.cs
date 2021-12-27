@@ -17,20 +17,9 @@ public class LayerController : MonoBehaviour
         this.transform.position = newPosition;
     }
 
-    void OnAwake()
-    {
-        SetLayer();
-    }
-
-    void OnStart()
-    {
-        SetLayer();
-    }
-
-    void OnEnable()
-    {
-        SetLayer();
-    }
+    void OnAwake() => SetLayer();
+    void OnStart() => SetLayer();
+    void OnEnable() => SetLayer();
 }
 
 public enum Layer
@@ -40,4 +29,5 @@ public enum Layer
     Blocks,
     Walls,
     Player,
+    Enemies
 }
