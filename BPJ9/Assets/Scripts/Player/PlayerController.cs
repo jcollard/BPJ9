@@ -33,10 +33,9 @@ public class PlayerController : MonoBehaviour
         get => _HP;
         set => SetAndNotify(ref _HP, Mathf.Min(_MaxHP, value));
     }
-
-    public float KnockBackStartAt = -1;
-    public float KnockBackDuration = 0.5f;
-    public Vector2 KnockBackStartPosition, KnockBackEndPosition;
+    public float KnockbackMultiplier = 200;
+    public float KnockbackStartAt = -1;
+    public float KnockbackStunDuration = 0.5f;
     public float DamageBoostStartAt = -1;
     public float DamageBoostDuration = 2;
     public float DamageBoostFlickerSpeed = 3f;
@@ -48,7 +47,7 @@ public class PlayerController : MonoBehaviour
     public float Speed, DirectionX, DirectionY, LastDirectionX, LastDirectionY;
     public AbsorbEffect AbsorbEffectReference;
     private bool IsAnimating = false;
-    public bool CanMove => !IsAnimating && KnockBackStartAt < 0;
+    public bool CanMove => !IsAnimating && KnockbackStartAt <= 0;
     public bool IsAbsorbing => AbsorbEffectReference.gameObject.activeInHierarchy;
 
     private Dictionary<string, System.Action> _MovementControls;
@@ -160,7 +159,8 @@ public class PlayerController : MonoBehaviour
     {
         DirectionX = DirectionY = 0;
 
-        HandleKnockBack();
+        HandleKnockback();
+
         HandleDamageBoost();
 
         HandleInput();
@@ -178,15 +178,10 @@ public class PlayerController : MonoBehaviour
         DoMove();
     }
 
-    private void HandleKnockBack()
+    public void HandleKnockback()
     {
-        if (KnockBackStartAt < 0) return;
-        float percent = (Time.time - KnockBackStartAt) / KnockBackDuration;
-        this.gameObject.SetPosition2D(Vector2.Lerp(KnockBackStartPosition, KnockBackEndPosition, percent));
-        if (percent >= 1)
-        {
-            KnockBackStartAt = -1;
-        }
+        if (KnockbackStartAt <= 0) return;
+        if (KnockbackStartAt + KnockbackStunDuration < Time.time) KnockbackStartAt = -1;
     }
 
     private void HandleDamageBoost()
@@ -302,12 +297,10 @@ public class PlayerController : MonoBehaviour
     public void TakeHit(GameObject cause, float damage, float knockbackVelocity)
     {
         this.HP -= damage;
-        if (knockbackVelocity <= 0) knockbackVelocity = 2;
-        Vector2 direction = (this.transform.position - cause.transform.position).normalized * knockbackVelocity;
-        KnockBackEndPosition = this.transform.position;
-        KnockBackEndPosition += direction;
-        KnockBackStartPosition = this.gameObject.transform.position;
-        DamageBoostStartAt = KnockBackStartAt = Time.time;
+        if (knockbackVelocity <= 0) knockbackVelocity = 3;
+        Vector2 direction = (this.transform.position - cause.transform.position).normalized * knockbackVelocity * KnockbackMultiplier;
+        this.GetComponent<Rigidbody2D>().AddForce(direction);
+        DamageBoostStartAt = KnockbackStartAt = Time.time;
         SoundController.PlaySFX("Hurt");
     }
 
