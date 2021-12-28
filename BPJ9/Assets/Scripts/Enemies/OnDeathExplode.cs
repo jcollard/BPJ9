@@ -26,6 +26,10 @@ public class OnDeathExplode : MonoBehaviour
 
     private void DoDestroy(EnemyController ec)
     {
+        PathController pc = ec.GetComponent<PathController>();
+        if (pc != null) pc.Finished = true;
+        Collider2D collider = ec.GetComponent<Collider2D>();
+        if (collider != null) collider.enabled = false;
         StartAt = Time.time;
         ToDisable.SetActive(false);
         Explosion.SetActive(true);
