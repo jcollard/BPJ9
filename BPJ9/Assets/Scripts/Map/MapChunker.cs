@@ -41,6 +41,7 @@ public class MapChunker
     private readonly Dictionary<char, GridTileSet> TileSets;
     private readonly HashSet<char> IsWall;
     private bool FirstLoad = true;
+    public char CurrentRoom = (char)0;
 
     internal MapChunker(CameraFollower camera,
                       Transform wallContainer,
@@ -102,10 +103,11 @@ public class MapChunker
         (int, int) pos = ((int)Camera.transform.position.y, (int)Camera.transform.position.x);
         // If we are outside the rebuild bounds, we build the next chunk.
         if (!RebuildBounds.Contains(pos)) return BuildNextChunk();
+        return false;
         // If we are in the bounds, try preloading
-        if (this.PreloadTick()) return true;
+        // if (this.PreloadTick()) return true;
         // If we are done preloading unload unused objects.
-        return UnloadTick();
+        // return UnloadTick();
     }
 
     private bool PreloadTick()
@@ -157,8 +159,12 @@ public class MapChunker
         return work > 0;
     }
 
-    public bool BuildNextChunk(GridBounds _nextBounds = null)
+    public bool BuildNextChunk(GridBounds _nextBounds = null, char CurrentRoom = (char)0)
     {
+        if (CurrentRoom > 0)
+        {
+            this.CurrentRoom = CurrentRoom;
+        }
         (int, int) center = ((int)Camera.transform.position.y, (int)Camera.transform.position.x);
         GridBounds NextBounds = new GridBounds(center, MinWidth, MinHeight);
         if (_nextBounds != null) NextBounds = _nextBounds;
@@ -186,7 +192,8 @@ public class MapChunker
         // Loop through elements that do not overlap with new bounds
         foreach ((int row, int col) pos in toCheck)
         {
-
+            // Only draw rooms
+            if (!RoomData.TryGetValue(pos, out char roomCh)) continue;
             // Check if it is part of the map, if it is not we don't need to load it
             if (!MapData.TryGetValue(pos, out char ch)) continue;
             // If it is a blank space, we skip it
@@ -205,6 +212,13 @@ public class MapChunker
 
     private bool LoadTile(char ch, (int, int) pos)
     {
+        // If we know what room we are in, only draw this room.
+        if (this.CurrentRoom > 0)
+        {
+            if(!RoomData.TryGetValue(pos, out char roomCh)) return false;
+            if (roomCh != CurrentRoom) return false;
+        }
+
         if (ch == ' ') return false;
         GameObject obj = this.IsWall.Contains(ch) ? this.CreateWall(ch, pos) : this.CreateFloor(ch, pos);
         Loaded[pos] = obj;

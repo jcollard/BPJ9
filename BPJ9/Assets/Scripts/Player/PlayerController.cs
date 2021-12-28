@@ -367,6 +367,15 @@ public class PlayerController : MonoBehaviour
             row = (int)Mathf.Round(this.transform.position.y);
             col = (int)Mathf.Round(this.transform.position.x);
             MapChunker.Instance.TryGetRoom((row, col), out _CurrentRoom);
+            (Vector2 min, Vector2 max) = MapChunker.Instance.GetRoomBounds(_CurrentRoom);
+            MapChunker
+              .Instance
+              .BuildNextChunk(new GridBounds(
+                  (int)max.y, 
+                  (int)max.x, 
+                  (int)min.y, 
+                  (int)min.x),
+                  CurrentRoom = _CurrentRoom);
         }
 
     }
