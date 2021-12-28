@@ -18,7 +18,7 @@ public class MapChunker
         {
             _CurrentBounds = value;
             RebuildBounds = new GridBounds(_CurrentBounds.Center, 0, 0);
-            CalcPreBuild();
+            // CalcPreBuild();
         }
     }
     private GridBounds PreloadBounds, LastPreLoadBounds;
@@ -157,6 +157,13 @@ public class MapChunker
 
         TimerUtil.StopTimer("UnloadTick");
         return work > 0;
+    }
+
+    public void Unload()
+    {
+        UnityEngineUtils.Instance.DestroyChildren(WallContainer, false);
+        UnityEngineUtils.Instance.DestroyChildren(FloorContainer, false);
+        Loaded.Clear();
     }
 
     public bool BuildNextChunk(GridBounds _nextBounds = null, char CurrentRoom = (char)0)
