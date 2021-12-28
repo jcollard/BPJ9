@@ -166,6 +166,27 @@ public class MapChunker
         Loaded.Clear();
     }
 
+    public void LoadChunk(GridBounds chunk, char CurrentRoom = (char)0)
+    {
+        this.Unload();
+        if (CurrentRoom > 0)
+        {
+            this.CurrentRoom = CurrentRoom;
+        }
+        
+        // Loop through elements that do not overlap with new bounds
+        foreach ((int row, int col) pos in chunk)
+        {
+            // Only draw rooms
+            if (!RoomData.TryGetValue(pos, out char roomCh)) continue;
+            // Check if it is part of the map, if it is not we don't need to load it
+            if (!MapData.TryGetValue(pos, out char ch)) continue;
+            // If it is a blank space, we skip it
+            if (ch == ' ') continue;
+            this.LoadTile(ch, pos);
+        }
+    }
+
     public bool BuildNextChunk(GridBounds _nextBounds = null, char CurrentRoom = (char)0)
     {
         if (CurrentRoom > 0)

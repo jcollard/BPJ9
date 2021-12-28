@@ -14,12 +14,12 @@ public class BaseMap : MonoBehaviour
     public string RoomData;
     public string TransitionData;
 
-    public void Start()
+    public void Awake()
     {
         // TODO: Consider not calling this on start as it will rebuild when
         // the scene changes.
         Init();
-        Chunker.BuildNextChunk();
+        // Chunker.BuildNextChunk();
     }
 
     public void Init()

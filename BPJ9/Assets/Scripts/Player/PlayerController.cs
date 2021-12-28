@@ -107,6 +107,18 @@ public class PlayerController : MonoBehaviour
 
     public void Start()
     {
+        int row = (int)Mathf.Round(this.transform.position.y);
+        int col = (int)Mathf.Round(this.transform.position.x);
+        MapChunker.Instance.TryGetRoom((row, col), out _CurrentRoom);
+        (Vector2 min, Vector2 max) = MapChunker.Instance.GetRoomBounds(_CurrentRoom);
+        MapChunker
+              .Instance
+              .LoadChunk(new GridBounds(
+                  (int)max.y,
+                  (int)max.x,
+                  (int)min.y,
+                  (int)min.x),
+                  CurrentRoom = _CurrentRoom);
         Collider = this.GetComponent<Collider2D>();
         if (Collider == null)
         {
@@ -368,13 +380,12 @@ public class PlayerController : MonoBehaviour
             col = (int)Mathf.Round(this.transform.position.x);
             MapChunker.Instance.TryGetRoom((row, col), out _CurrentRoom);
             (Vector2 min, Vector2 max) = MapChunker.Instance.GetRoomBounds(_CurrentRoom);
-            MapChunker.Instance.Unload();
             MapChunker
               .Instance
-              .BuildNextChunk(new GridBounds(
-                  (int)max.y, 
-                  (int)max.x, 
-                  (int)min.y, 
+              .LoadChunk(new GridBounds(
+                  (int)max.y,
+                  (int)max.x,
+                  (int)min.y,
                   (int)min.x),
                   CurrentRoom = _CurrentRoom);
         }
