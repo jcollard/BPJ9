@@ -27,9 +27,7 @@ public class MapChunker
     private Queue<(int, int)> UnloadLocationOrder = new Queue<(int, int)>();
     private bool PreLoadComplete = false;
     private GridBounds RebuildBounds;
-    public readonly Transform WallContainer;
-    public readonly Transform FloorContainer;
-    public readonly Transform TransitionContainer;
+    public readonly Transform WallContainer, FloorContainer, TransitionContainer, EnemyContainer;
     public readonly TransitionController TemplateTransitionController;
     private Dictionary<(int, int), GameObject> Loaded;
     private int MaxGameObjects = 2000;
@@ -47,11 +45,14 @@ public class MapChunker
                       Transform wallContainer,
                       Transform floorContainer,
                       Transform transitionContainer,
+                      Transform enemyContainer,
                       Dictionary<char, GridTileSet> tileSets,
                       HashSet<char> isWall,
                       string mapData,
                       string roomData,
-                      string transitionData)
+                      string transitionData,
+                      string enemyData,
+                      Dictionary<char, GameObject> enemyLookup)
     {
         Instance = this;
         this.Camera = camera;
@@ -62,11 +63,13 @@ public class MapChunker
         this.WallContainer = wallContainer;
         this.FloorContainer = floorContainer;
         this.TransitionContainer = transitionContainer;
+        this.EnemyContainer = enemyContainer;        
         this.TileSets = tileSets;
         this.IsWall = isWall;
         this.LoadMap(mapData);
         this.LoadRooms(roomData);
         this.LoadTransitions(transitionData);
+        this.LoadEnemies(enemyData, enemyLookup);
         this.BuildNextChunk();
     }
 
@@ -452,6 +455,41 @@ public class MapChunker
             
         }
     }
+
+    private void LoadEnemies(string enemyData, Dictionary<char, GameObject> enemyLookup)
+    {
+        // TODO: Consider loading enemies when you enter a specific room.
+        // Challenges: Will have to keep track of destroyed enemies so they 
+        // don't respawn when you enter the room. Or... maybe that is a good thing
+        // for puzzles?
+        UnityEngineUtils.Instance.DestroyChildren(EnemyContainer);
+        int rows = enemyData.Split('\n').Length;
+        int row = rows - 1;
+        int cols = 0;
+        int col = 0;
+        foreach (char c in enemyData)
+        {
+            if (c == '\n')
+            {
+                row--;
+                col = 0;
+                continue;
+            }
+
+            if (c != ' ')
+            {
+                if(!enemyLookup.TryGetValue(c, out GameObject template)) throw new System.Exception($"Could not find template for enemy char {c}.");
+                GameObject newEnemy = UnityEngine.Object.Instantiate(template);
+                newEnemy.transform.parent = EnemyContainer;
+                newEnemy.transform.localPosition = new Vector2(col, row);
+                newEnemy.SetActive(true);
+            }
+                
+
+            col++;
+            cols = Mathf.Max(cols, col);
+        }
+    }
 }
 
 public class MapChunkerBuilder
@@ -462,23 +500,32 @@ public class MapChunkerBuilder
         return new MapChunkerBuilder().Camera(camera);
     }
 
-    private Transform _WallContainer, _FloorContainer, _TransitionContainer;
+    private Transform _WallContainer, _FloorContainer, _TransitionContainer, _EnemyContainer;
     private CameraFollower _Camera;
     private Dictionary<char, GridTileSet> _TileSets = new Dictionary<char, GridTileSet>();
+    private Dictionary<char, GameObject> _EnemyLookup = new Dictionary<char, GameObject>();
     private HashSet<char> _IsWall = new HashSet<char>();
-    private string _MapData, _RoomData, _TransitionData;
+    private string _MapData, _RoomData, _TransitionData, _EnemyData;
 
     public MapChunkerBuilder Camera(CameraFollower camera) => SetField(ref _Camera, camera);
     public MapChunkerBuilder WallContainer(Transform wallContainer) => SetField(ref _WallContainer, wallContainer);
     public MapChunkerBuilder FloorContainer(Transform floorContainer) => SetField(ref _FloorContainer, floorContainer);
     public MapChunkerBuilder TransitionContainer(Transform transitionContainer) => SetField(ref _TransitionContainer, transitionContainer);
+    public MapChunkerBuilder EnemyContainer(Transform enemyContainer) => SetField(ref _EnemyContainer, enemyContainer);
     public MapChunkerBuilder MapData(string mapData) => SetField(ref _MapData, mapData);
     public MapChunkerBuilder TransitionData(string transitionData) => SetField(ref _TransitionData, transitionData);
     public MapChunkerBuilder RoomData(string roomData) => SetField(ref _RoomData, roomData);
+    public MapChunkerBuilder EnemyData(string enemyData) => SetField(ref _EnemyData, enemyData);
     public MapChunkerBuilder AddTileSet(char ch, GridTileSet tileSet)
     {
         if (this._TileSets.ContainsKey(ch)) throw new System.Exception($"Duplicate tile set character found: {ch}/");
         this._TileSets[ch] = tileSet;
+        return this;
+    }
+    public MapChunkerBuilder AddEnemy(char ch, GameObject template)
+    {
+        if (this._TileSets.ContainsKey(ch)) throw new System.Exception($"Duplicate enemy character found: {ch}/");
+        this._EnemyLookup[ch] = template;
         return this;
     }
 
@@ -501,11 +548,14 @@ public class MapChunkerBuilder
                               this._WallContainer,
                               this._FloorContainer,
                               this._TransitionContainer,
+                              this._EnemyContainer,
                               this._TileSets,
                               this._IsWall,
                               this._MapData,
                               this._RoomData,
-                              this._TransitionData);
+                              this._TransitionData,
+                              this._EnemyData,
+                              this._EnemyLookup);
     }
 
 }

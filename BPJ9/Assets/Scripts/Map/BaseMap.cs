@@ -6,13 +6,12 @@ using System.Linq;
 
 public class BaseMap : MonoBehaviour
 {
-    public Transform FloorContainer, WallContainer, TransitionContainer, Player;
+    public Transform FloorContainer, WallContainer, TransitionContainer, EnemyContainer, Player;
     public MapTileDefinition[] Definitions;
+    public EnemyDefinition[] Enemies;
     public MapChunker Chunker;
     public CameraFollower MainCamera;
-    public string MapData;
-    public string RoomData;
-    public string TransitionData;
+    public string MapData, RoomData, TransitionData, EnemyData;
 
     public void Awake()
     {
@@ -29,13 +28,18 @@ public class BaseMap : MonoBehaviour
                                                      .WallContainer(this.WallContainer)
                                                      .FloorContainer(this.FloorContainer)
                                                      .TransitionContainer(this.TransitionContainer)
+                                                     .EnemyContainer(this.EnemyContainer)
                                                      .MapData(this.MapData)
                                                      .RoomData(this.RoomData)
-                                                     .TransitionData(this.TransitionData);
+                                                     .TransitionData(this.TransitionData)
+                                                     .EnemyData(this.EnemyData);
         foreach (MapTileDefinition def in Definitions)
             builder.AddTileSet(def.FloorCharacter, def.TileSet)
                    .AddTileSet(def.WallCharacter, def.TileSet)
                    .AddWallChar(def.WallCharacter);
+
+        foreach (EnemyDefinition def in Enemies)
+            builder.AddEnemy(def.EnemyCharacter, def.Template);
 
         this.Chunker = builder.Build();
     }
@@ -54,4 +58,12 @@ public class MapTileDefinition
     public char WallCharacter;
 
     public GridTileSet TileSet;
+}
+
+[System.Serializable]
+public class EnemyDefinition
+{
+    public string name;
+    public char EnemyCharacter;
+    public GameObject Template;
 }
