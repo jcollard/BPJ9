@@ -4,6 +4,7 @@ using System.Linq;
 
 public class MapChunker
 {
+    public static MapChunker Instance;
     public CameraFollower Camera;
     private int MinWidth, MinHeight, PreLoadSize = 2;
     private int PreLoadMaxWork = 3, MaxUnloadWork = 30;
@@ -30,6 +31,8 @@ public class MapChunker
     private Dictionary<(int, int), GameObject> Loaded;
     private int MaxGameObjects = 2000;
     private Dictionary<(int, int), char> MapData;
+    private Dictionary<(int, int), char> RoomData;
+    private Dictionary<(int, int), char> TransitionData;
     private readonly Dictionary<char, GridTileSet> TileSets;
     private readonly HashSet<char> IsWall;
     private bool FirstLoad = true;
@@ -39,8 +42,11 @@ public class MapChunker
                       Transform floorContainer,
                       Dictionary<char, GridTileSet> tileSets,
                       HashSet<char> isWall,
-                      string mapData)
+                      string mapData,
+                      string roomData,
+                      string transitionData)
     {
+        Instance = this;
         this.Camera = camera;
         this.Camera.Chunker = this;
         this.SetSize(this.Camera.OrthographicBounds());
@@ -51,6 +57,8 @@ public class MapChunker
         this.TileSets = tileSets;
         this.IsWall = isWall;
         this.LoadMap(mapData);
+        this.LoadRooms(roomData);
+        this.LoadTransitions(roomData);
         this.BuildNextChunk();
     }
 
@@ -276,13 +284,64 @@ public class MapChunker
                 continue;
             }
 
-            Grid[(row, col)] = c;
+            if (c != ' ')
+                Grid[(row, col)] = c;
 
             col++;
             cols = Mathf.Max(cols, col);
         }
         bounds = new GridBounds(rows, cols, 0, 0);
         return Grid;
+    }
+
+    public bool TryGetRoom((int, int) pos, out char ch) => RoomData.TryGetValue(pos, out ch);
+
+    public void LoadRooms(string roomData)
+    {
+        RoomData = new Dictionary<(int, int), char>();
+        int rows = roomData.Split('\n').Length;
+        int row = rows - 1;
+        int cols = 0;
+        int col = 0;
+        foreach (char c in roomData)
+        {
+            if (c == '\n')
+            {
+                row--;
+                col = 0;
+                continue;
+            }
+
+            if (c != ' ')
+                RoomData[(row, col)] = c;
+
+            col++;
+            cols = Mathf.Max(cols, col);
+        }
+    }
+
+    public void LoadTransitions(string transitionData)
+    {
+        TransitionData = new Dictionary<(int, int), char>();
+        int rows = transitionData.Split('\n').Length;
+        int row = rows - 1;
+        int cols = 0;
+        int col = 0;
+        foreach (char c in transitionData)
+        {
+            if (c == '\n')
+            {
+                row--;
+                col = 0;
+                continue;
+            }
+
+            if (c != ' ')
+                RoomData[(row, col)] = c;
+
+            col++;
+            cols = Mathf.Max(cols, col);
+        }
     }
 }
 
@@ -298,12 +357,14 @@ public class MapChunkerBuilder
     private CameraFollower _Camera;
     private Dictionary<char, GridTileSet> _TileSets = new Dictionary<char, GridTileSet>();
     private HashSet<char> _IsWall = new HashSet<char>();
-    private string _MapData;
+    private string _MapData, _RoomData, _TransitionData;
 
     public MapChunkerBuilder Camera(CameraFollower camera) => SetField(ref _Camera, camera);
     public MapChunkerBuilder WallContainer(Transform wallContainer) => SetField(ref _WallContainer, wallContainer);
     public MapChunkerBuilder FloorContainer(Transform floorContainer) => SetField(ref _FloorContainer, floorContainer);
     public MapChunkerBuilder MapData(string mapData) => SetField(ref _MapData, mapData);
+    public MapChunkerBuilder TransitionData(string transitionData) => SetField(ref _TransitionData, transitionData);
+    public MapChunkerBuilder RoomData(string roomData) => SetField(ref _RoomData, roomData);
     public MapChunkerBuilder AddTileSet(char ch, GridTileSet tileSet)
     {
         if (this._TileSets.ContainsKey(ch)) throw new System.Exception($"Duplicate tile set characater found: {ch}/");
@@ -331,7 +392,9 @@ public class MapChunkerBuilder
                               this._FloorContainer,
                               this._TileSets,
                               this._IsWall,
-                              this._MapData);
+                              this._MapData,
+                              this._RoomData,
+                              this._TransitionData);
     }
 
 }

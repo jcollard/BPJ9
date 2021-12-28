@@ -13,6 +13,8 @@ public class BaseMapManager : MonoBehaviour
     public (int min, int max) Cols;
     public BaseMap Map => this.GetComponent<BaseMap>();
     public TextAsset MapFile;
+    public TextAsset RoomFile;
+    public TextAsset TransitionFile;
 }
 
 [CustomEditor(typeof(BaseMapManager))]
@@ -26,11 +28,13 @@ public class BaseMapManagerEditor : Editor
         EditorGUILayout.ObjectField("Base Map", manager.Map, typeof(BaseMap), false);
 
         manager.MapFile = (TextAsset)EditorGUILayout.ObjectField("Map File", manager.MapFile, typeof(TextAsset), false);
-        
-        if (manager.MapFile != null)
-        {
-            manager.Map.MapData = manager.MapFile.text;
-        }
+        if (manager.MapFile != null) manager.Map.MapData = manager.MapFile.text;
+
+        manager.TransitionFile = (TextAsset)EditorGUILayout.ObjectField("Transition File", manager.TransitionFile, typeof(TextAsset), false);
+        if (manager.TransitionFile != null) manager.Map.TransitionData = manager.TransitionFile.text;
+
+        manager.RoomFile = (TextAsset)EditorGUILayout.ObjectField("Room File", manager.RoomFile, typeof(TextAsset), false);
+        if (manager.RoomFile != null) manager.Map.RoomData = manager.RoomFile.text;
 
         EditorGUILayout.Separator();
         EditorGUILayout.BeginHorizontal();

@@ -11,6 +11,8 @@ public class BaseMap : MonoBehaviour
     public MapChunker Chunker;
     public CameraFollower MainCamera;
     public string MapData;
+    public string RoomData;
+    public string TransitionData;
 
     public void Start()
     {
@@ -26,7 +28,9 @@ public class BaseMap : MonoBehaviour
         MapChunkerBuilder builder = MapChunkerBuilder.Instantiate(this.MainCamera)
                                                      .WallContainer(this.WallContainer)
                                                      .FloorContainer(this.FloorContainer)
-                                                     .MapData(this.MapData);
+                                                     .MapData(this.MapData)
+                                                     .RoomData(this.RoomData)
+                                                     .TransitionData(this.TransitionData);
         foreach (MapTileDefinition def in Definitions)
             builder.AddTileSet(def.FloorCharacter, def.TileSet)
                    .AddTileSet(def.WallCharacter, def.TileSet)

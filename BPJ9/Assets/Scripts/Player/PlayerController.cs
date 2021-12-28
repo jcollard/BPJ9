@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float _HP = 6;
 
+
     [SerializeField]
     private int _MaxHP = 6;
 
@@ -86,6 +87,8 @@ public class PlayerController : MonoBehaviour
     public List<WeaponController> DirectionalWeapons;
     public WeaponController WeaponController;
     public Facing CurrentFacing = Facing.North;
+
+    public char CurrentRoom = 'A';
 
     public void Start()
     {
@@ -336,6 +339,20 @@ public class PlayerController : MonoBehaviour
         this.GetComponent<Rigidbody2D>().AddForce(direction);
         DamageBoostStartAt = KnockbackStartAt = Time.time;
         SoundController.PlaySFX("Hurt");
+    }
+
+
+    public void TransitionTo(TransitionController teleportTo)
+    {
+        int row = (int)Mathf.Round(this.transform.position.y);
+        int col = (int)Mathf.Round(this.transform.position.x);
+        if (!MapChunker.Instance.TryGetRoom((row, col), out char currRoom))
+        {
+            Debug.Log("Teleport!");
+            this.gameObject.SetPosition2D(teleportTo.transform.position);
+        }
+        Debug.Log($"Position: {(row, col)} CurrRom: {currRoom}");
+        
     }
 
 }
