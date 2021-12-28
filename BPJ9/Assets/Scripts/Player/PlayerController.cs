@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
         set => SetAndNotify(ref _MaxHP, value);
     }
 
-    public float HP 
+    public float HP
     {
         get => _HP;
         set => SetAndNotify(ref _HP, Mathf.Min(_MaxHP, value));
@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     public float DamageBoostStartAt = -1;
     public float DamageBoostDuration = 2;
     public float DamageBoostFlickerSpeed = 3f;
-    
+
     public Vector2 Velocity => new Vector2(DirectionX, DirectionY) * Speed;
     public PowerType CurrentPower = PowerType.None;
     public InteractableController CurrentInteractable;
@@ -74,7 +74,10 @@ public class PlayerController : MonoBehaviour
 
     private Collider2D Collider;
 
-    public List<GameObject> DirectionalSprites;
+    public GameObject IdleContainer;
+    public List<GameObject> IdleSprites;
+    public GameObject WalkingContainer;
+    public List<GameObject> WalkingSprites;
 
     // Container containing all of the sprites for drawing the player
     // Currently used for damage boost
@@ -224,7 +227,7 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateScreen()
     {
-        
+
     }
 
     private void HandleInput()
@@ -255,7 +258,14 @@ public class PlayerController : MonoBehaviour
 
     private void DoMove()
     {
-        if (DirectionX == 0 && DirectionY == 0) return;
+        if (DirectionX == 0 && DirectionY == 0)
+        {
+            WalkingContainer.SetActive(false);
+            IdleContainer.SetActive(true);
+            return;
+        }
+        WalkingContainer.SetActive(true);
+        IdleContainer.SetActive(false);
         Vector2 dir = new Vector2(DirectionX, DirectionY);
         this.transform.Translate(dir * Speed * Time.fixedDeltaTime);
     }
@@ -289,8 +299,11 @@ public class PlayerController : MonoBehaviour
         if (facing == CurrentFacing) return;
         int ix = (int)facing;
         for (int i = 0; i < 4; i++)
-            DirectionalSprites[i].SetActive(i == ix);
-        
+        {
+            IdleSprites[i].SetActive(i == ix);
+            WalkingSprites[i].SetActive(i == ix);
+        }
+
         WeaponController.EndAnimation();
         WeaponController = DirectionalWeapons[ix];
         this.CurrentFacing = facing;
