@@ -63,6 +63,32 @@ public class CameraFollower : MonoBehaviour
         {
             CurrentRoom = Target.CurrentRoom;
             (this.Min, this.Max) = MapChunker.Instance.GetRoomBounds(CurrentRoom);
+            
+            
+            Bounds cBounds = OrthographicBounds();
+            
+            float roomWidth = this.Max.x - this.Min.x;
+            float roomHeight = this.Max.y - this.Min.y;
+            Vector2 roomCenter = new Vector2(this.Max.x - roomWidth/2, this.Max.y - roomHeight/2);
+            float cameraWidth = cBounds.extents.x*2;
+            float cameraHeight = cBounds.extents.y*2;
+
+            Debug.Log($"Camera: W {cameraWidth}, H {cameraHeight}");
+            Debug.Log($"Room: W {roomWidth}, H {roomHeight}");
+
+            // If the room is too small, center it
+            if (roomWidth < cameraWidth)
+            {
+                this.Min.x = roomCenter.x - cameraWidth/2;
+                this.Max.x = roomCenter.x + cameraWidth/2;
+            }
+
+            if (roomHeight < cameraHeight)
+            {
+                this.Min.y = roomCenter.y - cameraHeight/2;
+                this.Max.y = roomCenter.y + cameraHeight/2;
+            }
+
         }
     }
 
