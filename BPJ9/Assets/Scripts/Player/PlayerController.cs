@@ -9,6 +9,7 @@ using CaptainCoder.Unity.GameObjectExtensions;
 [RequireComponent(typeof(Collider2D))]
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance;
     public bool IsMoving => !(DirectionX == 0 && DirectionY == 0);
     public bool IsMovingLeft => DirectionX < 0;
     public bool IsMovingRight => DirectionX > 0;
@@ -107,6 +108,7 @@ public class PlayerController : MonoBehaviour
 
     public void Start()
     {
+        Instance = this;
         int row = (int)Mathf.Round(this.transform.position.y);
         int col = (int)Mathf.Round(this.transform.position.x);
         MapChunker.Instance.TryGetRoom((row, col), out _CurrentRoom);

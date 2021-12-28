@@ -346,6 +346,12 @@ public class MapChunker
     }
 
     public bool TryGetRoom((int, int) pos, out char ch) => RoomData.TryGetValue(pos, out ch);
+    public bool TryGetRoom(GameObject obj, out char ch) 
+    {
+        int row = (int)Mathf.Round(obj.transform.position.y);
+        int col = (int)Mathf.Round(obj.transform.position.x);
+        return TryGetRoom((row, col), out ch);
+    }
 
     public void LoadRooms(string roomData)
     {
