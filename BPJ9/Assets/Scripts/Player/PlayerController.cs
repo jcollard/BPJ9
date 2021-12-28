@@ -88,7 +88,22 @@ public class PlayerController : MonoBehaviour
     public WeaponController WeaponController;
     public Facing CurrentFacing = Facing.North;
 
-    public char CurrentRoom = 'A';
+    [SerializeField]
+    private char _CurrentRoom = (char)0;
+    public char CurrentRoom
+    {
+        get
+        {
+            if (_CurrentRoom == 0)
+            {
+                int row = (int)Mathf.Round(this.transform.position.y);
+                int col = (int)Mathf.Round(this.transform.position.x);
+                MapChunker.Instance.TryGetRoom((row, col), out _CurrentRoom);
+            }
+            return _CurrentRoom;
+        }
+        set => _CurrentRoom = value;
+    }
 
     public void Start()
     {
@@ -348,11 +363,12 @@ public class PlayerController : MonoBehaviour
         int col = (int)Mathf.Round(this.transform.position.x);
         if (!MapChunker.Instance.TryGetRoom((row, col), out char currRoom))
         {
-            Debug.Log("Teleport!");
             this.gameObject.SetPosition2D(teleportTo.transform.position);
+            row = (int)Mathf.Round(this.transform.position.y);
+            col = (int)Mathf.Round(this.transform.position.x);
+            MapChunker.Instance.TryGetRoom((row, col), out _CurrentRoom);
         }
-        Debug.Log($"Position: {(row, col)} CurrRom: {currRoom}");
-        
+
     }
 
 }

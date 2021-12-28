@@ -5,8 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class CameraFollower : MonoBehaviour
 {
-    public Transform Target;
+    public PlayerController Target;
     public MapChunker Chunker;
+    private char CurrentRoom = (char)0;
 
     [SerializeField]
     private Transform _MapContainer;
@@ -14,13 +15,7 @@ public class CameraFollower : MonoBehaviour
     {
         get => _MapContainer;
 
-        set
-        {
-            if (_MapContainer == value) return;
-            this.SetBounds(this.DiscoverBounds(value));
-            _MapContainer = value;
-
-        }
+        set => _MapContainer = value;
     }
 
     public Camera Camera => this.GetComponent<Camera>();
@@ -37,12 +32,14 @@ public class CameraFollower : MonoBehaviour
         if (this.Chunker != null)
         {
             this.Chunker.SetSize(bounds);
-            if (this.Chunker.CheckAndBuildChunk() || !PlayerInCamera(bounds))
-            {
-                this.SetBounds(this.DiscoverBounds(_MapContainer));
-            }
+            this.Chunker.CheckAndBuildChunk();
+            this.SetBounds();
+            // if (this.Chunker.CheckAndBuildChunk() || !PlayerInCamera(bounds))
+            // {
+            //     this.SetBounds(this.DiscoverBounds(_MapContainer));
+            // }
         }
-        Vector3 newPosition = Target.position;
+        Vector3 newPosition = Target.transform.position;
         // TODO: When a new chunk is built rediscover bounds
         float MaxY = Max.y - bounds.extents.y;
         float MinY = Min.y + bounds.extents.y;
@@ -57,13 +54,16 @@ public class CameraFollower : MonoBehaviour
 
     private bool PlayerInCamera(Bounds bounds)
     {
-        return bounds.Contains(Target.position);
+        return bounds.Contains(Target.transform.position);
     }
 
-    private void SetBounds((Vector2 Min, Vector2 Max) bounds)
+    private void SetBounds()
     {
-        this.Min = bounds.Min;
-        this.Max = bounds.Max;
+        if (CurrentRoom != Target.CurrentRoom && MapChunker.Instance != null)
+        {
+            CurrentRoom = Target.CurrentRoom;
+            (this.Min, this.Max) = MapChunker.Instance.GetRoomBounds(CurrentRoom);
+        }
     }
 
     public Bounds OrthographicBounds()

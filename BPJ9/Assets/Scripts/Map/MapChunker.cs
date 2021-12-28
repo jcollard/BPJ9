@@ -37,6 +37,7 @@ public class MapChunker
     private Dictionary<(int, int), char> RoomData;
     private Dictionary<(int, int), char> TransitionData;
     private Dictionary<char, List<(int, int)>> TransitionLookup;
+    private Dictionary<char, (Vector2, Vector2)> RoomBounds;
     private readonly Dictionary<char, GridTileSet> TileSets;
     private readonly HashSet<char> IsWall;
     private bool FirstLoad = true;
@@ -67,6 +68,8 @@ public class MapChunker
         this.LoadTransitions(transitionData);
         this.BuildNextChunk();
     }
+
+    public (Vector2, Vector2) GetRoomBounds(char ch) => RoomBounds[ch];
 
     public void SetSize(Bounds bounds)
     {
@@ -304,6 +307,7 @@ public class MapChunker
 
     public void LoadRooms(string roomData)
     {
+        RoomBounds = new Dictionary<char, (Vector2, Vector2)>();
         RoomData = new Dictionary<(int, int), char>();
         int rows = roomData.Split('\n').Length;
         int row = rows - 1;
@@ -318,8 +322,21 @@ public class MapChunker
                 continue;
             }
 
-            if (c != ' ')
+            if (c != ' ') 
+            {
                 RoomData[(row, col)] = c;
+                if(!RoomBounds.TryGetValue(c, out (Vector2 min, Vector2 max) bounds))
+                {
+                    bounds.min = new Vector2(float.PositiveInfinity, float.PositiveInfinity);
+                    bounds.max = new Vector2(float.NegativeInfinity, float.NegativeInfinity);
+                    RoomBounds[c] = bounds;
+                }
+                bounds.min.x = Mathf.Min(col, bounds.min.x);
+                bounds.max.x = Mathf.Max(col, bounds.max.x);
+                bounds.min.y = Mathf.Min(row, bounds.min.y);
+                bounds.max.y = Mathf.Max(row, bounds.max.y);
+                RoomBounds[c] = bounds;
+            }
 
             col++;
             cols = Mathf.Max(cols, col);
@@ -345,6 +362,7 @@ public class MapChunker
 
             if (c != ' ')
             {
+                if (!RoomData.ContainsKey((row, col))) throw new System.Exception($"Transition key {c} is not in a room.");
                 TransitionData[(row, col)] = c;
                 if (!TransitionLookup.TryGetValue(c, out List<(int, int)> pair))
                 {
