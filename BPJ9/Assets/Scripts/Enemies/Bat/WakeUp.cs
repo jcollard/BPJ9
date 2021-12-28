@@ -24,8 +24,7 @@ public class WakeUp : MonoBehaviour
     {
         PlayerCollider pc = other.GetComponent<PlayerCollider>();
         if (pc == null) return;
-        Bat.FindPlayer = true;
-        Bat.Speed = Bat.StartSpeed;
+        Bat.IsOutOfBounds = true;
     }
 
     private void OnTrigger() => Bat.WakeUp();

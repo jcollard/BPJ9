@@ -11,12 +11,15 @@ public class BatController : MonoBehaviour
 
     public float StartSpeed = 2;
     public float Acceleration = 2f;
+    public float Deceleration = 6f;
     public float Speed = 2;
     public float MaxSpeed = 6;
     public Vector2 StartPosition;
     public Vector2 Direction;
     private char Room;
+    public bool IsOutOfBounds = false;
     public bool FindPlayer = false;
+    public bool IsSlowing = false;
 
     void Start()
     {
@@ -35,19 +38,36 @@ public class BatController : MonoBehaviour
             return;
         }
 
-        if (FindPlayer && Speed > StartSpeed)
+
+        if (!IsOutOfBounds)
         {
-            Speed = Mathf.Max(StartSpeed, Speed - Acceleration * Time.deltaTime);
-        } 
-        else if (FindPlayer)
+            IsSlowing = false;
+            FindPlayer = false;
+            Speed = Mathf.Min(MaxSpeed, Speed + Acceleration * Time.deltaTime);
+            return;
+        }
+
+        if (FindPlayer)
         {
             ChangeDirection();    
-        }
-        else
-        {
             Speed = Mathf.Min(MaxSpeed, Speed + Acceleration * Time.deltaTime);    
+            return;
         }
-        
+
+
+        if (IsOutOfBounds && !IsSlowing)
+        {
+            IsSlowing = true;
+         }
+         else if (IsOutOfBounds && IsSlowing && Speed > StartSpeed)
+        {
+            Speed = Mathf.Max(StartSpeed, Speed - Deceleration * Time.deltaTime);
+        } 
+        else 
+        {
+            FindPlayer = true;
+        }
+
     }
 
     void FixedUpdate()
@@ -67,7 +87,7 @@ public class BatController : MonoBehaviour
 
     public void WakeUp()
     {
-        FindPlayer = false;
+        IsOutOfBounds = false;
         if (IsAwake) return;
         Awake.SetActive(true);
         Idle.SetActive(false);
