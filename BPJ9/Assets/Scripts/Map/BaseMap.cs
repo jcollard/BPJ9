@@ -6,7 +6,7 @@ using System.Linq;
 
 public class BaseMap : MonoBehaviour
 {
-    public Transform FloorContainer, WallContainer, Player;
+    public Transform FloorContainer, WallContainer, TransitionContainer, Player;
     public MapTileDefinition[] Definitions;
     public MapChunker Chunker;
     public CameraFollower MainCamera;
@@ -28,6 +28,7 @@ public class BaseMap : MonoBehaviour
         MapChunkerBuilder builder = MapChunkerBuilder.Instantiate(this.MainCamera)
                                                      .WallContainer(this.WallContainer)
                                                      .FloorContainer(this.FloorContainer)
+                                                     .TransitionContainer(this.TransitionContainer)
                                                      .MapData(this.MapData)
                                                      .RoomData(this.RoomData)
                                                      .TransitionData(this.TransitionData);

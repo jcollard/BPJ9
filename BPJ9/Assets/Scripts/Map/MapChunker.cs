@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using CaptainCoder.Unity;
 
 public class MapChunker
 {
@@ -28,11 +29,14 @@ public class MapChunker
     private GridBounds RebuildBounds;
     public readonly Transform WallContainer;
     public readonly Transform FloorContainer;
+    public readonly Transform TransitionContainer;
+    public readonly TransitionController TemplateTransitionController;
     private Dictionary<(int, int), GameObject> Loaded;
     private int MaxGameObjects = 2000;
     private Dictionary<(int, int), char> MapData;
     private Dictionary<(int, int), char> RoomData;
     private Dictionary<(int, int), char> TransitionData;
+    private Dictionary<char, List<(int, int)>> TransitionLookup;
     private readonly Dictionary<char, GridTileSet> TileSets;
     private readonly HashSet<char> IsWall;
     private bool FirstLoad = true;
@@ -40,6 +44,7 @@ public class MapChunker
     internal MapChunker(CameraFollower camera,
                       Transform wallContainer,
                       Transform floorContainer,
+                      Transform transitionContainer,
                       Dictionary<char, GridTileSet> tileSets,
                       HashSet<char> isWall,
                       string mapData,
@@ -54,11 +59,12 @@ public class MapChunker
         this.CurrentBounds = new GridBounds(center, this.MinWidth, this.MinHeight);
         this.WallContainer = wallContainer;
         this.FloorContainer = floorContainer;
+        this.TransitionContainer = transitionContainer;
         this.TileSets = tileSets;
         this.IsWall = isWall;
         this.LoadMap(mapData);
         this.LoadRooms(roomData);
-        this.LoadTransitions(roomData);
+        this.LoadTransitions(transitionData);
         this.BuildNextChunk();
     }
 
@@ -323,6 +329,7 @@ public class MapChunker
     public void LoadTransitions(string transitionData)
     {
         TransitionData = new Dictionary<(int, int), char>();
+        TransitionLookup = new Dictionary<char, List<(int, int)>>();
         int rows = transitionData.Split('\n').Length;
         int row = rows - 1;
         int cols = 0;
@@ -337,10 +344,46 @@ public class MapChunker
             }
 
             if (c != ' ')
-                RoomData[(row, col)] = c;
+            {
+                TransitionData[(row, col)] = c;
+                if (!TransitionLookup.TryGetValue(c, out List<(int, int)> pair))
+                {
+                    pair = new List<(int, int)>();
+                    TransitionLookup[c] = pair;
+                }
+                if (pair.Count == 2) throw new System.Exception($"Transition key {c} found too many times.");
+                pair.Add((row, col));
+            }
 
             col++;
             cols = Mathf.Max(cols, col);
+        }
+
+        UnityEngineUtils.Instance.DestroyChildren(this.TransitionContainer);
+        foreach (char ch in TransitionLookup.Keys)
+        {
+            List<(int, int)> pair = TransitionLookup[ch];
+            if (pair.Count != 2) throw new System.Exception($"Transition key {ch} found {pair.Count} times.");
+            TransitionController tc0, tc1;
+            {
+                (int row, int col) t0 = pair[0];
+                GameObject obj0 = new GameObject($"TransitionController: {ch} 0");
+                obj0.AddComponent<BoxCollider2D>().isTrigger = true;
+                tc0 = obj0.AddComponent<TransitionController>();
+                obj0.transform.parent = TransitionContainer;
+                obj0.transform.localPosition = new Vector2(t0.col, t0.row);
+            }
+            {
+                (int row, int col) t1 = pair[1];
+                GameObject obj1 = new GameObject($"TransitionController: {ch} 1");
+                obj1.AddComponent<BoxCollider2D>().isTrigger = true;
+                tc1 = obj1.AddComponent<TransitionController>();
+                obj1.transform.parent = TransitionContainer;
+                obj1.transform.localPosition = new Vector2(t1.col, t1.row);
+            }
+            tc0.TeleportTo = tc1;
+            tc1.TeleportTo = tc0;
+            
         }
     }
 }
@@ -353,7 +396,7 @@ public class MapChunkerBuilder
         return new MapChunkerBuilder().Camera(camera);
     }
 
-    private Transform _WallContainer, _FloorContainer;
+    private Transform _WallContainer, _FloorContainer, _TransitionContainer;
     private CameraFollower _Camera;
     private Dictionary<char, GridTileSet> _TileSets = new Dictionary<char, GridTileSet>();
     private HashSet<char> _IsWall = new HashSet<char>();
@@ -362,12 +405,13 @@ public class MapChunkerBuilder
     public MapChunkerBuilder Camera(CameraFollower camera) => SetField(ref _Camera, camera);
     public MapChunkerBuilder WallContainer(Transform wallContainer) => SetField(ref _WallContainer, wallContainer);
     public MapChunkerBuilder FloorContainer(Transform floorContainer) => SetField(ref _FloorContainer, floorContainer);
+    public MapChunkerBuilder TransitionContainer(Transform transitionContainer) => SetField(ref _TransitionContainer, transitionContainer);
     public MapChunkerBuilder MapData(string mapData) => SetField(ref _MapData, mapData);
     public MapChunkerBuilder TransitionData(string transitionData) => SetField(ref _TransitionData, transitionData);
     public MapChunkerBuilder RoomData(string roomData) => SetField(ref _RoomData, roomData);
     public MapChunkerBuilder AddTileSet(char ch, GridTileSet tileSet)
     {
-        if (this._TileSets.ContainsKey(ch)) throw new System.Exception($"Duplicate tile set characater found: {ch}/");
+        if (this._TileSets.ContainsKey(ch)) throw new System.Exception($"Duplicate tile set character found: {ch}/");
         this._TileSets[ch] = tileSet;
         return this;
     }
@@ -390,6 +434,7 @@ public class MapChunkerBuilder
         return new MapChunker(this._Camera,
                               this._WallContainer,
                               this._FloorContainer,
+                              this._TransitionContainer,
                               this._TileSets,
                               this._IsWall,
                               this._MapData,
