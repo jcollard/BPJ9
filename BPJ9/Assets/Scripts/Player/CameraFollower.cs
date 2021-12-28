@@ -32,7 +32,6 @@ public class CameraFollower : MonoBehaviour
         if (this.Chunker != null)
         {
             this.Chunker.SetSize(bounds);
-            this.Chunker.CheckAndBuildChunk();
             this.SetBounds();
             // if (this.Chunker.CheckAndBuildChunk() || !PlayerInCamera(bounds))
             // {
