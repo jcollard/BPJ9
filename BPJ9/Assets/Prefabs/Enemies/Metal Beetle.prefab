@@ -51,7 +51,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9e24b6a6ae73443c5beb5ba337df46b8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 4047427909210049045, guid: fe5482a3fc52d4e27a7512377826a1f8, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -153,7 +153,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9e24b6a6ae73443c5beb5ba337df46b8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -255,7 +255,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9e24b6a6ae73443c5beb5ba337df46b8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -357,7 +357,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9e24b6a6ae73443c5beb5ba337df46b8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5326,7 +5326,7 @@ MonoBehaviour:
   WayPoints: []
   TargetWayPoint: {x: 0, y: 0}
   PreviousWayPoint: {x: 0, y: 0}
-  Speed: 1.25
+  Speed: 3
   PathOnStart: 1
   Loop: 0
   Finished: 0
@@ -5342,7 +5342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3563a21757804678acae0d551fcf492, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetLayer: 5
+  TargetLayer: 3
 --- !u!114 &1388973561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5385,7 +5385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7cf875ee551d449aafff83b05406a49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _HP: 1
+  _HP: 1000
 --- !u!114 &4167543687493037226
 MonoBehaviour:
   m_ObjectHideFlags: 0

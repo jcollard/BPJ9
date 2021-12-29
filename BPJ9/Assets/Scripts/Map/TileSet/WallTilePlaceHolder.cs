@@ -5,6 +5,11 @@ public class WallTilePlaceHolder : MonoBehaviour
 {
     public GridTileSet TileSet;
 
+    public void Start()
+    {
+        this.ReplaceWithWallTile();
+    }
+
     public void UpdateWallTile()
     {
         UnityEngineUtils.Instance.DestroyChildren(this.transform);
