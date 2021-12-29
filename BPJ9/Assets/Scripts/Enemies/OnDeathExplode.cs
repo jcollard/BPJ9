@@ -11,7 +11,7 @@ public class OnDeathExplode : MonoBehaviour
 
     public void Start()
     {
-        this.GetComponent<EnemyController>().OnDestroy = this.DoDestroy;
+        this.GetComponent<EnemyController>().OnDeath.Add(this.DoDestroy);
     }
 
     public void Update()

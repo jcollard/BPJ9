@@ -4,6 +4,7 @@ using CaptainCoder.Unity;
 using CaptainCoder.Unity.GameObjectExtensions;
 using UnityEngine;
 
+[RequireComponent(typeof(EnemyController))]
 public class BatController : MonoBehaviour
 { 
     public GameObject Idle, Awake;
@@ -25,6 +26,7 @@ public class BatController : MonoBehaviour
     {
         this.StartPosition = this.transform.position;
         if(!MapChunker.Instance.TryGetRoom(this.gameObject, out this.Room)) UnityEngineUtils.Instance.FailFast($"Bat started outside of a room!", this);
+        this.GetComponent<EnemyController>().OnDeath.Add(this.OnDeath);        
     }
 
     // Update is called once per frame
@@ -88,6 +90,7 @@ public class BatController : MonoBehaviour
     {
         IsOutOfBounds = false;
         if (IsAwake) return;
+        SoundController.PlayRandomSFX("Bat 1", "Bat 2");
         Awake.SetActive(true);
         Idle.SetActive(false);
         IsAwake = true;
@@ -102,6 +105,11 @@ public class BatController : MonoBehaviour
         bool flipX = Direction.x > 0;
         this.Idle.GetComponent<SpriteRenderer>().flipX = flipX;
         this.Awake.GetComponent<SpriteRenderer>().flipX = flipX;
+    }
+
+    private void OnDeath(EnemyController ec)
+    {
+        SoundController.PlaySFX("Bat Destroyed");
     }
 
 }

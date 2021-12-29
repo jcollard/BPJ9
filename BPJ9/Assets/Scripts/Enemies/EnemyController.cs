@@ -1,11 +1,12 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class EnemyController : MonoBehaviour
 {
     [SerializeField]
     private float _HP = 1;
     public float HP { get => _HP; set => _HP = value; }
-    public System.Action<EnemyController> OnDestroy;
+    public List<System.Action<EnemyController>> OnDeath = new List<System.Action<EnemyController>>();
 
     public virtual void OnTriggerEnter2D(Collider2D other)
     {
@@ -17,14 +18,15 @@ public class EnemyController : MonoBehaviour
 
     public virtual void DoDestroy()
     {
-        if (this.OnDestroy == null)
+        if (this.OnDeath.Count == 0)
         {
             this.gameObject.SetActive(false);
             UnityEngine.Object.Destroy(this.gameObject);
         } 
         else
         {
-            this.OnDestroy(this);
+            foreach (System.Action<EnemyController> action in OnDeath)
+                action(this);
         }
     }
 
