@@ -55,6 +55,8 @@ public class BaseMap : MonoBehaviour
     {
         UnityEngineUtils.Instance.DestroyChildren(WallContainer);
         UnityEngineUtils.Instance.DestroyChildren(FloorContainer);
+        UnityEngineUtils.Instance.DestroyChildren(EnemyContainer);
+        UnityEngineUtils.Instance.DestroyChildren(ItemContainer);
     }
 }
 

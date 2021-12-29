@@ -78,7 +78,6 @@ public class BatController : MonoBehaviour
 
     private void Reset()
     {
-        Debug.Log("Reset!");
         this.IsAwake = false;
         Awake.SetActive(false);
         Idle.SetActive(true);
@@ -100,6 +99,9 @@ public class BatController : MonoBehaviour
     public void ChangeDirection()
     {
         Direction = (PlayerController.Instance.transform.position - this.transform.position).normalized;
+        bool flipX = Direction.x > 0;
+        this.Idle.GetComponent<SpriteRenderer>().flipX = flipX;
+        this.Awake.GetComponent<SpriteRenderer>().flipX = flipX;
     }
 
 }

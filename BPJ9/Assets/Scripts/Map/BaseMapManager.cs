@@ -74,7 +74,7 @@ public class BaseMapManagerEditor : Editor
         {
             manager.Map.DestroyMap();
             manager.Map.Init();
-            manager.Map.Chunker.BuildNextChunk(manager.Map.Chunker.MapBounds);
+            manager.Map.Chunker.LoadAll();
         }
 
         if (GUILayout.Button("Destroy Map"))

@@ -169,12 +169,23 @@ public class MapChunker
         return work > 0;
     }
 
-    public void Unload()
+    public void Unload(bool immediate = false)
     {
-        UnityEngineUtils.Instance.DestroyChildren(WallContainer, false);
-        UnityEngineUtils.Instance.DestroyChildren(FloorContainer, false);
-        UnityEngineUtils.Instance.DestroyChildren(EnemyContainer, false);
+        UnityEngineUtils.Instance.DestroyChildren(WallContainer, immediate);
+        UnityEngineUtils.Instance.DestroyChildren(FloorContainer, immediate);
+        UnityEngineUtils.Instance.DestroyChildren(EnemyContainer, immediate);
         Loaded.Clear();
+    }
+
+    public void LoadAll()
+    {
+        this.Unload(immediate: true);
+        foreach ((int, int) pos in MapData.Keys)
+        {
+            this.LoadTile(MapData[pos], pos);
+            this.LoadEnemy(pos);
+            this.SpawnItem(pos);
+        }
     }
 
     public void LoadChunk(GridBounds chunk, char CurrentRoom = (char)0)

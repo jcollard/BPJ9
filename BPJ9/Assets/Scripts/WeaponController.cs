@@ -7,7 +7,7 @@ public class WeaponController : MonoBehaviour
 {
 
     private float StartAt = -1;
-    private float Duration = .25f;
+    private float Duration = .15f;
     private float _Damage = 1f;
     public float Damage => _Damage;
     public Vector2 StartPosition;
@@ -18,7 +18,7 @@ public class WeaponController : MonoBehaviour
     {
         if(IsLoaded) return;
         this.StartPosition = this.transform.localPosition;
-        this.EndPosition = this.gameObject.transform.up * .66f;
+        this.EndPosition = this.gameObject.transform.up * .8f;
         this.EndPosition.x += StartPosition.x;
         this.EndPosition.y += StartPosition.y;
         IsLoaded = true;
@@ -54,6 +54,7 @@ public class WeaponController : MonoBehaviour
     public void StartAnimation()
     {
         Init();
+        SoundController.PlayRandomSFX("Attack 1", "Attack 2");
         this.StartAt = Time.time;
         this.gameObject.SetLocalPosition2D(StartPosition);
         this.gameObject.SetActive(true);

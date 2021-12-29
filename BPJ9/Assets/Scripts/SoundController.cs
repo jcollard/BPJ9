@@ -21,6 +21,12 @@ public class SoundController : MonoBehaviour
         Instance.Play(name);
     }
 
+    public static void PlayRandomSFX(params string[] name)
+    {
+        if (Instance == null) return;
+        Instance.Play(name[Random.Range(0, name.Length)]);
+    }
+
     public void Play(string name)
     {
         if (!this.channels.TryGetValue(name, out AudioSource channel))
