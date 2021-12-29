@@ -72,9 +72,6 @@ public class CameraFollower : MonoBehaviour
             float cameraWidth = cBounds.extents.x*2;
             float cameraHeight = cBounds.extents.y*2;
 
-            Debug.Log($"Camera: W {cameraWidth}, H {cameraHeight}");
-            Debug.Log($"Room: W {roomWidth}, H {roomHeight}");
-
             // If the room is too small, center it
             if (roomWidth < cameraWidth)
             {

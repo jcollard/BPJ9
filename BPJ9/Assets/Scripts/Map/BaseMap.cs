@@ -6,12 +6,13 @@ using System.Linq;
 
 public class BaseMap : MonoBehaviour
 {
-    public Transform FloorContainer, WallContainer, TransitionContainer, EnemyContainer, Player;
+    public Transform FloorContainer, WallContainer, TransitionContainer, EnemyContainer, ItemContainer, Player;
     public MapTileDefinition[] Definitions;
     public EnemyDefinition[] Enemies;
+    public ItemDefinition[] Items;
     public MapChunker Chunker;
     public CameraFollower MainCamera;
-    public string MapData, RoomData, TransitionData, EnemyData;
+    public string MapData, RoomData, TransitionData, EnemyData, ItemData;
 
     public void Awake()
     {
@@ -29,10 +30,13 @@ public class BaseMap : MonoBehaviour
                                                      .FloorContainer(this.FloorContainer)
                                                      .TransitionContainer(this.TransitionContainer)
                                                      .EnemyContainer(this.EnemyContainer)
+                                                     .ItemContainer(this.ItemContainer)
                                                      .MapData(this.MapData)
                                                      .RoomData(this.RoomData)
                                                      .TransitionData(this.TransitionData)
-                                                     .EnemyData(this.EnemyData);
+                                                     .EnemyData(this.EnemyData)
+                                                     .ItemData(this.ItemData);
+                                                     
         foreach (MapTileDefinition def in Definitions)
             builder.AddTileSet(def.FloorCharacter, def.TileSet)
                    .AddTileSet(def.WallCharacter, def.TileSet)
@@ -40,6 +44,9 @@ public class BaseMap : MonoBehaviour
 
         foreach (EnemyDefinition def in Enemies)
             builder.AddEnemy(def.EnemyCharacter, def.Template);
+
+        foreach (ItemDefinition def in Items)
+            builder.AddItem(def.ItemCharacter, def.Template);
 
         this.Chunker = builder.Build();
     }
@@ -65,5 +72,13 @@ public class EnemyDefinition
 {
     public string name;
     public char EnemyCharacter;
+    public GameObject Template;
+}
+
+[System.Serializable]
+public class ItemDefinition
+{
+    public string name;
+    public char ItemCharacter;
     public GameObject Template;
 }

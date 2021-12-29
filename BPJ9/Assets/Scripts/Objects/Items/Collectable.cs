@@ -32,10 +32,10 @@ public class Collectable : MonoBehaviour
         StartPos = player.transform.position;
         StartPos.z -= 1;
         EndPos = player.transform.position;
-        EndPos.y += 1;
+        EndPos.y += 1.5f;
         EndPos.z -= 1;
         this.GetComponent<Collider2D>().enabled = false;
-        SoundController.PlaySFX("Found Item");
+        SoundController.PlaySFX("Collect Gem");
     }
 
     public virtual void EndCollect(PlayerController player)

@@ -12,7 +12,7 @@ public class BaseMapManager : MonoBehaviour
     public (int min, int max) Rows;
     public (int min, int max) Cols;
     public BaseMap Map => this.GetComponent<BaseMap>();
-    public TextAsset MapFile, RoomFile, TransitionFile, EnemyFile;
+    public TextAsset MapFile, RoomFile, TransitionFile, EnemyFile, ItemFile;
 }
 
 [CustomEditor(typeof(BaseMapManager))]
@@ -36,6 +36,9 @@ public class BaseMapManagerEditor : Editor
 
         manager.EnemyFile = (TextAsset)EditorGUILayout.ObjectField("Enemy File", manager.EnemyFile, typeof(TextAsset), false);
         if (manager.EnemyFile != null) manager.Map.EnemyData = manager.EnemyFile.text;
+
+        manager.ItemFile = (TextAsset)EditorGUILayout.ObjectField("Item File", manager.ItemFile, typeof(TextAsset), false);
+        if (manager.ItemFile != null) manager.Map.ItemData = manager.ItemFile.text;
 
         EditorGUILayout.Separator();
         EditorGUILayout.BeginHorizontal();

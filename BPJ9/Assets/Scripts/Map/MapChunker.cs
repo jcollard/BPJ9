@@ -27,13 +27,15 @@ public class MapChunker
     private Queue<(int, int)> UnloadLocationOrder = new Queue<(int, int)>();
     private bool PreLoadComplete = false;
     private GridBounds RebuildBounds;
-    public readonly Transform WallContainer, FloorContainer, TransitionContainer, EnemyContainer;
+    public readonly Transform WallContainer, FloorContainer, TransitionContainer, EnemyContainer, ItemContainer;
     public readonly TransitionController TemplateTransitionController;
     private Dictionary<(int, int), GameObject> Loaded;
     private int MaxGameObjects = 2000;
     private Dictionary<(int, int), char> MapData;
     private Dictionary<(int, int), char> RoomData;
     private Dictionary<(int, int), char> TransitionData;
+    private Dictionary<(int, int), GameObject> EnemyData;
+    private Dictionary<(int, int), GameObject> ItemData;
     private Dictionary<char, List<(int, int)>> TransitionLookup;
     private Dictionary<char, (Vector2, Vector2)> RoomBounds;
     private readonly Dictionary<char, GridTileSet> TileSets;
@@ -46,13 +48,16 @@ public class MapChunker
                       Transform floorContainer,
                       Transform transitionContainer,
                       Transform enemyContainer,
+                      Transform itemContainer,
                       Dictionary<char, GridTileSet> tileSets,
                       HashSet<char> isWall,
                       string mapData,
                       string roomData,
                       string transitionData,
                       string enemyData,
-                      Dictionary<char, GameObject> enemyLookup)
+                      Dictionary<char, GameObject> enemyLookup,
+                      string itemData,
+                      Dictionary<char, GameObject> itemLookup)
     {
         Instance = this;
         this.Camera = camera;
@@ -63,13 +68,15 @@ public class MapChunker
         this.WallContainer = wallContainer;
         this.FloorContainer = floorContainer;
         this.TransitionContainer = transitionContainer;
-        this.EnemyContainer = enemyContainer;        
+        this.EnemyContainer = enemyContainer;
+        this.ItemContainer = itemContainer;
         this.TileSets = tileSets;
         this.IsWall = isWall;
         this.LoadMap(mapData);
         this.LoadRooms(roomData);
         this.LoadTransitions(transitionData);
         this.LoadEnemies(enemyData, enemyLookup);
+        this.LoadItems(itemData, itemLookup);
         this.BuildNextChunk();
     }
 
@@ -166,6 +173,7 @@ public class MapChunker
     {
         UnityEngineUtils.Instance.DestroyChildren(WallContainer, false);
         UnityEngineUtils.Instance.DestroyChildren(FloorContainer, false);
+        UnityEngineUtils.Instance.DestroyChildren(EnemyContainer, false);
         Loaded.Clear();
     }
 
@@ -176,7 +184,7 @@ public class MapChunker
         {
             this.CurrentRoom = CurrentRoom;
         }
-        
+
         // Loop through elements that do not overlap with new bounds
         foreach ((int row, int col) pos in chunk)
         {
@@ -186,8 +194,29 @@ public class MapChunker
             if (!MapData.TryGetValue(pos, out char ch)) continue;
             // If it is a blank space, we skip it
             if (ch == ' ') continue;
+            this.LoadEnemy(pos);
             this.LoadTile(ch, pos);
         }
+    }
+
+    private void LoadEnemy((int, int) pos)
+    {
+        if (!EnemyData.TryGetValue(pos, out GameObject template)) return;
+        (int row, int col) = pos;
+        GameObject newEnemy = UnityEngine.Object.Instantiate(template);
+        newEnemy.transform.parent = EnemyContainer;
+        newEnemy.transform.localPosition = new Vector2(col, row);
+        newEnemy.SetActive(true);
+    }
+
+    private void SpawnItem((int, int) pos)
+    {
+        if (!ItemData.TryGetValue(pos, out GameObject template)) return;
+        (int row, int col) = pos;
+        GameObject newItem = UnityEngine.Object.Instantiate(template);
+        newItem.transform.parent = ItemContainer;
+        newItem.transform.localPosition = new Vector2(col, row);
+        newItem.SetActive(true);
     }
 
     public bool BuildNextChunk(GridBounds _nextBounds = null, char CurrentRoom = (char)0)
@@ -246,7 +275,7 @@ public class MapChunker
         // If we know what room we are in, only draw this room.
         if (this.CurrentRoom > 0)
         {
-            if(!RoomData.TryGetValue(pos, out char roomCh)) return false;
+            if (!RoomData.TryGetValue(pos, out char roomCh)) return false;
             if (roomCh != CurrentRoom) return false;
         }
 
@@ -349,7 +378,7 @@ public class MapChunker
     }
 
     public bool TryGetRoom((int, int) pos, out char ch) => RoomData.TryGetValue(pos, out ch);
-    public bool TryGetRoom(GameObject obj, out char ch) 
+    public bool TryGetRoom(GameObject obj, out char ch)
     {
         int row = (int)Mathf.Round(obj.transform.position.y);
         int col = (int)Mathf.Round(obj.transform.position.x);
@@ -373,10 +402,10 @@ public class MapChunker
                 continue;
             }
 
-            if (c != ' ') 
+            if (c != ' ')
             {
                 RoomData[(row, col)] = c;
-                if(!RoomBounds.TryGetValue(c, out (Vector2 min, Vector2 max) bounds))
+                if (!RoomBounds.TryGetValue(c, out (Vector2 min, Vector2 max) bounds))
                 {
                     bounds.min = new Vector2(float.PositiveInfinity, float.PositiveInfinity);
                     bounds.max = new Vector2(float.NegativeInfinity, float.NegativeInfinity);
@@ -452,7 +481,37 @@ public class MapChunker
             }
             tc0.TeleportTo = tc1;
             tc1.TeleportTo = tc0;
-            
+
+        }
+    }
+
+    private void LoadItems(string itemData, Dictionary<char, GameObject> itemLookup)
+    {
+        UnityEngineUtils.Instance.DestroyChildren(ItemContainer);
+        this.ItemData = new Dictionary<(int, int), GameObject>();
+        int rows = itemData.Split('\n').Length;
+        int row = rows - 1;
+        int cols = 0;
+        int col = 0;
+        foreach (char c in itemData)
+        {
+            if (c == '\n')
+            {
+                row--;
+                col = 0;
+                continue;
+            }
+
+            if (c != ' ')
+            {
+                if (!itemLookup.TryGetValue(c, out GameObject template)) throw new System.Exception($"Could not find template for item char {c}.");
+                this.ItemData[(row, col)] = template;
+                SpawnItem((row, col));
+            }
+
+
+            col++;
+            cols = Mathf.Max(cols, col);
         }
     }
 
@@ -463,6 +522,7 @@ public class MapChunker
         // don't respawn when you enter the room. Or... maybe that is a good thing
         // for puzzles?
         UnityEngineUtils.Instance.DestroyChildren(EnemyContainer);
+        EnemyData = new Dictionary<(int, int), GameObject>();
         int rows = enemyData.Split('\n').Length;
         int row = rows - 1;
         int cols = 0;
@@ -478,13 +538,10 @@ public class MapChunker
 
             if (c != ' ')
             {
-                if(!enemyLookup.TryGetValue(c, out GameObject template)) throw new System.Exception($"Could not find template for enemy char {c}.");
-                GameObject newEnemy = UnityEngine.Object.Instantiate(template);
-                newEnemy.transform.parent = EnemyContainer;
-                newEnemy.transform.localPosition = new Vector2(col, row);
-                newEnemy.SetActive(true);
+                if (!enemyLookup.TryGetValue(c, out GameObject template)) throw new System.Exception($"Could not find template for enemy char {c}.");
+                this.EnemyData[(row, col)] = template;
             }
-                
+
 
             col++;
             cols = Mathf.Max(cols, col);
@@ -500,22 +557,25 @@ public class MapChunkerBuilder
         return new MapChunkerBuilder().Camera(camera);
     }
 
-    private Transform _WallContainer, _FloorContainer, _TransitionContainer, _EnemyContainer;
+    private Transform _WallContainer, _FloorContainer, _TransitionContainer, _EnemyContainer, _ItemContainer;
     private CameraFollower _Camera;
     private Dictionary<char, GridTileSet> _TileSets = new Dictionary<char, GridTileSet>();
     private Dictionary<char, GameObject> _EnemyLookup = new Dictionary<char, GameObject>();
+    private Dictionary<char, GameObject> _ItemLookup = new Dictionary<char, GameObject>();
     private HashSet<char> _IsWall = new HashSet<char>();
-    private string _MapData, _RoomData, _TransitionData, _EnemyData;
+    private string _MapData, _RoomData, _TransitionData, _EnemyData, _ItemData;
 
     public MapChunkerBuilder Camera(CameraFollower camera) => SetField(ref _Camera, camera);
     public MapChunkerBuilder WallContainer(Transform wallContainer) => SetField(ref _WallContainer, wallContainer);
     public MapChunkerBuilder FloorContainer(Transform floorContainer) => SetField(ref _FloorContainer, floorContainer);
     public MapChunkerBuilder TransitionContainer(Transform transitionContainer) => SetField(ref _TransitionContainer, transitionContainer);
     public MapChunkerBuilder EnemyContainer(Transform enemyContainer) => SetField(ref _EnemyContainer, enemyContainer);
+    public MapChunkerBuilder ItemContainer(Transform itemContainer) => SetField(ref _ItemContainer, itemContainer);
     public MapChunkerBuilder MapData(string mapData) => SetField(ref _MapData, mapData);
     public MapChunkerBuilder TransitionData(string transitionData) => SetField(ref _TransitionData, transitionData);
     public MapChunkerBuilder RoomData(string roomData) => SetField(ref _RoomData, roomData);
     public MapChunkerBuilder EnemyData(string enemyData) => SetField(ref _EnemyData, enemyData);
+    public MapChunkerBuilder ItemData(string itemData) => SetField(ref _ItemData, itemData);
     public MapChunkerBuilder AddTileSet(char ch, GridTileSet tileSet)
     {
         if (this._TileSets.ContainsKey(ch)) throw new System.Exception($"Duplicate tile set character found: {ch}/");
@@ -524,8 +584,15 @@ public class MapChunkerBuilder
     }
     public MapChunkerBuilder AddEnemy(char ch, GameObject template)
     {
-        if (this._TileSets.ContainsKey(ch)) throw new System.Exception($"Duplicate enemy character found: {ch}/");
+        if (this._EnemyLookup.ContainsKey(ch)) throw new System.Exception($"Duplicate enemy character found: {ch}/");
         this._EnemyLookup[ch] = template;
+        return this;
+    }
+
+    public MapChunkerBuilder AddItem(char ch, GameObject template)
+    {
+        if (this._ItemLookup.ContainsKey(ch)) throw new System.Exception($"Duplicate item character found: {ch}/");
+        this._ItemLookup[ch] = template;
         return this;
     }
 
@@ -549,13 +616,16 @@ public class MapChunkerBuilder
                               this._FloorContainer,
                               this._TransitionContainer,
                               this._EnemyContainer,
+                              this._ItemContainer,
                               this._TileSets,
                               this._IsWall,
                               this._MapData,
                               this._RoomData,
                               this._TransitionData,
                               this._EnemyData,
-                              this._EnemyLookup);
+                              this._EnemyLookup,
+                              this._ItemData,
+                              this._ItemLookup);
     }
 
 }
