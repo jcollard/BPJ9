@@ -365,7 +365,7 @@ public class PlayerController : MonoBehaviour
         this.AbsorbEffectReference.gameObject.SetActive(true);
     }
 
-    private void SetDirectionalSprite(Facing facing)
+    public void SetDirectionalSprite(Facing facing)
     {
         if (facing == CurrentFacing) return;
         int ix = (int)facing;
