@@ -6,9 +6,11 @@ public class Resetable : MonoBehaviour
 {
     public GameObject StartState;
     public GameObject CurrentState;
+    public bool StartActive = false;
     void Start()
     {
         StartState.SetActive(false);
+        if (StartActive) Reset();
     }
 
     public void Reset()
