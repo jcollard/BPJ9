@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
     private bool IsAnimating = false;
     private bool IsCollecting = false;
     private bool IsAttacking = false;
-    public bool CanMove => !IsAnimating && KnockbackStartAt <= 0;
+    public bool CanMove => !IsAnimating && KnockbackStartAt <= 0 && !DialogController.Instance.IsVisible;
     public bool IsAbsorbing => AbsorbEffectReference.gameObject.activeInHierarchy;
 
     private bool CanAttack = true;
@@ -336,6 +336,14 @@ public class PlayerController : MonoBehaviour
 
     private void DoAttack()
     {
+        if (DialogController.Instance.IsVisible)
+        {
+            if (DialogController.Instance.CanContinue)
+            {
+                DialogController.Instance.ContinueDialog();
+            }
+            return;
+        }
         if (!CanAttack) return;
         WeaponController.StartAnimation();
         // Can't attack again while animating
