@@ -42,12 +42,9 @@ public class CameraFollower : MonoBehaviour
 
 
             Bounds tcBounds = TopCorner(bounds);
-            Debug.Log(tcBounds);
-            Debug.Log(Target.transform.position);
             Vector2 ignoringZ = Target.transform.position;
             if (tcBounds.Contains(ignoringZ))
             {
-                Debug.Log("In top corner");
                 ToHide.StartFadeOut();
             }
             else
