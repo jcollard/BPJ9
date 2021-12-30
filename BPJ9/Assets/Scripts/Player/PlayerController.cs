@@ -382,10 +382,15 @@ public class PlayerController : MonoBehaviour
     {
         this.HP -= damage;
         if (knockbackVelocity <= 0) knockbackVelocity = 3;
-        Vector2 direction = (this.transform.position - cause.transform.position).normalized * knockbackVelocity * KnockbackMultiplier;
-        this.GetComponent<Rigidbody2D>().AddForce(direction);
+        Knockback(cause, knockbackVelocity);
         DamageBoostStartAt = KnockbackStartAt = Time.time;
         SoundController.PlaySFX("Hurt");
+    }
+
+    public void Knockback(GameObject cause, float knockbackVelocity)
+    {
+        Vector2 direction = (this.transform.position - cause.transform.position).normalized * knockbackVelocity * KnockbackMultiplier;
+        this.GetComponent<Rigidbody2D>().AddForce(direction);
     }
 
 

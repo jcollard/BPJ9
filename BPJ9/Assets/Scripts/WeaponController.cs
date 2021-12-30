@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
-
+    public PlayerController Player;    
     private float StartAt = -1;
     private float Duration = .15f;
     private float _Damage = 1f;

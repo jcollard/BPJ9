@@ -5262,6 +5262,7 @@ GameObject:
   - component: {fileID: 4116186033406409104}
   - component: {fileID: 5794691477394294563}
   - component: {fileID: 4167543687493037226}
+  - component: {fileID: 646746950096472437}
   m_Layer: 0
   m_Name: Metal Beetle
   m_TagString: Untagged
@@ -5404,3 +5405,16 @@ MonoBehaviour:
   Explosion: {fileID: 7736567014233908666}
   StartAt: -1
   Duration: 1
+--- !u!114 &646746950096472437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8433882026066504768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf74c003f2223476c9ec58d2e913dd47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Knockback: 3

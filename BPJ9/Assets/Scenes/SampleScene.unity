@@ -1325,6 +1325,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7276706483850501907, guid: f1a44c18772a04b7d892c8d30ca21db4, type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 1316057670}
     - target: {fileID: 8076180037911720254, guid: f1a44c18772a04b7d892c8d30ca21db4, type: 3}
       propertyPath: m_SortingOrder
       value: 0
@@ -1831,6 +1835,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7276706483850501907, guid: f1a44c18772a04b7d892c8d30ca21db4, type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 1316057670}
     - target: {fileID: 8076180037911720254, guid: f1a44c18772a04b7d892c8d30ca21db4, type: 3}
       propertyPath: m_SortingOrder
       value: 0
@@ -8429,6 +8437,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7276706483850501907, guid: f1a44c18772a04b7d892c8d30ca21db4, type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 1316057670}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1a44c18772a04b7d892c8d30ca21db4, type: 3}
 --- !u!4 &451706723 stripped
@@ -15710,6 +15722,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7276706483850501907, guid: f1a44c18772a04b7d892c8d30ca21db4, type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 1316057670}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1a44c18772a04b7d892c8d30ca21db4, type: 3}
 --- !u!4 &1181828545 stripped
@@ -22214,29 +22230,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43c35149eeef845d399086aa46ce764b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Group: {fileID: 8197689513167482569, guid: 593b7284f20e64c62a244b66bc88f33c, type: 2}
   Sounds:
   - Name: Collect Gem
     AudioClip: {fileID: 8300000, guid: fd4e72914dc2041cf90f30027ebdbe08, type: 3}
+    Volume: 1
   - Name: Hurt
     AudioClip: {fileID: 8300000, guid: 9adf09170830e4ba18a8a8067ab3a34e, type: 3}
+    Volume: 1
   - Name: Attack 1
     AudioClip: {fileID: 8300000, guid: 9fab2f8bfa8f94f90b81589bfe6b6e14, type: 3}
+    Volume: 0.2
   - Name: Attack 2
     AudioClip: {fileID: 8300000, guid: 7f567b1b7966a483db661b65df499b38, type: 3}
+    Volume: 0.2
   - Name: Bat 1
     AudioClip: {fileID: 8300000, guid: 2869f9d949555454f905cc64a1f8fec8, type: 3}
+    Volume: 1
   - Name: Bat 2
     AudioClip: {fileID: 8300000, guid: d819087f10e464e03a23252214f2f30b, type: 3}
+    Volume: 1
   - Name: Bat Destroyed
     AudioClip: {fileID: 8300000, guid: 476bc233bf1014c5d8c61f86edd29522, type: 3}
+    Volume: 1
   - Name: Bug Destroyed
     AudioClip: {fileID: 8300000, guid: 476bc233bf1014c5d8c61f86edd29522, type: 3}
+    Volume: 1
   - Name: Click 0
     AudioClip: {fileID: 8300000, guid: c4a114e7878c24b7694aa29fca0e8adc, type: 3}
+    Volume: 1
   - Name: Click 1
     AudioClip: {fileID: 8300000, guid: fa4bef16ca18e4fe795598b953a4dc7b, type: 3}
+    Volume: 1
   - Name: Doors Close
     AudioClip: {fileID: 8300000, guid: 993691378b4b84feb89f081394ca0a95, type: 3}
+    Volume: 1
+  - Name: Clang
+    AudioClip: {fileID: 8300000, guid: 6bd9e8ab5cd274c93b3451a1c9a97c61, type: 3}
+    Volume: 1
 --- !u!4 &2059878112
 Transform:
   m_ObjectHideFlags: 0
