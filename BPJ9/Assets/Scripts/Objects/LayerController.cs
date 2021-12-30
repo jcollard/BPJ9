@@ -17,8 +17,8 @@ public class LayerController : MonoBehaviour
         this.transform.position = newPosition;
     }
 
-    void OnAwake() => SetLayer();
-    void OnStart() => SetLayer();
+    void Awake() => SetLayer();
+    void Start() => SetLayer();
     void OnEnable() => SetLayer();
 }
 
