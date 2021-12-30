@@ -7,6 +7,7 @@ public class EnemyController : MonoBehaviour
     private float _HP = 1;
     public float HP { get => _HP; set => _HP = value; }
     public List<System.Action<EnemyController>> OnDeath = new List<System.Action<EnemyController>>();
+    public string[] OnHitSound;
 
     public virtual void OnTriggerEnter2D(Collider2D other)
     {
@@ -14,6 +15,10 @@ public class EnemyController : MonoBehaviour
         if (wc == null) return;
         HP -= wc.Damage;
         if (HP <= 0) this.DoDestroy();
+        else if (OnHitSound.Length > 0)
+        {
+            SoundController.PlayRandomSFX(OnHitSound);
+        } 
     }
 
     public virtual void DoDestroy()

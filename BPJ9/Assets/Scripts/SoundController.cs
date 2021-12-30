@@ -6,6 +6,7 @@ using UnityEngine;
 public class SoundController : MonoBehaviour
 {
     public static SoundController Instance;
+    public UnityEngine.Audio.AudioMixerGroup Group;
     public SFX[] Sounds;
     private Dictionary<string, SFX> lookup;
     private Dictionary<string, AudioSource> channels;
@@ -36,6 +37,8 @@ public class SoundController : MonoBehaviour
             container.transform.parent = this.transform;
             channel = container.AddComponent<AudioSource>();
             channel.playOnAwake = false;
+            channel.volume = sound.Volume;
+            channel.outputAudioMixerGroup = this.Group;
             channel.clip = sound.AudioClip;
             this.channels[name] = channel;
         }
@@ -62,4 +65,5 @@ public class SFX
 {
     public string Name;
     public AudioClip AudioClip;
+    public float Volume = 1f;
 }
