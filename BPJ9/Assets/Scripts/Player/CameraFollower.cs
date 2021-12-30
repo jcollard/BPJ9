@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class CameraFollower : MonoBehaviour
 {
+    public HideIfPlayerUnder ToHide;
     public PlayerController Target;
     public MapChunker Chunker;
     private char CurrentRoom = (char)0;
@@ -38,6 +39,23 @@ public class CameraFollower : MonoBehaviour
             //     this.SetBounds(this.DiscoverBounds(_MapContainer));
             // }
         }
+
+
+            Bounds tcBounds = TopCorner(bounds);
+            Debug.Log(tcBounds);
+            Debug.Log(Target.transform.position);
+            Vector2 ignoringZ = Target.transform.position;
+            if (tcBounds.Contains(ignoringZ))
+            {
+                Debug.Log("In top corner");
+                ToHide.StartFadeOut();
+            }
+            else
+            {
+                ToHide.StartFadeIn();
+            }
+
+
         Vector3 newPosition = Target.transform.position;
         // TODO: When a new chunk is built rediscover bounds
         float MaxY = Max.y - bounds.extents.y;
@@ -95,6 +113,15 @@ public class CameraFollower : MonoBehaviour
         Bounds bounds = new Bounds(
             this.Camera.transform.position,
             new Vector3(cameraHeight * screenAspect, cameraHeight, 0));
+        return bounds;
+    }
+
+    public Bounds TopCorner(Bounds b)
+    {
+        Vector2 center = new Vector2();
+        center.x += (b.center.x + b.extents.x);
+        center.y += (b.center.y + b.extents.y);
+        Bounds bounds = new Bounds(center, new Vector2(5, 5));
         return bounds;
     }
 
