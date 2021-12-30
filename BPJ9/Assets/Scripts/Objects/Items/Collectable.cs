@@ -9,6 +9,8 @@ public class Collectable : MonoBehaviour
     public float EndDelay = 0.5f;
     private Vector3 StartPos, EndPos;
     private PlayerController player;
+    public string[] Sound;
+    public List<System.Action<Collectable>> OnCollect = new List<System.Action<Collectable>>();
 
     public void Update()
     {
@@ -19,7 +21,7 @@ public class Collectable : MonoBehaviour
         {
             this.EndCollect(player);
             this.gameObject.SetActive(false);
-            UnityEngine.Object.Destroy(this);
+            UnityEngine.Object.Destroy(this.gameObject);
         }
         
     }
@@ -36,11 +38,15 @@ public class Collectable : MonoBehaviour
         EndPos.x += .5f;
         EndPos.z -= 1;
         this.GetComponent<Collider2D>().enabled = false;
-        SoundController.PlaySFX("Collect Gem");
+        if (Sound.Length > 0) SoundController.PlayRandomSFX(Sound);
     }
 
     public virtual void EndCollect(PlayerController player)
     {
+        foreach (System.Action<Collectable> action in OnCollect)
+        {
+            action(this);
+        }
         player.EndCollection();
     }
 
