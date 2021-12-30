@@ -51,10 +51,16 @@ public class PlayerController : MonoBehaviour
     private bool IsAnimating = false;
     private bool IsCollecting = false;
     private bool IsAttacking = false;
+    private bool IsHurt = false;
     public bool CanMove => !IsAnimating && KnockbackStartAt <= 0 && !DialogController.Instance.IsVisible;
     public bool IsAbsorbing => AbsorbEffectReference.gameObject.activeInHierarchy;
 
-    private bool CanAttack = true;
+    private bool _CanAttack = true;
+    private bool CanAttack
+    {
+        get => _CanAttack && !IsHurt;
+        set => _CanAttack = value;
+    } 
 
     private Dictionary<string, System.Action> _MovementControls;
     public Dictionary<string, System.Action> MovementControls
@@ -78,6 +84,8 @@ public class PlayerController : MonoBehaviour
 
     private Collider2D Collider;
 
+    public GameObject DamagedContainer;
+    public List<GameObject> DamagedSprites;
     public GameObject PushContainer;
     public List<GameObject> PushSprites;
 
@@ -232,7 +240,10 @@ public class PlayerController : MonoBehaviour
     public void HandleKnockback()
     {
         if (KnockbackStartAt <= 0) return;
-        if (KnockbackStartAt + KnockbackStunDuration < Time.time) KnockbackStartAt = -1;
+        if (KnockbackStartAt + KnockbackStunDuration < Time.time){
+            KnockbackStartAt = -1;
+            IsHurt = false;
+        } 
     }
 
     private void HandleDamageBoost()
@@ -307,11 +318,12 @@ public class PlayerController : MonoBehaviour
 
     private void HandleSprite()
     {
-        CollectContainer.SetActive(IsCollecting);
-        AttackContainer.SetActive(IsAttacking);
-        PushContainer.SetActive(Pushing != null);
+        DamagedContainer.SetActive(IsHurt);
+        CollectContainer.SetActive(!IsHurt && IsCollecting);
+        AttackContainer.SetActive(!IsHurt && IsAttacking);
+        PushContainer.SetActive(!IsHurt && Pushing != null);
 
-        if (IsCollecting || IsAttacking || Pushing != null)
+        if (IsHurt || IsCollecting || IsAttacking || Pushing != null)
         {
             WalkingContainer.SetActive(false);
             IdleContainer.SetActive(false);
@@ -375,6 +387,7 @@ public class PlayerController : MonoBehaviour
             WalkingSprites[i].SetActive(i == ix);
             PushSprites[i].SetActive(i == ix);
             AttackSprites[i].SetActive(i == ix);
+            DamagedSprites[i].SetActive(i == ix);
         }
 
         WeaponController.EndAnimation();
@@ -405,6 +418,7 @@ public class PlayerController : MonoBehaviour
 
     public void TakeHit(GameObject cause, float damage, float knockbackVelocity)
     {
+        IsHurt = true;
         this.HP -= damage;
         if (knockbackVelocity <= 0) knockbackVelocity = 3;
         Knockback(cause, knockbackVelocity);
