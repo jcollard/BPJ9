@@ -76,6 +76,9 @@ public class PlayerController : MonoBehaviour
 
     private Collider2D Collider;
 
+    public GameObject PushContainer;
+    public List<GameObject> PushSprites;
+
     public GameObject IdleContainer;
     public List<GameObject> IdleSprites;
     public GameObject WalkingContainer;
@@ -296,8 +299,21 @@ public class PlayerController : MonoBehaviour
             IdleContainer.SetActive(true);
             return;
         }
-        WalkingContainer.SetActive(true);
-        IdleContainer.SetActive(false);
+
+        if (Pushing == null)
+        {
+
+            WalkingContainer.SetActive(true);
+            IdleContainer.SetActive(false);
+            PushContainer.SetActive(false);
+        }
+        else
+        {
+            WalkingContainer.SetActive(false);
+            IdleContainer.SetActive(false);
+            PushContainer.SetActive(true);
+        }
+
         Vector2 dir = new Vector2(DirectionX, DirectionY);
         this.transform.Translate(dir * Speed * Time.fixedDeltaTime);
     }
@@ -334,6 +350,7 @@ public class PlayerController : MonoBehaviour
         {
             IdleSprites[i].SetActive(i == ix);
             WalkingSprites[i].SetActive(i == ix);
+            PushSprites[i].SetActive(i == ix);
         }
 
         WeaponController.EndAnimation();

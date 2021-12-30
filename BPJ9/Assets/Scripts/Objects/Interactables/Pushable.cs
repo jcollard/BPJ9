@@ -36,6 +36,8 @@ public class Pushable : MonoBehaviour
             if (PushTime > PushDelay)
             {
                 PushTime = 0;
+                AudioSource audio = GetComponent<AudioSource>();
+                if (audio != null) audio.Play();
                 CollisionDirection d = new CollisionDirection(Player.gameObject, this.gameObject);
                 // TODO: Figure out where the block will slide rather than using collision which is finicky
                 if (d.IsLeft)
@@ -101,6 +103,8 @@ public class Pushable : MonoBehaviour
             LayerController lc = this.GetComponent<LayerController>();
             if (lc != null) lc.SetLayer();
             this.Velocity = new Vector2();
+            AudioSource audio = GetComponent<AudioSource>();
+            if (audio != null) audio.Stop();
             return;
         }
 
