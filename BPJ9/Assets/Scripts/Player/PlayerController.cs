@@ -49,6 +49,8 @@ public class PlayerController : MonoBehaviour
     public float Speed, DirectionX, DirectionY, LastDirectionX, LastDirectionY;
     public AbsorbEffect AbsorbEffectReference;
     private bool IsAnimating = false;
+    private bool IsCollecting = false;
+    private bool IsAttacking = false;
     public bool CanMove => !IsAnimating && KnockbackStartAt <= 0;
     public bool IsAbsorbing => AbsorbEffectReference.gameObject.activeInHierarchy;
 
@@ -83,6 +85,9 @@ public class PlayerController : MonoBehaviour
     public List<GameObject> IdleSprites;
     public GameObject WalkingContainer;
     public List<GameObject> WalkingSprites;
+    public GameObject AttackContainer;
+    public List<GameObject> AttackSprites;
+    public GameObject CollectContainer;
 
     // Container containing all of the sprites for drawing the player
     // Currently used for damage boost
@@ -293,6 +298,17 @@ public class PlayerController : MonoBehaviour
 
     private void DoMove()
     {
+        if (IsCollecting)
+        {
+            CollectContainer.SetActive(true);
+            WalkingContainer.SetActive(false);
+            IdleContainer.SetActive(false);
+            PushContainer.SetActive(false);
+            return;
+        }
+
+        CollectContainer.SetActive(false);
+
         if (DirectionX == 0 && DirectionY == 0)
         {
             WalkingContainer.SetActive(false);
@@ -330,8 +346,12 @@ public class PlayerController : MonoBehaviour
         if (!CanAttack) return;
         WeaponController.StartAnimation();
         // Can't attack again while animating
+        this.IsAttacking = true;
         this.CanAttack = false;
-        WeaponController.OnEndAnimation = p => this.CanAttack = true;
+        WeaponController.OnEndAnimation = p => {
+            this.CanAttack = true;
+            this.IsAttacking = false;
+        };
     }
 
     private void DoAbsorb()
@@ -352,6 +372,7 @@ public class PlayerController : MonoBehaviour
             IdleSprites[i].SetActive(i == ix);
             WalkingSprites[i].SetActive(i == ix);
             PushSprites[i].SetActive(i == ix);
+            AttackSprites[i].SetActive(i == ix);
         }
 
         WeaponController.EndAnimation();
@@ -363,6 +384,7 @@ public class PlayerController : MonoBehaviour
     {
 
         this.IsAnimating = true;
+        this.IsCollecting = true;
         this.SetDirectionalSprite(Facing.South);
 
     }
@@ -370,6 +392,7 @@ public class PlayerController : MonoBehaviour
     public void EndCollection()
     {
         this.IsAnimating = false;
+        this.IsCollecting = false;
     }
 
     private void SetAndNotify<T>(ref T toUpdate, T value)
