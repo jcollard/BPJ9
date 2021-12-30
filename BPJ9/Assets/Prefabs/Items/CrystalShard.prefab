@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4350010130188672368}
   - component: {fileID: 2394579074534909881}
   - component: {fileID: 7519328859054546367}
+  - component: {fileID: 8363420953108746315}
   m_Layer: 0
   m_Name: CrystalShard
   m_TagString: Untagged
@@ -90,6 +91,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetLayer: 1
+--- !u!114 &8363420953108746315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70972922446434334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6ea8a630d8924adcb31fc990d7fbfa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6872996051501492176
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,18 @@ using CaptainCoder.Unity.GameObjectExtensions;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance;
+
+    private int _CrystalsFound;
+    public int CrystalsFound
+    {
+        get => _CrystalsFound;
+        set
+        {
+            _CrystalsFound = value;
+            CurrentPowerController.Instance.SetCrystalShard(_CrystalsFound);
+        }
+    }
+    public bool CanAbsorb => _CrystalsFound >= 4;
     public bool IsMoving => !(DirectionX == 0 && DirectionY == 0);
     public bool IsMovingLeft => DirectionX < 0;
     public bool IsMovingRight => DirectionX > 0;
