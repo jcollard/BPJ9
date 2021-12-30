@@ -18,7 +18,7 @@ public class WeaponController : MonoBehaviour
     {
         if(IsLoaded) return;
         this.StartPosition = this.transform.localPosition;
-        this.EndPosition = this.gameObject.transform.up * .8f;
+        this.EndPosition = this.gameObject.transform.up * .5f;
         this.EndPosition.x += StartPosition.x;
         this.EndPosition.y += StartPosition.y;
         IsLoaded = true;
