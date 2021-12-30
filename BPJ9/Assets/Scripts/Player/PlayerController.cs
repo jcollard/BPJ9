@@ -297,6 +297,7 @@ public class PlayerController : MonoBehaviour
         {
             WalkingContainer.SetActive(false);
             IdleContainer.SetActive(true);
+            PushContainer.SetActive(false);
             return;
         }
 

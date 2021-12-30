@@ -5,6 +5,7 @@ using UnityEngine;
 public class PressurePlate : MonoBehaviour
 {
     public PressureTrigger Triggering;
+    private HashSet<PressureTrigger> Triggers = new HashSet<PressureTrigger>();
     public List<System.Action<PressurePlate>> OnTrigger = new List<System.Action<PressurePlate>>();
     public List<System.Action<PressurePlate>> OnUntrigger = new List<System.Action<PressurePlate>>();
     public virtual void OnTriggerEnter2D(Collider2D other)
@@ -12,9 +13,13 @@ public class PressurePlate : MonoBehaviour
         PressureTrigger pt = other.GetComponent<PressureTrigger>();
         if (pt == null) return;
         Triggering = pt;
-        foreach (System.Action<PressurePlate> action in OnTrigger)
-            action(this);
-        SoundController.PlaySFX("Click 0");
+        if (Triggers.Count == 0)
+        {
+            foreach (System.Action<PressurePlate> action in OnTrigger)
+                action(this);
+            SoundController.PlaySFX("Click 0");
+        }
+        Triggers.Add(pt);
     }
 
     public virtual void OnTriggerExit2D(Collider2D other)
@@ -22,9 +27,14 @@ public class PressurePlate : MonoBehaviour
         PressureTrigger pt = other.GetComponent<PressureTrigger>();
         if (pt == null) return;
         if (pt != Triggering) return;
-        Triggering = null;
-        foreach (System.Action<PressurePlate> action in OnUntrigger)
-            action(this);
-        SoundController.PlaySFX("Click 1");
+        Triggers.Remove(pt);
+        if (Triggers.Count == 0)
+        {
+            foreach (System.Action<PressurePlate> action in OnUntrigger)
+                action(this);
+
+            Triggering = null;
+            SoundController.PlaySFX("Click 1");
+        }
     }
 }
