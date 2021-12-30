@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 7652678662388064125}
   - component: {fileID: 3794348229161293691}
   - component: {fileID: 3366894817458769190}
+  - component: {fileID: 7791788718597050674}
   m_Layer: 0
   m_Name: button_pixel
   m_TagString: Untagged
@@ -162,7 +163,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 98ef9b3aa15b44e938a50a7c8fc46bc6, type: 3}
+  m_Sprite: {fileID: -7391497095320258259, guid: 7e420bbb9bcba49f8be75e05a7a4d63f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -186,5 +187,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Trigger: {fileID: 7436828689930662784}
-  NewColor: {r: 0.3529412, g: 0.3529412, b: 0.3529412, a: 1}
+  NewColor: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 1}
   OriginalColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &7791788718597050674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7678546445075281279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8d63d196b0554c3697cae8162b81f27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Trigger: {fileID: 7436828689930662784}
+  Original: {fileID: -7391497095320258259, guid: 7e420bbb9bcba49f8be75e05a7a4d63f, type: 3}
+  Triggered: {fileID: -6947572909223213374, guid: 7e420bbb9bcba49f8be75e05a7a4d63f, type: 3}

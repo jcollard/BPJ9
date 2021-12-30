@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4978472936218754238}
   - component: {fileID: 8009713011443235305}
   - component: {fileID: -2890311681963271637}
+  - component: {fileID: 5001372169197565808}
   m_Layer: 0
   m_Name: Rocks
   m_TagString: Untagged
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -8447153444328956936, guid: 99d7039580c168b4bae0d461d4fcdb38, type: 3}
+  m_Sprite: {fileID: -8066471945989857699, guid: 7e420bbb9bcba49f8be75e05a7a4d63f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -136,3 +137,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.82795143, y: 0.8033718}
   m_EdgeRadius: 0
+--- !u!114 &5001372169197565808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7176917323266573509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68d42b4117c9d45d1af6e442a878596c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Options:
+  - {fileID: -8066471945989857699, guid: 7e420bbb9bcba49f8be75e05a7a4d63f, type: 3}
+  - {fileID: -4642270453936918860, guid: 7e420bbb9bcba49f8be75e05a7a4d63f, type: 3}

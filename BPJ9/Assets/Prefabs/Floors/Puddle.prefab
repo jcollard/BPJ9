@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3645769484939922100}
   - component: {fileID: 41335105324285847}
   - component: {fileID: -2996096565237588}
+  - component: {fileID: -3239737010335031086}
   m_Layer: 0
   m_Name: Puddle
   m_TagString: Untagged
@@ -75,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 4761631072207769858, guid: 98f7b23f07eb6465ca8d5c5dc0f2660c, type: 3}
+  m_Sprite: {fileID: 5734358294983872268, guid: 7e420bbb9bcba49f8be75e05a7a4d63f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -155,3 +156,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Power: 3
   AbsorbColor: {r: 0, g: 0.23312998, b: 1, a: 1}
+--- !u!114 &-3239737010335031086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2279001969885690100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68d42b4117c9d45d1af6e442a878596c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Options:
+  - {fileID: 5734358294983872268, guid: 7e420bbb9bcba49f8be75e05a7a4d63f, type: 3}
+  - {fileID: 6586386730858071491, guid: 7e420bbb9bcba49f8be75e05a7a4d63f, type: 3}
+  - {fileID: -8393707243026711493, guid: 7e420bbb9bcba49f8be75e05a7a4d63f, type: 3}

@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 3696097264221501728}
   - component: {fileID: 6331434755815379687}
   - component: {fileID: 5140658814691921908}
+  - component: {fileID: 6076935594576909038}
   m_Layer: 0
   m_Name: IceBlock
   m_TagString: Untagged
@@ -255,7 +256,7 @@ AudioSource:
   m_GameObject: {fileID: 3385658244121281094}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 8197689513167482569, guid: 593b7284f20e64c62a244b66bc88f33c, type: 2}
   m_audioClip: {fileID: 8300000, guid: 8de99a24e2ecc49188305a02a15a97f8, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.505
@@ -342,3 +343,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6076935594576909038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3385658244121281094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68d42b4117c9d45d1af6e442a878596c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Options:
+  - {fileID: 8525114829709316186, guid: fc8339e8d0d9a450f8f742e2231317ae, type: 3}
+  - {fileID: 2356692111207830417, guid: fc8339e8d0d9a450f8f742e2231317ae, type: 3}
+  - {fileID: 7277941389752807369, guid: fc8339e8d0d9a450f8f742e2231317ae, type: 3}
