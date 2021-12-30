@@ -216,6 +216,7 @@ public class PlayerController : MonoBehaviour
         HandleInput();
 
         HandleDirection();
+        HandleSprite();
 
         if (Velocity.magnitude == 0)
             this.Pushing = null;
@@ -298,41 +299,33 @@ public class PlayerController : MonoBehaviour
 
     private void DoMove()
     {
-        if (IsCollecting)
-        {
-            CollectContainer.SetActive(true);
-            WalkingContainer.SetActive(false);
-            IdleContainer.SetActive(false);
-            PushContainer.SetActive(false);
-            return;
-        }
-
-        CollectContainer.SetActive(false);
-
-        if (DirectionX == 0 && DirectionY == 0)
-        {
-            WalkingContainer.SetActive(false);
-            IdleContainer.SetActive(true);
-            PushContainer.SetActive(false);
-            return;
-        }
-
-        if (Pushing == null)
-        {
-
-            WalkingContainer.SetActive(true);
-            IdleContainer.SetActive(false);
-            PushContainer.SetActive(false);
-        }
-        else
-        {
-            WalkingContainer.SetActive(false);
-            IdleContainer.SetActive(false);
-            PushContainer.SetActive(true);
-        }
+        if (DirectionX == 0 && DirectionY == 0) return;
 
         Vector2 dir = new Vector2(DirectionX, DirectionY);
         this.transform.Translate(dir * Speed * Time.fixedDeltaTime);
+    }
+
+    private void HandleSprite()
+    {
+        CollectContainer.SetActive(IsCollecting);
+        AttackContainer.SetActive(IsAttacking);
+        PushContainer.SetActive(Pushing != null);
+
+        if (IsCollecting || IsAttacking || Pushing != null)
+        {
+            WalkingContainer.SetActive(false);
+            IdleContainer.SetActive(false);
+        }
+        else if (DirectionX == 0 && DirectionY == 0)
+        {
+            WalkingContainer.SetActive(false);
+            IdleContainer.SetActive(true);
+        }
+        else
+        {
+            WalkingContainer.SetActive(true);
+            IdleContainer.SetActive(false);
+        }
     }
 
     private void DoInteract()
@@ -348,7 +341,8 @@ public class PlayerController : MonoBehaviour
         // Can't attack again while animating
         this.IsAttacking = true;
         this.CanAttack = false;
-        WeaponController.OnEndAnimation = p => {
+        WeaponController.OnEndAnimation = p =>
+        {
             this.CanAttack = true;
             this.IsAttacking = false;
         };

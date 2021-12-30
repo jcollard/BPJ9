@@ -2030,7 +2030,6 @@ GameObject:
   m_Component:
   - component: {fileID: 190201556}
   - component: {fileID: 190201558}
-  - component: {fileID: 190201557}
   m_Layer: 0
   m_Name: North (1)
   m_TagString: Untagged
@@ -2052,25 +2051,6 @@ Transform:
   m_Father: {fileID: 194082643}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &190201557
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 190201555}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0b8be72b785584d7ba3f639b857aeb19, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!212 &190201558
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2137,7 +2117,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &194082643
 Transform:
   m_ObjectHideFlags: 0
@@ -11554,7 +11534,6 @@ GameObject:
   m_Component:
   - component: {fileID: 808264166}
   - component: {fileID: 808264168}
-  - component: {fileID: 808264167}
   m_Layer: 0
   m_Name: West (1)
   m_TagString: Untagged
@@ -11576,25 +11555,6 @@ Transform:
   m_Father: {fileID: 194082643}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &808264167
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 808264165}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 33506ed51345b4e94a3ae3baeb587f32, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!212 &808264168
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -13851,7 +13811,6 @@ GameObject:
   m_Component:
   - component: {fileID: 976635038}
   - component: {fileID: 976635040}
-  - component: {fileID: 976635039}
   m_Layer: 0
   m_Name: East (1)
   m_TagString: Untagged
@@ -13873,25 +13832,6 @@ Transform:
   m_Father: {fileID: 194082643}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &976635039
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 976635037}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e68699b3ee13d4685984d757efe28049, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!212 &976635040
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -20796,7 +20736,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1704820319
 Transform:
   m_ObjectHideFlags: 0
@@ -22754,7 +22694,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2065980829}
   - component: {fileID: 2065980831}
-  - component: {fileID: 2065980830}
   m_Layer: 0
   m_Name: South (1)
   m_TagString: Untagged
@@ -22776,25 +22715,6 @@ Transform:
   m_Father: {fileID: 194082643}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &2065980830
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2065980828}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1723659cc614a4c29a7f8d2bb4df7797, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!212 &2065980831
 SpriteRenderer:
   m_ObjectHideFlags: 0
