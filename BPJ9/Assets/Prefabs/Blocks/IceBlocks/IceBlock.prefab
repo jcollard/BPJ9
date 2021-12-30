@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 3522496030723840519}
   - component: {fileID: 4102897891479492735}
   - component: {fileID: 3696097264221501728}
+  - component: {fileID: 6331434755815379687}
   m_Layer: 0
   m_Name: IceBlock
   m_TagString: Untagged
@@ -79,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 4429301304345751790, guid: 2d2786863d3704a279dc3e3656733e9d, type: 3}
+  m_Sprite: {fileID: 8525114829709316186, guid: fc8339e8d0d9a450f8f742e2231317ae, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -232,3 +233,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetLayer: 2
+--- !u!114 &6331434755815379687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3385658244121281094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcb1dfb7518e84a158a9140e7cf31a94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

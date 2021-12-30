@@ -330,6 +330,8 @@ public class MapChunker
                .LocalPosition(new Vector2(pos.col, pos.row))
                .Name($"Wall[{ch}] @ ({pos.row}, {pos.col})")
                .Spawn();
+        //TODO: This is pretty hacky.
+        newObj.AddComponent<WallBlock>();
 
         newObj.GetComponent<SpriteRenderer>().sprite = s;
         return newObj;

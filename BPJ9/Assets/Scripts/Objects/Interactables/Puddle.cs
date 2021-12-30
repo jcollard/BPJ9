@@ -9,11 +9,16 @@ public class Puddle : InteractableController
     {
         if (player.CurrentPower == PowerType.Ice)
         {
-            Spawner.SpawnObject(IceBlockTemplates[Random.Range(0, IceBlockTemplates.Length)].gameObject)
-                   .Position(this.transform.position)
-                   .Parent(this.transform.parent)
-                   .Spawn();
-            UnityEngine.Object.Destroy(this.gameObject);
+            Freeze();
         }
+    }
+
+    public void Freeze()
+    {
+        Spawner.SpawnObject(IceBlockTemplates[Random.Range(0, IceBlockTemplates.Length)].gameObject)
+                           .Position(this.transform.position)
+                           .Parent(this.transform.parent)
+                           .Spawn();
+        UnityEngine.Object.Destroy(this.gameObject);
     }
 }
