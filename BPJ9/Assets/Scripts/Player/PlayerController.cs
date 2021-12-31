@@ -19,6 +19,10 @@ public class PlayerController : MonoBehaviour
         {
             _CrystalsFound = value;
             CurrentPowerController.Instance.SetCrystalShard(_CrystalsFound);
+            if (_CrystalsFound == 4)
+            {
+                LastCrystal();
+            }
         }
     }
     public bool CanAbsorb => _CrystalsFound >= 4;
@@ -465,6 +469,12 @@ public class PlayerController : MonoBehaviour
                   (int)min.x),
                   CurrentRoom = _CurrentRoom);
         }
+
+    }
+
+    public void LastCrystal()
+    {
+        DialogController.Instance.WriteText("The final Crystal! I now possess the power to absorb the elements and channel them through my spear. (Right Click or Press E to absorb nearby elements.)");
 
     }
 
