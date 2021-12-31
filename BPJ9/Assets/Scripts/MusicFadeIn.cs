@@ -5,20 +5,36 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class MusicFadeIn : MonoBehaviour
 {
-    
+    public static MusicFadeIn Instance;
     public float FadeDuration = 1;
     public float StartAt = -1;
     public bool FadeIn, FadeOut;
     public float MaxVolume = 1;
+    public AudioClip Wandering;
+    public AudioClip BossMusic;
+    public AudioClip WinMusic;
+    public AudioClip GameOverMusic;
+
+    public AudioClip Next;
 
     public void Start()
     {
+        Instance = this;
         StartFadeIn();
+    }
+
+    public void SelectTrack(AudioClip next)
+    {
+        this.Next = next;
+        FadeIn = false;
+        FadeOut = false;
     }
 
     public void StartFadeIn()
     {
         if (FadeIn) return;
+        if (this.Next != null) this.GetComponent<AudioSource>().clip = this.Next;
+        this.GetComponent<AudioSource>().Play();
         StartAt = Time.time;
         FadeIn = true;
         FadeOut = false;

@@ -5,9 +5,13 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class CameraFollower : MonoBehaviour
 {
+    public static CameraFollower Instance;
+    public bool PlayerAtBottom = false;
     public HideIfPlayerUnder ToHide;
     public PlayerController Target;
     public MapChunker Chunker;
+
+    public float OffsetY = -2;
     private char CurrentRoom = (char)0;
 
     [SerializeField]
@@ -24,6 +28,7 @@ public class CameraFollower : MonoBehaviour
 
     void Start()
     {
+        Instance = this;
     }
 
     // Update is called once per frame
@@ -59,6 +64,7 @@ public class CameraFollower : MonoBehaviour
         float MinY = Min.y + bounds.extents.y;
         float MaxX = Max.x - bounds.extents.x;
         float MinX = Min.x + bounds.extents.x;
+        if (PlayerAtBottom) newPosition.y += (bounds.extents.y + OffsetY);
         newPosition.y = Mathf.Clamp(newPosition.y, MinY, MaxY);
         newPosition.x = Mathf.Clamp(newPosition.x, MinX, MaxX);
         newPosition.z = this.transform.position.z;

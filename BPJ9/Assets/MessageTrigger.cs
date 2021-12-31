@@ -8,6 +8,7 @@ public class MessageTrigger : MonoBehaviour
     public string Message;
     public bool Displayed;
     public bool OneTime = true;
+    public System.Action<MessageTrigger> OnFinish;
     
     public virtual void OnTriggerEnter2D(Collider2D other)
     {
@@ -25,6 +26,8 @@ public class MessageTrigger : MonoBehaviour
         PlayerCollider player = other.gameObject.GetComponent<PlayerCollider>();
         if (player != null && Displayed && OneTime)
         {
+
+            if (OnFinish != null) OnFinish(this);
             UnityEngine.Object.Destroy(this.gameObject);
         }
     }
