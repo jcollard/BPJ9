@@ -5,11 +5,16 @@ using CaptainCoder.Unity;
 using UnityEngine;
 using System.Linq;
 using CaptainCoder.Unity.GameObjectExtensions;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Collider2D))]
 public class PlayerController : MonoBehaviour
 {
+    
     public static PlayerController Instance;
+
+    public UnityEngine.Audio.AudioMixerGroup SFX_Channel;
+    public CanvasGroup GameOverScreen;
 
     [SerializeField]
     private int _CrystalsFound;
@@ -47,10 +52,28 @@ public class PlayerController : MonoBehaviour
         set => SetAndNotify(ref _MaxHP, value);
     }
 
+    public bool IsDead;
+
     public float HP
     {
         get => _HP;
-        set => SetAndNotify(ref _HP, Mathf.Min(_MaxHP, value));
+        set 
+        {
+            SetAndNotify(ref _HP, Mathf.Min(_MaxHP, value));
+            if (_HP <= 0 && !IsDead)
+            {
+                IsDead = true;
+                MusicFadeIn.Instance.Next = MusicFadeIn.Instance.GameOverMusic;
+                MusicFadeIn.Instance.FadeDuration = 3;
+                MusicFadeIn.Instance.StartFadeOut();
+                MusicFadeIn.Instance.StartFadeIn();
+                foreach(AudioSource asrc in SoundController.Instance.channels.Values)
+                {
+                    asrc.volume = 0;
+                }
+                GameOverScreen.gameObject.SetActive(true);
+            }
+        }
     }
     public float KnockbackMultiplier = 200;
     public float KnockbackStartAt = -1;
@@ -489,6 +512,11 @@ public class PlayerController : MonoBehaviour
     {
         DialogController.Instance.WriteText("The final Crystal! I now possess the power to absorb the elements and channel them through my spear. (Right Click or Press E to absorb nearby elements.)");
 
+    }
+
+    public void ReloadScene()
+    {
+         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
 }

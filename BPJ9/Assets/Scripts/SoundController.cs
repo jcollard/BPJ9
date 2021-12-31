@@ -9,7 +9,7 @@ public class SoundController : MonoBehaviour
     public UnityEngine.Audio.AudioMixerGroup Group;
     public SFX[] Sounds;
     private Dictionary<string, SFX> lookup;
-    private Dictionary<string, AudioSource> channels;
+    public Dictionary<string, AudioSource> channels;
 
     public void Awake()
     {

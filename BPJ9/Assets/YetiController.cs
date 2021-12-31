@@ -6,6 +6,7 @@ using UnityEngine;
 public class YetiController : MonoBehaviour
 {
 
+    public GameObject[] ExitBlocks;
     public GameObject Idle, Smash, Jump, Land, Fall, Hurt;
 
     public Transform[] SnowballPositions;
@@ -75,6 +76,13 @@ public class YetiController : MonoBehaviour
         {
             UnityEngine.Object.Destroy(this.gameObject);
             DialogController.Instance.WriteText("Whew... That was close!");
+            MusicFadeIn.Instance.Next = MusicFadeIn.Instance.WinMusic;
+            MusicFadeIn.Instance.StartFadeOut();
+            MusicFadeIn.Instance.StartFadeIn();
+            foreach(GameObject obj in ExitBlocks)
+            {
+                obj.SetActive(false);
+            }
         }
     }
 
@@ -131,7 +139,7 @@ public class YetiController : MonoBehaviour
             {
                 ThrowSnowBalls();
             }
-            
+
         }
     }
 
@@ -151,6 +159,7 @@ public class YetiController : MonoBehaviour
     {
         Jumps = 5;
         IsHurt = false;
+        SoundController.PlaySFX("Yeti Cry");
         StartJump();
     }
 
@@ -161,6 +170,9 @@ public class YetiController : MonoBehaviour
             DoIdle();
             return;
         }
+
+        if (Jumps == 3 || Jumps == 1)
+            SoundController.PlaySFX("Yeti Cry");
 
         JumpAt = Time.time;
         Jumps--;
@@ -198,6 +210,9 @@ public class YetiController : MonoBehaviour
             return;
         }
 
+        if (SnowBalls == 3)
+            SoundController.PlaySFX("Yeti Snowball");
+
         if (Time.time > SnowBallAt + SnowBallDelay)
         {
             SpawnSnowBall(SnowballPositions[Random.Range(0, SnowballPositions.Length)].position);
@@ -220,6 +235,7 @@ public class YetiController : MonoBehaviour
         this.IsHurt = false;
         this.IsSmashing = true;
         SnowBalls = 8;
+        SoundController.PlaySFX("Yeti Snowball");
         UpdateSprite();
     }
 
@@ -230,16 +246,18 @@ public class YetiController : MonoBehaviour
         if (ib != null && (IsIdle || IsSmashing))
         {
             DoHurt();
-        } else if (ib != null && (IsJumping || IsLanding))
+        }
+        else if (ib != null && (IsJumping || IsLanding))
         {
             UnityEngine.Object.Destroy(ib.gameObject);
-        } else if (pc != null && !IsHurt)
+        }
+        else if (pc != null && !IsHurt)
         {
             if (pc.Player.DamageBoostStartAt < 0)
                 pc.Player.TakeHit(this.gameObject, 1, 6);
         }
 
-        
+
     }
 
     public void DoIdle()
