@@ -9,7 +9,18 @@ public class Absorbable : MonoBehaviour
     public Color AbsorbColor;
     public void Absorb(PlayerController player)
     {
-        player.CurrentPower = Power;
-        player.AbsorbEffectReference.StartColor = AbsorbColor;
+        if (player.CanAbsorb)
+        {
+            player.CurrentPower = Power;
+            player.AbsorbEffectReference.StartColor = AbsorbColor;
+            if (Power == PowerType.Ice)
+            {
+                SoundController.PlaySFX("Absorb Ice");
+            }
+            else if (Power == PowerType.Fire)
+            {
+                SoundController.PlaySFX("Absorb Fire");
+            }
+        }
     }
 }
