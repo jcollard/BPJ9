@@ -26,6 +26,6 @@ public class SnowballController : MonoBehaviour
 
     public void FixedUpdate()
     {
-        this.transform.Translate(new Vector2(0, -1) * Speed);
+        this.transform.Translate(new Vector2(0, -1) * Speed * Time.fixedDeltaTime);
     }
 }
