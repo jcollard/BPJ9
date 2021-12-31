@@ -104,13 +104,15 @@ public class PlayerController : MonoBehaviour
     private bool IsCollecting = false;
     private bool IsAttacking = false;
     private bool IsHurt = false;
-    public bool CanMove => !IsAnimating && KnockbackStartAt <= 0 && !DialogController.Instance.IsVisible;
+
+    public bool IsPlaying = false;
+    public bool CanMove => !IsAnimating && KnockbackStartAt <= 0 && !DialogController.Instance.IsVisible && IsPlaying;
     public bool IsAbsorbing => AbsorbEffectReference.gameObject.activeInHierarchy;
 
     private bool _CanAttack = true;
     private bool CanAttack
     {
-        get => _CanAttack && !IsHurt;
+        get => _CanAttack && !IsHurt && IsPlaying;
         set => _CanAttack = value;
     } 
 

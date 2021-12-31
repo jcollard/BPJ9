@@ -26,5 +26,6 @@ public class IntroFade : MonoBehaviour
     void DoFadeOut()
     {
         this.FadeAt = Time.time;
+        PlayerController.Instance.IsPlaying = true;
     }
 }
