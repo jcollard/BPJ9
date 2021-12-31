@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance;
 
+    [SerializeField]
     private int _CrystalsFound;
     public int CrystalsFound
     {

@@ -13,6 +13,16 @@ public class Puddle : InteractableController
         }
     }
 
+    public override void OnTriggerEnter2D(Collider2D other)
+    {
+        base.OnTriggerEnter2D(other);
+        IceEffect iceEffect = other.GetComponent<IceEffect>();
+        if (iceEffect != null)
+        {
+            this.Freeze();
+        }
+    }
+
     public void Freeze()
     {
         Spawner.SpawnObject(IceBlockTemplates[Random.Range(0, IceBlockTemplates.Length)].gameObject)

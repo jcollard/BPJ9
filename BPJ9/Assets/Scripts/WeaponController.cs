@@ -14,6 +14,8 @@ public class WeaponController : MonoBehaviour
     public Vector2 EndPosition;
     private bool IsLoaded = false;
 
+    public IceEffect IceEffectTemplate;
+
     private void Init()
     {
         if(IsLoaded) return;
@@ -58,11 +60,26 @@ public class WeaponController : MonoBehaviour
         this.StartAt = Time.time;
         this.gameObject.SetLocalPosition2D(StartPosition);
         this.gameObject.SetActive(true);
+        if (PlayerController.Instance.CanAbsorb)
+        {
+            CreateEffect(PlayerController.Instance.CurrentPower);
+        }
     }
 
     public void EndAnimation()
     {
         if (OnEndAnimation != null) OnEndAnimation(this);
         this.gameObject.SetActive(false);
+    }
+
+    public void CreateEffect(PowerType pt)
+    {
+        if (pt == PowerType.Ice)
+        {
+            IceEffect ie = UnityEngine.Object.Instantiate<IceEffect>(IceEffectTemplate);
+            ie.transform.position = IceEffectTemplate.transform.position;
+            ie.direction = PlayerController.Instance.CurrentFacing;
+            ie.gameObject.SetActive(true);
+        }
     }
 }
