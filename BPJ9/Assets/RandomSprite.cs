@@ -12,4 +12,10 @@ public class RandomSprite : MonoBehaviour
         if (Options.Length > 0)
             this.GetComponent<SpriteRenderer>().sprite = Options[Random.Range(0, Options.Length)];
     }
+
+    void OnEnable()
+    {
+        if (Options.Length > 0)
+            this.GetComponent<SpriteRenderer>().sprite = Options[Random.Range(0, Options.Length)];
+    }
 }

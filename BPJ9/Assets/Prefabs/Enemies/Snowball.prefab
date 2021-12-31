@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 2360679390518663053}
   - component: {fileID: 8223509467791386997}
   - component: {fileID: 6171789838861748797}
+  - component: {fileID: 6846542473069331090}
+  - component: {fileID: 6016916894301133006}
   m_Layer: 0
   m_Name: Snowball
   m_TagString: Untagged
@@ -46,7 +48,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -148,6 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef5cb3ca86d0b47f99a8290ff404131e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PuddleTemplate: {fileID: 2279001969885690100, guid: cd421389fce0d4e9d82da30ce8e3a837, type: 3}
 --- !u!114 &6171789838861748797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,4 +164,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 1
-  Knockback: 3
+  Knockback: 5
+--- !u!114 &6846542473069331090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4487166013677338656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daa59ee030ae64d2988b8ddf11b3314d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 8
+  Duration: 5
+  StartAt: 0
+--- !u!114 &6016916894301133006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4487166013677338656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3563a21757804678acae0d551fcf492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetLayer: 3
