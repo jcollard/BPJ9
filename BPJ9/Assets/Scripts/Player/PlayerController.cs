@@ -60,7 +60,19 @@ public class PlayerController : MonoBehaviour
     public float DamageBoostFlickerSpeed = 3f;
 
     public Vector2 Velocity => new Vector2(DirectionX, DirectionY) * Speed;
-    public PowerType CurrentPower = PowerType.None;
+    public Vector2 Direction => new Vector2(DirectionX, DirectionY);
+    public PowerType CurrentPower 
+    {
+        get => _CurrentPower;
+        set
+        {
+            if (!CanAbsorb) return;
+            _CurrentPower = value;
+            CurrentPowerController.Instance.SetPower(value);
+        }
+    }
+    [SerializeField]
+    private PowerType _CurrentPower = PowerType.None;
     public InteractableController CurrentInteractable;
     public Pushable Pushing;
     public float Speed, DirectionX, DirectionY, LastDirectionX, LastDirectionY;

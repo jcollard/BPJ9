@@ -15,6 +15,7 @@ public class WeaponController : MonoBehaviour
     private bool IsLoaded = false;
 
     public IceEffect IceEffectTemplate;
+    public FireEffect FireEffectTemplate;
 
     private void Init()
     {
@@ -78,6 +79,15 @@ public class WeaponController : MonoBehaviour
         {
             IceEffect ie = UnityEngine.Object.Instantiate<IceEffect>(IceEffectTemplate);
             ie.transform.position = IceEffectTemplate.transform.position;
+            ie.dir = PlayerController.Instance.Direction;
+            ie.direction = PlayerController.Instance.CurrentFacing;
+            ie.gameObject.SetActive(true);
+        }
+        if (pt == PowerType.Fire)
+        {
+            FireEffect ie = UnityEngine.Object.Instantiate<FireEffect>(FireEffectTemplate);
+            ie.transform.position = FireEffectTemplate.transform.position;
+            ie.dir = PlayerController.Instance.Direction;
             ie.direction = PlayerController.Instance.CurrentFacing;
             ie.gameObject.SetActive(true);
         }

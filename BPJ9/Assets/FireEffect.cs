@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IceEffect : MonoBehaviour
+public class FireEffect : MonoBehaviour
 {
-    public float Duration = 1f;
+    public float Duration = .5f;
     public float StartAt = -1;
-    public float Speed = 3f;
+    public float Speed = 6f;
     public Vector2 dir;
     public Facing direction;
 
